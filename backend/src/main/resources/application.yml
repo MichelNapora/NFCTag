@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: nfctag-backend
+  datasource:
+    # Postgres local. Surchargeable par variables d'env (DB_URL, DB_USER, DB_PASSWORD).
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/nfctag}
+    username: ${DB_USER:nfctag}
+    password: ${DB_PASSWORD:nfctag}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+server:
+  port: 8080
+
+# Paramètres métier de l'application
+nfctag:
+  # Durée estimée (en minutes) quand un technicien oublie de scanner en partant.
+  estimated-duration-minutes: 60
+  # URL publique du front, utilisée pour générer l'URL inscrite sur les tags.
+  public-base-url: ${PUBLIC_BASE_URL:http://localhost:4200}
+
+logging:
+  level:
+    org.flywaydb: info
