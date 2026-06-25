@@ -1,0 +1,105 @@
+<div class="admin">
+  <header>
+    <h1>Administration</h1>
+    <a routerLink="/dashboard" class="link">← Tableau de bord</a>
+  </header>
+
+  <div class="zone-note">
+    🔒 Zone réservée (sera protégée par la connexion Windows / SSO).
+  </div>
+
+  <div *ngIf="error" class="banner error">{{ error }}</div>
+
+  <!-- ===== Sociétés ===== -->
+  <section class="panel">
+    <h2>Sociétés</h2>
+    <div class="add">
+      <input [(ngModel)]="newBusiness.name" placeholder="Nom de la société *" />
+      <input [(ngModel)]="newBusiness.bce" placeholder="N° BCE" />
+      <button (click)="addBusiness()" [disabled]="!newBusiness.name.trim()">Ajouter</button>
+    </div>
+    <table>
+      <tr *ngFor="let b of businesses">
+        <td>{{ b.name }}</td>
+        <td class="sub">{{ b.bce || '—' }}</td>
+        <td class="actions"><button class="del" (click)="removeBusiness(b.id)">Supprimer</button></td>
+      </tr>
+      <tr *ngIf="businesses.length === 0"><td colspan="3" class="muted">Aucune société.</td></tr>
+    </table>
+  </section>
+
+  <!-- ===== Bâtiments ===== -->
+  <section class="panel">
+    <h2>Bâtiments</h2>
+    <div class="add wrap">
+      <input [(ngModel)]="newBuilding.name" placeholder="Nom du bâtiment *" />
+      <input [(ngModel)]="newBuilding.projectCode" placeholder="Code projet" />
+      <input [(ngModel)]="newBuilding.buildingType" placeholder="Type" />
+      <input [(ngModel)]="newBuilding.street" placeholder="Rue" />
+      <input [(ngModel)]="newBuilding.number" placeholder="N°" class="small" />
+      <input [(ngModel)]="newBuilding.postalCode" placeholder="CP" class="small" />
+      <input [(ngModel)]="newBuilding.city" placeholder="Ville" />
+      <button (click)="addBuilding()" [disabled]="!newBuilding.name.trim()">Ajouter</button>
+    </div>
+    <table>
+      <tr *ngFor="let b of buildings">
+        <td>{{ b.name }}</td>
+        <td class="sub">{{ b.projectCode || '—' }} · {{ b.buildingType || '—' }}</td>
+        <td class="sub">{{ b.city || '—' }}</td>
+        <td class="actions"><button class="del" (click)="removeBuilding(b.id)">Supprimer</button></td>
+      </tr>
+      <tr *ngIf="buildings.length === 0"><td colspan="4" class="muted">Aucun bâtiment.</td></tr>
+    </table>
+  </section>
+
+  <!-- ===== Ailes ===== -->
+  <section class="panel">
+    <h2>Ailes</h2>
+    <div class="add">
+      <select [(ngModel)]="newWing.buildingId">
+        <option [ngValue]="null" disabled>— Bâtiment * —</option>
+        <option *ngFor="let b of buildings" [ngValue]="b.id">{{ b.name }}</option>
+      </select>
+      <input [(ngModel)]="newWing.name" placeholder="Nom de l'aile *" />
+      <button (click)="addWing()" [disabled]="!newWing.buildingId || !newWing.name.trim()">Ajouter</button>
+    </div>
+    <table>
+      <tr *ngFor="let w of wings">
+        <td>{{ w.name }}</td>
+        <td class="sub">{{ w.buildingName }}</td>
+        <td class="actions"><button class="del" (click)="removeWing(w.id)">Supprimer</button></td>
+      </tr>
+      <tr *ngIf="wings.length === 0"><td colspan="3" class="muted">Aucune aile.</td></tr>
+    </table>
+  </section>
+
+  <!-- ===== Tags ===== -->
+  <section class="panel">
+    <h2>Tags NFC</h2>
+    <p class="hint">Un tag par aile. L'URL générée est celle à encoder sur le tag physique.</p>
+    <div class="add">
+      <select [(ngModel)]="newTag.wingId">
+        <option [ngValue]="null" disabled>— Aile * —</option>
+        <option *ngFor="let w of wings" [ngValue]="w.id">{{ w.buildingName }} / {{ w.name }}</option>
+      </select>
+      <input [(ngModel)]="newTag.name" placeholder="Nom du tag *" />
+      <button (click)="addTag()" [disabled]="!newTag.wingId || !newTag.name.trim()">Ajouter</button>
+    </div>
+    <table>
+      <tr *ngFor="let t of tags">
+        <td>
+          {{ t.name }}
+          <div class="sub">{{ t.buildingName }} / {{ t.wingName }}</div>
+        </td>
+        <td class="url">
+          <a [href]="t.url" target="_blank">{{ t.url }}</a>
+        </td>
+        <td class="actions">
+          <button class="copy" (click)="copyUrl(t)">{{ copied === t.id ? 'Copié ✓' : 'Copier l\'URL' }}</button>
+          <button class="del" (click)="removeTag(t.id)">Supprimer</button>
+        </td>
+      </tr>
+      <tr *ngIf="tags.length === 0"><td colspan="3" class="muted">Aucun tag.</td></tr>
+    </table>
+  </section>
+</div>

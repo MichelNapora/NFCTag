@@ -1,7 +1,10 @@
 <div class="dash">
   <header>
     <h1>Suivi des interventions</h1>
-    <button class="refresh" (click)="reload()">↻ Actualiser</button>
+    <div class="head-actions">
+      <a routerLink="/admin" class="admin-link">⚙ Administration</a>
+      <button class="refresh" (click)="reload()">↻ Actualiser</button>
+    </div>
   </header>
 
   <div *ngIf="error" class="banner error">{{ error }}</div>

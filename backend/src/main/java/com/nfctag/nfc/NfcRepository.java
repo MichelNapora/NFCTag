@@ -2,9 +2,14 @@ package com.nfctag.nfc;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface NfcRepository extends JpaRepository<Nfc, Long> {
     Optional<Nfc> findByScanToken(UUID scanToken);
+
+    List<Nfc> findByArchivedIsNullOrderByName();
+
+    boolean existsByWingIdAndArchivedIsNull(Long wingId);
 }
