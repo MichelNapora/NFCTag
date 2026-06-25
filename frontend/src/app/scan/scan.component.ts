@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from '../core/api.service';
-import { ScanResult } from '../core/models';
+import { ScanService } from './scan.service';
+import { ScanResult } from './scan.models';
 
 const DEVICE_TOKEN_KEY = 'nfctag.deviceToken';
 
@@ -28,7 +28,7 @@ export class ScanComponent implements OnInit {
   lastname = '';
   submitting = false;
 
-  constructor(private route: ActivatedRoute, private api: ApiService) {}
+  constructor(private route: ActivatedRoute, private api: ScanService) {}
 
   ngOnInit(): void {
     this.tagToken = this.route.snapshot.paramMap.get('token') ?? '';

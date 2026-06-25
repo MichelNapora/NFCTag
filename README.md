@@ -32,6 +32,25 @@ la durée des interventions.
 `address` ─< `building` ─< `wing` ─ `nfc`. Une table `worker_device` stocke les
 jetons de reconnaissance navigateur. Voir `backend/src/main/resources/db/migration`.
 
+## Organisation du code (par feature)
+
+Le code est découpé **par fonctionnalité** (package-by-feature), pas par couche
+technique. Chaque feature regroupe tout ce qui la concerne.
+
+**Backend** (`com.nfctag.*`) :
+```
+business/  worker/  address/  building/  wing/  nfc/  presence/
+scan/        → flux de scan (controller, service, dto/)
+backoffice/  → consultation (controller, service, dto/)
+config/      → technique transverse (propriétés, CORS)
+```
+
+**Frontend** (`src/app/*`) :
+```
+scan/        → scan.component, scan.service, scan.models
+backoffice/  → dashboard.component, backoffice.service, backoffice.models
+```
+
 ## Lancer en local (sans Docker)
 
 ### 1. Base PostgreSQL
