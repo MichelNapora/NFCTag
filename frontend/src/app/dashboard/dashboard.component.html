@@ -1,0 +1,89 @@
+<div class="dash">
+  <header>
+    <h1>Suivi des interventions</h1>
+    <button class="refresh" (click)="reload()">↻ Actualiser</button>
+  </header>
+
+  <div *ngIf="error" class="banner error">{{ error }}</div>
+
+  <!-- Synthèse -->
+  <section class="cards" *ngIf="stats as s">
+    <div class="kpi">
+      <div class="value">{{ s.totalPassages }}</div>
+      <div class="label">Passages</div>
+    </div>
+    <div class="kpi">
+      <div class="value">{{ formatDuration(s.totalMinutes) }}</div>
+      <div class="label">Temps total</div>
+    </div>
+    <div class="kpi">
+      <div class="value">{{ s.ongoing }}</div>
+      <div class="label">En cours</div>
+    </div>
+    <div class="kpi">
+      <div class="value">{{ s.estimated }}</div>
+      <div class="label">Estimés (1h)</div>
+    </div>
+  </section>
+
+  <!-- Répartitions -->
+  <section class="breakdowns" *ngIf="stats as s">
+    <div class="panel">
+      <h2>Par société</h2>
+      <table>
+        <tr *ngFor="let r of s.byBusiness">
+          <td>{{ r.label }}</td>
+          <td class="num">{{ r.passages }} passage(s)</td>
+          <td class="num">{{ formatDuration(r.totalMinutes) }}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="panel">
+      <h2>Par bâtiment</h2>
+      <table>
+        <tr *ngFor="let r of s.byBuilding">
+          <td>{{ r.label }}</td>
+          <td class="num">{{ r.passages }} passage(s)</td>
+          <td class="num">{{ formatDuration(r.totalMinutes) }}</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- Détail des interventions -->
+  <section class="panel">
+    <h2>Interventions</h2>
+    <div *ngIf="loading" class="muted">Chargement…</div>
+    <table class="grid" *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>Technicien</th>
+          <th>Société</th>
+          <th>Bâtiment / Aile</th>
+          <th>Arrivée</th>
+          <th>Départ</th>
+          <th>Durée</th>
+          <th>État</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of presences">
+          <td>{{ p.workerName }}<div class="sub">{{ p.mobile }}</div></td>
+          <td>{{ p.businessName }}</td>
+          <td>{{ p.buildingName }}<div class="sub">{{ p.wingName }}</div></td>
+          <td>{{ p.arrivedAt | date:'dd/MM HH:mm' }}</td>
+          <td>{{ p.departedAt ? (p.departedAt | date:'dd/MM HH:mm') : '—' }}</td>
+          <td>{{ formatDuration(p.durationMinutes) }}</td>
+          <td>
+            <span class="tag" *ngIf="p.ongoing">en cours</span>
+            <span class="tag est" *ngIf="p.estimated">estimé</span>
+            <span class="tag ok" *ngIf="!p.ongoing && !p.estimated">terminé</span>
+          </td>
+        </tr>
+        <tr *ngIf="presences.length === 0">
+          <td colspan="7" class="muted">Aucune intervention pour le moment.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
