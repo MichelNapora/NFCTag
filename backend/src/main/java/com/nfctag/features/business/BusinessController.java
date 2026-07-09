@@ -32,14 +32,14 @@ public class BusinessController {
         return this.businessMapper.toDto(saved);
     }
 
-    @PutMapping("/business/{id}")
+    @PutMapping("/businesses/{id}")
     public BusinessDTO save(@PathVariable UUID id, @Valid @RequestBody BusinessDTO dto){
         Business b = this.businessMapper.toEntity(dto);
         Business updated = this.businessService.update(id,b);
         return this.businessMapper.toDto(updated);
     }
 
-    @DeleteMapping("/business/{id}")
+    @DeleteMapping("/businesses/{id}")
     public void delete(@PathVariable UUID id){
         this.businessService.delete(id);
     }

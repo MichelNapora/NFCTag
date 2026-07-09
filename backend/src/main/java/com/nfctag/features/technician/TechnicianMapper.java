@@ -11,13 +11,13 @@ public class TechnicianMapper {
     @Autowired
     private BusinessRepository businessRepository;
 
-    public TechnicianDTO toDto (Technician w){
+    public TechnicianDTO toDto (Technician t){
         return new TechnicianDTO(
-                w.getId(),
-                w.getFirstname(),
-                w.getLastname(),
-                w.getMobile(),
-                w.getBusiness().getId()
+                t.getId(),
+                t.getFirstname(),
+                t.getLastname(),
+                t.getMobile(),
+                t.getBusiness().getId()
         );
     }
 

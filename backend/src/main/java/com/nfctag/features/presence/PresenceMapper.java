@@ -8,7 +8,7 @@ public class PresenceMapper {
     @Autowired
     private PresenceDurationCalculator durationCalculator;
 
-    public PresenceDTO toDto(Presence presence,Long durationMinutes){
+    public PresenceDTO toDto(Presence presence){
       return new PresenceDTO(
               presence.getId(),
               presence.getTechnician().getFirstname()+ " " +presence.getTechnician().getLastname(),

@@ -10,43 +10,43 @@ import java.util.UUID;
 @RestController
 public class TechnicianController {
     @Autowired
-    private TechnicianMapper workerMapper;
+    private TechnicianMapper technicianMapper;
 
     @Autowired
-    private TechnicianService workerService;
+    private TechnicianService technicianService;
 
-    @GetMapping("/workers")
+    @GetMapping("/technicians")
     public List<TechnicianDTO> findAll(@RequestParam(required = false)UUID id){
         List<Technician>workers;
         if(id!=null)
-            workers = this.workerService.findByBusinessId(id);
+            workers = this.technicianService.findByBusinessId(id);
         else
-            workers = this.workerService.findAll();
-        return workers.stream().map(workerMapper::toDto).toList();
+            workers = this.technicianService.findAll();
+        return workers.stream().map(technicianMapper::toDto).toList();
     }
 
-    @GetMapping("/workers/{id}")
+    @GetMapping("/technicians/{id}")
     public TechnicianDTO findById(@PathVariable UUID id){
-        Technician worker = this.workerService.findById(id);
-        return this.workerMapper.toDto(worker);
+        Technician worker = this.technicianService.findById(id);
+        return this.technicianMapper.toDto(worker);
     }
 
-    @PostMapping("/workers")
+    @PostMapping("/technicians")
     public TechnicianDTO create(@Valid @RequestBody TechnicianDTO dto){
-        Technician w = this.workerMapper.toEntity(dto);
-        Technician saved = this.workerService.create(w);
-        return this.workerMapper.toDto(saved);
+        Technician w = this.technicianMapper.toEntity(dto);
+        Technician saved = this.technicianService.create(w);
+        return this.technicianMapper.toDto(saved);
     }
 
-    @PutMapping("/workers/{id}")
+    @PutMapping("/technicians/{id}")
     public TechnicianDTO save(@PathVariable UUID id, @Valid @RequestBody TechnicianDTO dto){
-        Technician w = this.workerMapper.toEntity(dto);
-        Technician updated = this.workerService.update(id,w);
-        return this.workerMapper.toDto(updated);
+        Technician w = this.technicianMapper.toEntity(dto);
+        Technician updated = this.technicianService.update(id,w);
+        return this.technicianMapper.toDto(updated);
     }
 
-    @DeleteMapping("/workers/{id}")
+    @DeleteMapping("/technicians/{id}")
     public void delete(@PathVariable UUID id){
-        this.workerService.delete(id);
+        this.technicianService.delete(id);
     }
 }
