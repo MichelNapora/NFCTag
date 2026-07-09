@@ -1,58 +1,55 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BuildingAdmin, BusinessAdmin, TagAdmin, WingAdmin } from './admin.models';
+import { AddressAdmin, BuildingAdmin, BusinessAdmin, TagAdmin, WingAdmin } from './admin.models';
 
-/** Appels API d'administration (zone protégée /api/admin). */
+/** Appels API d'administration (sera protégée par le SSO). */
 @Injectable({ providedIn: 'root' })
 export class AdminService {
-
-  private readonly base = '/api/admin';
 
   constructor(private http: HttpClient) {}
 
   // Sociétés
   businesses(): Observable<BusinessAdmin[]> {
-    return this.http.get<BusinessAdmin[]>(`${this.base}/businesses`);
+    return this.http.get<BusinessAdmin[]>('/api/businesses');
   }
   createBusiness(name: string, bce: string): Observable<BusinessAdmin> {
-    return this.http.post<BusinessAdmin>(`${this.base}/businesses`, { name, bce });
+    return this.http.post<BusinessAdmin>('/api/businesses', { name, bce });
   }
-  deleteBusiness(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.base}/businesses/${id}`);
+  deleteBusiness(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/businesses/${id}`);
   }
 
-  // Bâtiments
+  // Bâtiments (avec leur adresse)
   buildings(): Observable<BuildingAdmin[]> {
-    return this.http.get<BuildingAdmin[]>(`${this.base}/buildings`);
+    return this.http.get<BuildingAdmin[]>('/api/buildings');
   }
-  createBuilding(body: Partial<BuildingAdmin> & { street?: string; number?: string; postalCode?: string }):
-    Observable<BuildingAdmin> {
-    return this.http.post<BuildingAdmin>(`${this.base}/buildings`, body);
+  createBuilding(name: string, projectCode: string, address: AddressAdmin): Observable<BuildingAdmin> {
+    return this.http.post<BuildingAdmin>('/api/buildings', { name, projectCode, address });
   }
-  deleteBuilding(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.base}/buildings/${id}`);
+  deleteBuilding(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/buildings/${id}`);
   }
 
   // Ailes
   wings(): Observable<WingAdmin[]> {
-    return this.http.get<WingAdmin[]>(`${this.base}/wings`);
+    return this.http.get<WingAdmin[]>('/api/wings');
   }
-  createWing(buildingId: number, name: string): Observable<WingAdmin> {
-    return this.http.post<WingAdmin>(`${this.base}/wings`, { buildingId, name });
+  createWing(name: string, buildingId: string): Observable<WingAdmin> {
+    return this.http.post<WingAdmin>('/api/wings', { name, buildingId });
   }
-  deleteWing(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.base}/wings/${id}`);
+  deleteWing(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/wings/${id}`);
   }
 
   // Tags
   tags(): Observable<TagAdmin[]> {
-    return this.http.get<TagAdmin[]>(`${this.base}/tags`);
+    return this.http.get<TagAdmin[]>('/api/tags');
   }
-  createTag(wingId: number, name: string): Observable<TagAdmin> {
-    return this.http.post<TagAdmin>(`${this.base}/tags`, { wingId, name });
+  createTag(wingId: string, latitude: number | null, longitude: number | null): Observable<TagAdmin> {
+    return this.http.post<TagAdmin>('/api/tags', { wingId, latitude, longitude });
   }
-  deleteTag(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.base}/tags/${id}`);
+  deleteTag(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/tags/${id}`);
   }
 }

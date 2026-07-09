@@ -71,16 +71,17 @@
       </thead>
       <tbody>
         <tr *ngFor="let p of presences">
-          <td>{{ p.workerName }}<div class="sub">{{ p.mobile }}</div></td>
+          <td>{{ p.technicianName }}<div class="sub">{{ p.mobile }}</div></td>
           <td>{{ p.businessName }}</td>
           <td>{{ p.buildingName }}<div class="sub">{{ p.wingName }}</div></td>
           <td>{{ p.arrivedAt | date:'dd/MM HH:mm' }}</td>
           <td>{{ p.departedAt ? (p.departedAt | date:'dd/MM HH:mm') : '—' }}</td>
           <td>{{ formatDuration(p.durationMinutes) }}</td>
           <td>
-            <span class="tag" *ngIf="p.ongoing">en cours</span>
+            <span class="tag" *ngIf="isOngoing(p)">en cours</span>
             <span class="tag est" *ngIf="p.estimated">estimé</span>
-            <span class="tag ok" *ngIf="!p.ongoing && !p.estimated">terminé</span>
+            <span class="tag ok" *ngIf="!isOngoing(p) && !p.estimated">terminé</span>
+            <span class="tag est" *ngIf="!p.locationVerified" title="GPS refusé, imprécis ou trop loin du tag">⚠ position non vérifiée</span>
           </td>
         </tr>
         <tr *ngIf="presences.length === 0">

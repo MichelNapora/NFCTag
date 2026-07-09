@@ -1,24 +1,26 @@
+/** Une intervention (PresenceDTO du back). */
 export interface PresenceView {
-  id: number;
-  workerName: string;
+  id: string;
+  technicianName: string;
   mobile: string;
   businessName: string;
   buildingName: string;
   wingName: string;
-  tagName: string;
   arrivedAt: string;
   departedAt: string | null;
   durationMinutes: number | null;
   estimated: boolean;
-  ongoing: boolean;
+  locationVerified: boolean;
 }
 
+/** Une ligne de répartition (calculée côté front). */
 export interface StatRow {
   label: string;
   passages: number;
   totalMinutes: number;
 }
 
+/** Synthèse calculée côté front à partir des présences. */
 export interface Stats {
   totalPassages: number;
   totalMinutes: number;

@@ -1,30 +1,40 @@
+/** AddressDTO du back. */
+export interface AddressAdmin {
+  id?: string;
+  street: string;
+  number: number;
+  box: string | null;
+  postalCode: number;
+  city: string;
+}
+
+/** BusinessDTO du back. */
 export interface BusinessAdmin {
-  id: number;
+  id: string;
   name: string;
-  bce: string | null;
+  bce: string;
 }
 
+/** BuildingDTO du back (adresse imbriquée). */
 export interface BuildingAdmin {
-  id: number;
+  id: string;
   name: string;
-  projectCode: string | null;
-  buildingType: string | null;
-  city: string | null;
+  projectCode: string;
+  address: AddressAdmin;
 }
 
+/** WingDTO du back (id du bâtiment seulement — le nom se retrouve côté front). */
 export interface WingAdmin {
-  id: number;
+  id: string;
   name: string;
-  buildingId: number;
-  buildingName: string;
+  buildingId: string;
 }
 
+/** TagDTO du back. L'URL à encoder sur le tag se construit avec le scanToken. */
 export interface TagAdmin {
-  id: number;
-  name: string;
-  wingId: number;
-  wingName: string;
-  buildingName: string;
+  id: string;
   scanToken: string;
-  url: string;
+  latitude: number | null;
+  longitude: number | null;
+  wingId: string;
 }
