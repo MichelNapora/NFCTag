@@ -1,10 +1,13 @@
 spring:
   application:
     name: nfctag-backend
+  config:
+    # Charge le fichier .env (données sensibles, non versionné — voir .env.example)
+    import: optional:file:.env[.properties]
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/nfctag}
-    username: ${DB_USER:nfctag}
-    password: ${DB_PASSWORD:nfctag}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update

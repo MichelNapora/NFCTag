@@ -1,0 +1,59 @@
+<div class="layout">
+  <aside class="side">
+    <div class="brand">
+      <img src="spi-glyph.svg" alt="Spi" width="30" height="30">
+      <span class="word">spi</span>
+    </div>
+
+    <nav class="nav">
+      <div class="group">Vue d'ensemble</div>
+      <a routerLink="/dashboard" routerLinkActive="active">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        Tableau de bord
+      </a>
+      <a routerLink="/interventions" routerLinkActive="active">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3.2 2" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        Interventions
+        <span class="badge">{{ counts.presences }}</span>
+      </a>
+
+      <div class="group">Gestion</div>
+      <a routerLink="/batiments" routerLinkActive="active">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M4 21V5l7-2v18M11 21h9V9l-9-3M7 8h1M7 12h1M7 16h1M15 12h1M15 16h1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        Bâtiments
+        <span class="badge">{{ counts.buildings }}</span>
+      </a>
+      <a routerLink="/ailes" routerLinkActive="active">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 21V9l9-6 9 6v12M3 21h18M9 21v-8h6v8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        Ailes
+        <span class="badge">{{ counts.wings }}</span>
+      </a>
+      <a routerLink="/tags" routerLinkActive="active">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 1 5 5c0 3.5-5 11-5 11S7 10.5 7 7a5 5 0 0 1 5-5z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="7" r="1.8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        Tags NFC
+        <span class="badge">{{ counts.tags }}</span>
+      </a>
+      <a routerLink="/societes" routerLinkActive="active">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7h9v14M14 11h5v10M8 10h1M8 13h1M8 16h1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        Sociétés
+        <span class="badge">{{ counts.businesses }}</span>
+      </a>
+    </nav>
+
+    <div class="foot">
+      <div class="sso">Accès réservé — sera protégé par la connexion Windows (SSO)</div>
+      <a href="#" (click)="$event.preventDefault()">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c1.2-3.4 3.8-5 7-5s5.8 1.6 7 5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        Mon profil
+      </a>
+      <a class="deco" href="#" (click)="$event.preventDefault()">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M14 4h-8v16h8M10 12h11M18 9l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        Déconnexion
+      </a>
+    </div>
+  </aside>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

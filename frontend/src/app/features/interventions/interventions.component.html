@@ -1,0 +1,55 @@
+<div class="pagehead">
+  <div>
+    <div class="eyebrow">Vue d'ensemble</div>
+    <h2>Interventions</h2>
+  </div>
+  <button class="btn ghost" (click)="reload()">Actualiser</button>
+</div>
+
+<div *ngIf="error" class="banner error">{{ error }}</div>
+
+<div class="search">
+  <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.7"/></svg>
+  <input [(ngModel)]="query" placeholder="Rechercher par technicien, société, bâtiment…">
+</div>
+
+<div class="chips">
+  <button class="chip" [class.on]="filter === 'all'" (click)="setFilter('all')"><b>{{ count('all') }}</b> Tout</button>
+  <button class="chip" [class.on]="filter === 'ongoing'" (click)="setFilter('ongoing')"><b>{{ count('ongoing') }}</b> En cours</button>
+  <button class="chip" [class.on]="filter === 'done'" (click)="setFilter('done')"><b>{{ count('done') }}</b> Terminées</button>
+  <button class="chip" [class.on]="filter === 'estimated'" (click)="setFilter('estimated')"><b>{{ count('estimated') }}</b> Estimées</button>
+  <button class="chip" [class.on]="filter === 'unverified'" (click)="setFilter('unverified')"><b>{{ count('unverified') }}</b> Position non vérifiée</button>
+</div>
+
+<div class="tablewrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Technicien</th><th>Société</th><th>Bâtiment / Aile</th>
+        <th>Arrivée</th><th>Départ</th><th>Durée</th><th>État</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of filtered">
+        <td>{{ p.technicianName }}<div class="sub">{{ p.mobile }}</div></td>
+        <td>{{ p.businessName }}</td>
+        <td>{{ p.buildingName }}<div class="sub">{{ p.wingName }}</div></td>
+        <td class="num">{{ p.arrivedAt | date:'dd/MM HH:mm' }}</td>
+        <td class="num">{{ p.departedAt ? (p.departedAt | date:'dd/MM HH:mm') : '—' }}</td>
+        <td class="num">{{ duration(p.durationMinutes) }}</td>
+        <td>
+          <span class="st fill" *ngIf="isOngoing(p)">En cours</span>
+          <span class="st gray" *ngIf="p.estimated">Estimé</span>
+          <span class="st" *ngIf="!isOngoing(p) && !p.estimated">Terminé</span>
+          <span class="st alert" *ngIf="!p.locationVerified">Position non vérifiée</span>
+        </td>
+      </tr>
+      <tr *ngIf="!loading && filtered.length === 0">
+        <td colspan="7" class="muted">Aucune intervention ne correspond.</td>
+      </tr>
+      <tr *ngIf="loading">
+        <td colspan="7" class="muted">Chargement…</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

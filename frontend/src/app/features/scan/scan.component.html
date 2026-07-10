@@ -1,0 +1,61 @@
+<div class="scan">
+
+  <div class="brandline">
+    <img src="spi-glyph.svg" alt="Spi" width="28" height="28">
+  </div>
+
+  <!-- Chargement -->
+  <div *ngIf="loading" class="card center">
+    <div class="spinner"></div>
+    <p>Lecture du tag…</p>
+  </div>
+
+  <!-- Erreur -->
+  <div *ngIf="!loading && error" class="card center">
+    <div class="bigicon">
+      <svg width="44" height="44" viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3zM12 10v5M12 17.5v.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+    </div>
+    <p class="errmsg">{{ error }}</p>
+  </div>
+
+  <!-- 1er passage : identification -->
+  <div *ngIf="!loading && needForm" class="card">
+    <h2>Premier passage</h2>
+    <p class="lead">Identifiez-vous une seule fois : vous serez reconnu automatiquement lors des prochains passages.</p>
+    <div class="field"><input type="text" [(ngModel)]="firstname" placeholder="Prénom"></div>
+    <div class="field"><input type="text" [(ngModel)]="lastname" placeholder="Nom"></div>
+    <div class="field"><input type="tel" inputmode="tel" [(ngModel)]="mobile" placeholder="Mobile — 04xx xx xx xx"></div>
+    <div class="field">
+      <select [(ngModel)]="businessId">
+        <option [ngValue]="null" disabled selected>Choisissez votre société</option>
+        <option *ngFor="let b of businesses" [ngValue]="b.id">{{ b.name }}</option>
+      </select>
+    </div>
+    <button class="btn full" [disabled]="submitting || !canSubmit" (click)="submitForm()">
+      Enregistrer mon arrivée
+    </button>
+  </div>
+
+  <!-- Confirmation (arrivée / départ) -->
+  <ng-container *ngIf="!loading && result as r">
+    <div class="place">
+      <div class="b">{{ r.buildingName }}</div>
+      <div class="w">{{ r.wingName }}</div>
+    </div>
+
+    <div class="card center">
+      <div class="bigicon">
+        <svg width="56" height="56" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 12.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+      </div>
+      <h1>{{ isArrival ? 'Arrivée enregistrée' : 'Départ enregistré' }}</h1>
+      <p class="who">{{ r.technicianName }}</p>
+      <div class="time">{{ (isArrival ? r.arrivedAt : r.departedAt) | date:'HH:mm' }}</div>
+      <div class="date">{{ (isArrival ? r.arrivedAt : r.departedAt) | date:'EEEE d MMMM' }}</div>
+      <p class="hint" *ngIf="isArrival">Rescannez le tag en partant pour enregistrer votre départ.</p>
+      <div class="warn" *ngIf="!r.locationVerified">
+        <svg viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3zM12 10v5M12 17.5v.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        Position non vérifiée — GPS refusé, imprécis ou trop éloigné du tag.
+      </div>
+    </div>
+  </ng-container>
+</div>

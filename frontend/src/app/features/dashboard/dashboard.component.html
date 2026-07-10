@@ -1,0 +1,71 @@
+<div class="pagehead">
+  <div>
+    <div class="eyebrow">Vue d'ensemble</div>
+    <h2>Tableau de bord</h2>
+  </div>
+  <button class="btn ghost" (click)="reload()">Actualiser</button>
+</div>
+
+<div *ngIf="error" class="banner error">{{ error }}</div>
+
+<div class="kpis">
+  <div class="kpi">
+    <div class="lbl">Passages</div>
+    <div class="val">{{ totalPassages }}</div>
+    <div class="note">toutes interventions</div>
+  </div>
+  <div class="kpi">
+    <div class="lbl">Temps total</div>
+    <div class="val">{{ duration(totalMinutes) }}</div>
+    <div class="note">toutes sociétés</div>
+  </div>
+  <div class="kpi">
+    <div class="lbl">En cours</div>
+    <div class="val">{{ ongoing }}</div>
+    <div class="note">techniciens sur site</div>
+  </div>
+  <div class="kpi">
+    <div class="lbl">Départs estimés</div>
+    <div class="val">{{ estimated }}</div>
+    <div class="note">sortie non scannée (+1h)</div>
+  </div>
+</div>
+
+<div class="alertline" *ngIf="unverified > 0">
+  <svg viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3zM12 10v5M12 17.5v.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+  {{ unverified }} intervention(s) avec position non vérifiée
+</div>
+
+<div class="sectionlbl">Interventions récentes</div>
+<div class="tablewrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Technicien</th><th>Société</th><th>Bâtiment / Aile</th>
+        <th>Arrivée</th><th>Départ</th><th>Durée</th><th>État</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of recent">
+        <td>{{ p.technicianName }}<div class="sub">{{ p.mobile }}</div></td>
+        <td>{{ p.businessName }}</td>
+        <td>{{ p.buildingName }}<div class="sub">{{ p.wingName }}</div></td>
+        <td class="num">{{ p.arrivedAt | date:'dd/MM HH:mm' }}</td>
+        <td class="num">{{ p.departedAt ? (p.departedAt | date:'dd/MM HH:mm') : '—' }}</td>
+        <td class="num">{{ duration(p.durationMinutes) }}</td>
+        <td>
+          <span class="st fill" *ngIf="isOngoing(p)">En cours</span>
+          <span class="st gray" *ngIf="p.estimated">Estimé</span>
+          <span class="st" *ngIf="!isOngoing(p) && !p.estimated">Terminé</span>
+          <span class="st alert" *ngIf="!p.locationVerified">Position non vérifiée</span>
+        </td>
+      </tr>
+      <tr *ngIf="!loading && recent.length === 0">
+        <td colspan="7" class="muted">Aucune intervention pour le moment.</td>
+      </tr>
+      <tr *ngIf="loading">
+        <td colspan="7" class="muted">Chargement…</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

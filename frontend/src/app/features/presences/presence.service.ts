@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PresenceView } from './backoffice.models';
+import { PresenceView } from './presence.models';
 
-/** Appels API du back-office (consultation des interventions). */
+/** Consultation des interventions. */
 @Injectable({ providedIn: 'root' })
-export class BackofficeService {
+export class PresenceService {
 
   constructor(private http: HttpClient) {}
 
-  presences(): Observable<PresenceView[]> {
+  findAll(): Observable<PresenceView[]> {
     return this.http.get<PresenceView[]>('/api/presences');
   }
 }

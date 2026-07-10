@@ -1,0 +1,136 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TagService } from './tag.service';
+import { Tag } from './tag.models';
+import { WingService } from '../wings/wing.service';
+import { Wing } from '../wings/wing.models';
+import { BuildingService } from '../buildings/building.service';
+import { Building } from '../buildings/building.models';
+import { CountsService } from '../../common/shell/counts.service';
+import { errorMessage } from '../../common/http-error';
+
+interface TagForm {
+  id: string | null;
+  wingId: string | null;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+@Component({
+  selector: 'app-tags',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './tags.component.html',
+  styleUrl: './tags.component.scss'
+})
+export class TagsComponent implements OnInit {
+
+  tags: Tag[] = [];
+  wings: Wing[] = [];
+  buildings: Building[] = [];
+  loading = true;
+  error: string | null = null;
+  query = '';
+  copied: string | null = null;
+
+  modalOpen = false;
+  form: TagForm = { id: null, wingId: null, latitude: null, longitude: null };
+  saving = false;
+
+  constructor(
+    private tagService: TagService,
+    private wingService: WingService,
+    private buildingService: BuildingService,
+    private counts: CountsService
+  ) {}
+
+  ngOnInit(): void {
+    this.reload();
+  }
+
+  reload(): void {
+    this.loading = true;
+    this.tagService.findAll().subscribe({
+      next: (d) => { this.tags = d; this.loading = false; },
+      error: (e) => this.fail(e)
+    });
+    this.wingService.findAll().subscribe({ next: (d) => this.wings = d });
+    this.buildingService.findAll().subscribe({ next: (d) => this.buildings = d });
+  }
+
+  wingLabel(wingId: string): string {
+    const wing = this.wings.find(w => w.id === wingId);
+    if (!wing) { return '—'; }
+    const building = this.buildings.find(b => b.id === wing.buildingId);
+    return `${building?.name ?? '—'} / ${wing.name}`;
+  }
+
+  /** Ailes encore libres (1 tag par aile) + l'aile du tag en cours de modification. */
+  get availableWings(): Wing[] {
+    return this.wings.filter(w =>
+      !this.tags.some(t => t.wingId === w.id && t.id !== this.form.id)
+    );
+  }
+
+  tagUrl(t: Tag): string {
+    return `${location.origin}/scan/${t.scanToken}`;
+  }
+
+  get filtered(): Tag[] {
+    const q = this.query.trim().toLowerCase();
+    return this.tags.filter(t => !q || this.wingLabel(t.wingId).toLowerCase().includes(q));
+  }
+
+  openCreate(): void {
+    this.form = { id: null, wingId: null, latitude: null, longitude: null };
+    this.modalOpen = true;
+  }
+
+  openEdit(t: Tag): void {
+    this.form = { id: t.id, wingId: t.wingId, latitude: t.latitude, longitude: t.longitude };
+    this.modalOpen = true;
+  }
+
+  close(): void {
+    this.modalOpen = false;
+  }
+
+  get canSave(): boolean {
+    return !!this.form.wingId;
+  }
+
+  save(): void {
+    if (!this.canSave || this.saving) { return; }
+    this.saving = true;
+    const f = this.form;
+    const call = f.id
+      ? this.tagService.update(f.id, f.wingId!, f.latitude, f.longitude)
+      : this.tagService.create(f.wingId!, f.latitude, f.longitude);
+
+    call.subscribe({
+      next: () => { this.saving = false; this.modalOpen = false; this.reload(); this.counts.refresh(); },
+      error: (e) => { this.saving = false; this.fail(e); }
+    });
+  }
+
+  remove(t: Tag): void {
+    if (!confirm(`Supprimer le tag « ${this.wingLabel(t.wingId)} » ?`)) { return; }
+    this.tagService.delete(t.id).subscribe({
+      next: () => { this.reload(); this.counts.refresh(); },
+      error: (e) => this.fail(e)
+    });
+  }
+
+  copyUrl(t: Tag): void {
+    navigator.clipboard?.writeText(this.tagUrl(t));
+    this.copied = t.id;
+    setTimeout(() => { if (this.copied === t.id) { this.copied = null; } }, 1500);
+  }
+
+  private fail(e: any): void {
+    this.loading = false;
+    this.error = errorMessage(e, 'Une erreur est survenue.');
+    setTimeout(() => this.error = null, 5000);
+  }
+}

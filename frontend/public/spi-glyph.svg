@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Glyphe Spi (approximation) — remplacer par le fichier officiel si disponible -->
+  <g fill="#111111">
+    <polygon points="0,0 88,0 74,16 0,16"/>
+    <polygon points="70,21 100,21 100,37 56,37"/>
+    <polygon points="0,42 66,42 52,58 0,58"/>
+    <polygon points="48,63 100,63 100,79 34,79"/>
+    <polygon points="0,84 44,84 30,100 0,100"/>
+  </g>
+</svg>
