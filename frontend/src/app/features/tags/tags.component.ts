@@ -122,6 +122,16 @@ export class TagsComponent implements OnInit {
     });
   }
 
+  /** Vide la position : le prochain scan précis effectué sur place redevient la référence. */
+  recalibrate(t: Tag): void {
+    if (!confirm(`Recalibrer le tag « ${this.wingLabel(t.wingId)} » ?\n` +
+        `Sa position sera réenregistrée au prochain scan précis effectué sur place.`)) { return; }
+    this.tagService.update(t.id, t.wingId, null, null).subscribe({
+      next: () => this.reload(),
+      error: (e) => this.fail(e)
+    });
+  }
+
   copyUrl(t: Tag): void {
     navigator.clipboard?.writeText(this.tagUrl(t));
     this.copied = t.id;

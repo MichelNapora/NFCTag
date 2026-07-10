@@ -3,6 +3,7 @@ import { ScanComponent } from './features/scan/scan.component';
 import { ShellComponent } from './common/shell/shell.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { InterventionsComponent } from './features/interventions/interventions.component';
+import { MapComponent } from './features/map/map.component';
 import { BuildingsComponent } from './features/buildings/buildings.component';
 import { WingsComponent } from './features/wings/wings.component';
 import { TagsComponent } from './features/tags/tags.component';
@@ -19,6 +20,7 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'interventions', component: InterventionsComponent },
+      { path: 'carte', component: MapComponent },
       { path: 'batiments', component: BuildingsComponent },
       { path: 'ailes', component: WingsComponent },
       { path: 'tags', component: TagsComponent },

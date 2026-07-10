@@ -1,0 +1,36 @@
+<div class="pagehead">
+  <div>
+    <div class="eyebrow">Vue d'ensemble</div>
+    <h2>Carte</h2>
+  </div>
+  <button class="btn ghost" (click)="reload()">Actualiser</button>
+</div>
+
+<div *ngIf="error" class="banner error">{{ error }}</div>
+
+<div class="maplegend">
+  <span class="dot fill"></span> Techniciens sur place ({{ ongoingTotal }})
+  <span class="dot"></span> Site calme
+  <span class="muted" *ngIf="lastRefresh">Actualisé à {{ lastRefresh | date:'HH:mm:ss' }} — rafraîchissement automatique chaque minute</span>
+</div>
+
+<div id="tags-map"></div>
+
+<ng-container *ngIf="uncalibrated.length > 0">
+  <div class="sectionlbl">En attente de calibration</div>
+  <p class="hint">Ces tags n'ont pas encore de position : elle sera enregistrée automatiquement
+    au premier scan précis effectué sur place.</p>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Emplacement</th><th>État</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of uncalibrated">
+          <td><strong>{{ wingLabel(t.wingId) }}</strong></td>
+          <td><span class="st gray">En attente de calibration</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
