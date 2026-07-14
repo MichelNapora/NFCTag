@@ -33,6 +33,9 @@ public class TagService {
 
     public Tag update(UUID id, Tag tag){
         Tag existing = this.findById(id);
+        if(this.tagRepository.existsByWingIdAndIdNot(tag.getWing().getId(), id)){
+            throw new TagAlreadyExistsException("This wing already has a tag !");
+        }
         existing.setLatitude(tag.getLatitude());
         existing.setLongitude(tag.getLongitude());
         existing.setWing(tag.getWing());

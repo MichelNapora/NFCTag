@@ -11,6 +11,7 @@ import com.nfctag.features.technician.TechnicianAlreadyExistsException;
 import com.nfctag.features.technician.TechnicianNotFoundException;
 import com.nfctag.features.wing.WingAlreadyExistsException;
 import com.nfctag.features.wing.WingNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,6 +45,12 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<String> handleAlreadyExists(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDataIntegrity(DataIntegrityViolationException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body("Suppression impossible : d'autres données y sont encore liées (ex. des interventions).");
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

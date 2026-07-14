@@ -39,7 +39,11 @@ public class BuildingService {
         }
         existing.setName(building.getName());
         existing.setProjectCode(building.getProjectCode());
-        existing.setAddress(building.getAddress());
+        existing.getAddress().setStreet(building.getAddress().getStreet());
+        existing.getAddress().setNumber(building.getAddress().getNumber());
+        existing.getAddress().setBox(building.getAddress().getBox());
+        existing.getAddress().setPostalCode(building.getAddress().getPostalCode());
+        existing.getAddress().setCity(building.getAddress().getCity());
         return this.buildingRepository.save(existing);
     }
 

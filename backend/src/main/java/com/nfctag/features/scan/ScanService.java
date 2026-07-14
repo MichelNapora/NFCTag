@@ -105,6 +105,9 @@ public class ScanService {
 
     private boolean isLocationVerified(Tag tag, ScanRequestDTO request){
 
+        if (tag.getLatitude() == null || tag.getLongitude() == null) {
+            return false;
+        }
         if (request.getLatitude() == null || request.getLongitude() == null) {
             return false;
         }

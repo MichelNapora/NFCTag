@@ -9,5 +9,6 @@ import java.util.UUID;
 public interface TagRepository extends JpaRepository<Tag,UUID> {
     Optional<Tag>findByScanToken(UUID scanToken);
     boolean existsByWingId(UUID wingId);
+    boolean existsByWingIdAndIdNot(UUID wingId, UUID id);
     List<Tag> findByWingBuildingId(UUID buildingId);
 }
