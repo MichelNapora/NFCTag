@@ -21,7 +21,7 @@
   <table>
     <thead>
       <tr>
-        <th>Emplacement</th><th>Coordonnées GPS</th><th>URL du tag</th><th></th>
+        <th>Emplacement</th><th>Coordonnées GPS</th><th>URL du tag</th><th>QR</th><th></th>
       </tr>
     </thead>
     <tbody>
@@ -32,6 +32,10 @@
           <span class="st gray" *ngIf="t.latitude == null">En attente de calibration</span>
         </td>
         <td class="url"><a [href]="tagUrl(t)" target="_blank">{{ tagUrl(t) }}</a></td>
+        <td class="qr">
+          <img *ngIf="qrCodes[t.id]" [src]="qrCodes[t.id]" alt="QR code du tag"
+               width="72" height="72" (click)="openQr(t)" title="Agrandir le QR code">
+        </td>
         <td class="actions">
           <button class="iconbtn" [title]="copied === t.id ? 'Copié' : 'Copier l\'URL'" (click)="copyUrl(t)">
             <svg *ngIf="copied !== t.id" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 15V4h11" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
@@ -50,10 +54,10 @@
         </td>
       </tr>
       <tr *ngIf="!loading && filtered.length === 0">
-        <td colspan="4" class="muted">Aucun tag.</td>
+        <td colspan="5" class="muted">Aucun tag.</td>
       </tr>
       <tr *ngIf="loading">
-        <td colspan="4" class="muted">Chargement…</td>
+        <td colspan="5" class="muted">Chargement…</td>
       </tr>
     </tbody>
   </table>
@@ -85,6 +89,25 @@
       <button class="btn" [disabled]="!canSave || saving" (click)="save()">
         {{ form.id ? 'Enregistrer' : 'Créer le tag' }}
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modale QR agrandi -->
+<div class="modal-back" *ngIf="qrTag as t" (click)="closeQr()">
+  <div class="modal qrmodal" role="dialog" (click)="$event.stopPropagation()">
+    <div class="mhead">
+      <h3>{{ wingLabel(t.wingId) }}</h3>
+      <button class="iconbtn" title="Fermer" (click)="closeQr()">
+        <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19" stroke="currentColor" stroke-width="1.7"/></svg>
+      </button>
+    </div>
+    <div class="mbody center">
+      <img *ngIf="qrCodes[t.id]" [src]="qrCodes[t.id]" alt="QR code du tag" class="bigqr">
+      <p class="qrurl">{{ tagUrl(t) }}</p>
+      <p class="qrhint">Scannez ce QR avec l'appareil photo du téléphone : la page de scan s'ouvre.
+        Pour écrire un tag NFC : ouvrez la page, copiez l'URL depuis la barre d'adresse,
+        puis collez-la dans NFC Tools (Écrire → URL).</p>
     </div>
   </div>
 </div>

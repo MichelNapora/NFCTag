@@ -9,6 +9,7 @@ import { BuildingService } from '../buildings/building.service';
 import { Building } from '../buildings/building.models';
 import { CountsService } from '../../common/shell/counts.service';
 import { errorMessage } from '../../common/http-error';
+import * as QRCode from 'qrcode';
 
 interface TagForm {
   id: string | null;
@@ -38,6 +39,11 @@ export class TagsComponent implements OnInit {
   form: TagForm = { id: null, wingId: null, latitude: null, longitude: null };
   saving = false;
 
+  /** QR codes générés localement : id du tag → image (data URL). */
+  qrCodes: Record<string, string> = {};
+  /** Tag affiché en grand dans la modale QR (null = fermée). */
+  qrTag: Tag | null = null;
+
   constructor(
     private tagService: TagService,
     private wingService: WingService,
@@ -52,11 +58,27 @@ export class TagsComponent implements OnInit {
   reload(): void {
     this.loading = true;
     this.tagService.findAll().subscribe({
-      next: (d) => { this.tags = d; this.loading = false; },
+      next: (d) => { this.tags = d; this.loading = false; this.generateQrCodes(); },
       error: (e) => this.fail(e)
     });
     this.wingService.findAll().subscribe({ next: (d) => this.wings = d });
     this.buildingService.findAll().subscribe({ next: (d) => this.buildings = d });
+  }
+
+  /** Génère le QR de chaque tag dans le navigateur (aucun service externe). */
+  private generateQrCodes(): void {
+    for (const tag of this.tags) {
+      QRCode.toDataURL(this.tagUrl(tag), { width: 480, margin: 1, color: { dark: '#111111', light: '#ffffff' } })
+        .then(dataUrl => this.qrCodes[tag.id] = dataUrl);
+    }
+  }
+
+  openQr(t: Tag): void {
+    this.qrTag = t;
+  }
+
+  closeQr(): void {
+    this.qrTag = null;
   }
 
   wingLabel(wingId: string): string {

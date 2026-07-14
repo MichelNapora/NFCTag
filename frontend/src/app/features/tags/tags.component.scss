@@ -16,3 +16,35 @@ td.url a {
   font-size: 12px;
   margin: 14px 0 4px;
 }
+
+td.qr img {
+  display: block;
+  cursor: zoom-in;
+  border: 1px solid var(--g-300);
+}
+
+.qrmodal .mbody.center {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.bigqr {
+  width: 300px;
+  max-width: 100%;
+  border: 1px solid var(--g-300);
+  margin: 14px auto 10px;
+  display: block;
+}
+
+.qrurl {
+  font-size: 12px;
+  word-break: break-all;
+  color: var(--g-700);
+  margin: 0 0 10px;
+}
+
+.qrhint {
+  font-size: 12px;
+  color: var(--g-500);
+  margin: 0;
+}
