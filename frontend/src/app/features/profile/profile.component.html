@@ -1,0 +1,28 @@
+<div class="pagehead">
+  <div>
+    <div class="eyebrow">Compte</div>
+    <h2>Mon profil</h2>
+  </div>
+</div>
+
+<ng-container *ngIf="auth.employee as e">
+  <div class="profile-card">
+    <div class="avatar">{{ e.firstname.charAt(0) }}{{ e.lastname.charAt(0) }}</div>
+    <div class="who">
+      <div class="name">{{ e.firstname }} {{ e.lastname }}</div>
+      <div class="mail">{{ e.email }}</div>
+      <div class="role">
+        <span class="st fill" *ngIf="e.role === 'ADMIN'">Admin</span>
+        <span class="st" *ngIf="e.role === 'EMPLOYEE'">Employé</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="hint" *ngIf="e.role === 'EMPLOYEE'">
+    Pour modifier vos informations ou votre mot de passe, adressez-vous à un administrateur
+    (page Utilisateurs).
+  </p>
+  <p class="hint" *ngIf="e.role === 'ADMIN'">
+    Vous pouvez modifier vos informations et votre mot de passe depuis la page Utilisateurs.
+  </p>
+</ng-container>

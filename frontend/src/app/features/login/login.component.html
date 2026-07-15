@@ -1,0 +1,29 @@
+<div class="login">
+  <div class="card">
+    <div class="brand">
+      <img src="spi-glyph.svg" alt="Spi" width="34" height="34">
+      <span class="word">spi</span>
+    </div>
+    <h1>Suivi des interventions</h1>
+    <p class="lead">Connectez-vous avec votre compte Spi.</p>
+
+    <div *ngIf="error" class="banner error">{{ error }}</div>
+
+    <div class="field">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="email" placeholder="prenom.nom@spi.be"
+             (keyup.enter)="submit()" autocomplete="username">
+    </div>
+    <div class="field">
+      <label>Mot de passe</label>
+      <input type="password" [(ngModel)]="password" placeholder="••••••••"
+             (keyup.enter)="submit()" autocomplete="current-password">
+    </div>
+
+    <button class="btn full" [disabled]="!canSubmit || submitting" (click)="submit()">
+      {{ submitting ? 'Connexion…' : 'Se connecter' }}
+    </button>
+
+    <p class="note">Pas de compte ? Adressez-vous à un administrateur de l'application.</p>
+  </div>
+</div>

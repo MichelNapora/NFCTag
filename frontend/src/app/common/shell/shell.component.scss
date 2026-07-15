@@ -69,12 +69,16 @@
   border-top: 1px solid var(--g-300);
   padding: 8px 0;
 
-  .sso {
-    margin: 8px 12px 10px;
-    font-size: 11px;
-    color: var(--g-500);
-    border: 1px dashed var(--g-300);
-    padding: 7px 9px;
+  .whoami {
+    margin: 8px 16px 10px;
+
+    .n { font-weight: 700; font-size: 13px; }
+    .r {
+      font-size: 10.5px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--g-500);
+    }
   }
 
   a {
@@ -88,7 +92,9 @@
     .ic { width: 17px; height: 17px; flex: 0 0 17px; }
   }
   a:hover { background: var(--g-050); }
+  a.active { background: var(--ink); color: #fff; }
   a.deco { color: var(--danger); }
+  a { cursor: pointer; }
 }
 
 .content {

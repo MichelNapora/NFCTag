@@ -42,15 +42,26 @@
         Sociétés
         <span class="badge">{{ counts.businesses }}</span>
       </a>
+
+      <ng-container *ngIf="auth.isAdmin">
+        <div class="group">Administration</div>
+        <a routerLink="/utilisateurs" routerLinkActive="active">
+          <svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 20c1-3 3.2-4.5 6-4.5s5 1.5 6 4.5M16 4.6a3.2 3.2 0 0 1 0 6.8M17.5 15.7c2 .6 3.1 1.9 3.5 4.3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Utilisateurs
+        </a>
+      </ng-container>
     </nav>
 
     <div class="foot">
-      <div class="sso">Accès réservé — sera protégé par la connexion Windows (SSO)</div>
-      <a href="#" (click)="$event.preventDefault()">
+      <div class="whoami" *ngIf="auth.employee as e">
+        <div class="n">{{ e.firstname }} {{ e.lastname }}</div>
+        <div class="r">{{ e.role === 'ADMIN' ? 'Admin' : 'Employé' }}</div>
+      </div>
+      <a routerLink="/profil" routerLinkActive="active">
         <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c1.2-3.4 3.8-5 7-5s5.8 1.6 7 5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
         Mon profil
       </a>
-      <a class="deco" href="#" (click)="$event.preventDefault()">
+      <a class="deco" href="#" (click)="$event.preventDefault(); logout()">
         <svg class="ic" viewBox="0 0 24 24"><path d="M14 4h-8v16h8M10 12h11M18 9l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
         Déconnexion
       </a>
