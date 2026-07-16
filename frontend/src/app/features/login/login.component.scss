@@ -39,28 +39,6 @@
   .word { font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
 }
 
-.pwd {
-  position: relative;
-
-  input { padding-right: 42px; }
-
-  .eye {
-    position: absolute;
-    right: 4px;
-    top: 50%;
-    transform: translateY(-50%);
-    appearance: none;
-    background: none;
-    border: 0;
-    cursor: pointer;
-    padding: 8px;
-    color: var(--g-500);
-
-    svg { width: 18px; height: 18px; display: block; }
-  }
-  .eye:hover { color: var(--ink); }
-}
-
 .btn.full {
   width: 100%;
   padding: 14px;

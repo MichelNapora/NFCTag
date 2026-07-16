@@ -88,8 +88,28 @@
       </div>
       <div class="field">
         <label>{{ form.id ? 'Nouveau mot de passe (vide = inchangé)' : 'Mot de passe initial' }}</label>
-        <input type="password" [(ngModel)]="form.password" autocomplete="new-password"
-               [placeholder]="form.id ? 'Laisser vide pour ne pas changer' : 'Mot de passe à communiquer'">
+        <div class="pwd">
+          <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="form.password" autocomplete="new-password"
+                 [placeholder]="form.id ? 'Laisser vide pour ne pas changer' : 'Mot de passe à communiquer'">
+          <button type="button" class="eye" (click)="showPassword = !showPassword"
+                  [title]="showPassword ? 'Masquer' : 'Afficher'">
+            <svg *ngIf="!showPassword" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            <svg *ngIf="showPassword" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 20 20 4" stroke="currentColor" stroke-width="1.6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Confirmer le mot de passe</label>
+        <div class="pwd">
+          <input [type]="showConfirm ? 'text' : 'password'" [(ngModel)]="form.passwordConfirm" autocomplete="new-password"
+                 placeholder="Retapez le même mot de passe">
+          <button type="button" class="eye" (click)="showConfirm = !showConfirm"
+                  [title]="showConfirm ? 'Masquer' : 'Afficher'">
+            <svg *ngIf="!showConfirm" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            <svg *ngIf="showConfirm" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 20 20 4" stroke="currentColor" stroke-width="1.6"/></svg>
+          </button>
+        </div>
+        <p class="mismatch" *ngIf="passwordMismatch">Les mots de passe ne correspondent pas.</p>
       </div>
     </div>
     <div class="mfoot">

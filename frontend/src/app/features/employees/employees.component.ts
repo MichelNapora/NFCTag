@@ -13,9 +13,10 @@ interface EmployeeForm {
   email: string;
   role: 'ADMIN' | 'EMPLOYEE';
   password: string;
+  passwordConfirm: string;
 }
 
-const EMPTY_FORM: EmployeeForm = { id: null, firstname: '', lastname: '', email: '', role: 'EMPLOYEE', password: '' };
+const EMPTY_FORM: EmployeeForm = { id: null, firstname: '', lastname: '', email: '', role: 'EMPLOYEE', password: '', passwordConfirm: '' };
 
 @Component({
   selector: 'app-employees',
@@ -34,6 +35,8 @@ export class EmployeesComponent implements OnInit {
   modalOpen = false;
   form: EmployeeForm = { ...EMPTY_FORM };
   saving = false;
+  showPassword = false;
+  showConfirm = false;
 
   constructor(
     private employeeService: EmployeeService,
@@ -68,11 +71,15 @@ export class EmployeesComponent implements OnInit {
 
   openCreate(): void {
     this.form = { ...EMPTY_FORM };
+    this.showPassword = false;
+    this.showConfirm = false;
     this.modalOpen = true;
   }
 
   openEdit(e: Employee): void {
-    this.form = { id: e.id, firstname: e.firstname, lastname: e.lastname, email: e.email, role: e.role, password: '' };
+    this.form = { id: e.id, firstname: e.firstname, lastname: e.lastname, email: e.email, role: e.role, password: '', passwordConfirm: '' };
+    this.showPassword = false;
+    this.showConfirm = false;
     this.modalOpen = true;
   }
 
@@ -80,9 +87,16 @@ export class EmployeesComponent implements OnInit {
     this.modalOpen = false;
   }
 
+  /** Les deux saisies du mot de passe ne correspondent pas. */
+  get passwordMismatch(): boolean {
+    return (this.form.password.length > 0 || this.form.passwordConfirm.length > 0)
+        && this.form.password !== this.form.passwordConfirm;
+  }
+
   get canSave(): boolean {
     const f = this.form;
     const base = !!(f.firstname.trim() && f.lastname.trim() && f.email.trim());
+    if (this.passwordMismatch) { return false; }
     // à la création, le mot de passe initial est obligatoire
     return f.id ? base : base && f.password.length > 0;
   }

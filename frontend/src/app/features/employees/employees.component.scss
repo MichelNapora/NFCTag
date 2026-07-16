@@ -15,3 +15,9 @@
   border: 1px dashed var(--g-300);
   padding: 1px 6px;
 }
+
+.mismatch {
+  color: var(--danger);
+  font-size: 12px;
+  margin: 6px 0 0;
+}
