@@ -5,6 +5,8 @@ import com.nfctag.features.building.BuildingAlreadyExistsException;
 import com.nfctag.features.building.BuildingNotFoundException;
 import com.nfctag.features.business.BusinessAlreadyExistsException;
 import com.nfctag.features.business.BusinessNotFoundException;
+import com.nfctag.features.employee.EmployeeAlreadyExistsException;
+import com.nfctag.features.employee.EmployeeNotFoundException;
 import com.nfctag.features.tag.TagAlreadyExistsException;
 import com.nfctag.features.tag.TagNotFoundException;
 import com.nfctag.features.technician.TechnicianAlreadyExistsException;
@@ -17,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import com.nfctag.features.auth.InvalidCredentialsException;
+import com.nfctag.features.employee.EmployeePasswordRequiredException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +34,8 @@ public class GlobalExceptionHandler {
             WingNotFoundException.class,
             BusinessNotFoundException.class,
             TechnicianNotFoundException.class,
-            TagNotFoundException.class
+            TagNotFoundException.class,
+            EmployeeNotFoundException.class
     })
     public ResponseEntity<String> handleNotFound(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
@@ -41,7 +46,8 @@ public class GlobalExceptionHandler {
             WingAlreadyExistsException.class,
             BusinessAlreadyExistsException.class,
             TechnicianAlreadyExistsException.class,
-            TagAlreadyExistsException.class
+            TagAlreadyExistsException.class,
+            EmployeeAlreadyExistsException.class
     })
     public ResponseEntity<String> handleAlreadyExists(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
@@ -50,7 +56,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrity(DataIntegrityViolationException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body("Suppression impossible : d'autres données y sont encore liées (ex. des interventions).");
+                .body("Impossible to delete. Others datas are binded");
+    }
+    @ExceptionHandler(EmployeePasswordRequiredException.class)
+    public ResponseEntity<String> handlePasswordRequired(EmployeePasswordRequiredException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<String> handleInvalidCredentials(InvalidCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
