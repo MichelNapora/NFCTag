@@ -8,6 +8,7 @@ import { Wing } from '../wings/wing.models';
 import { TagService } from '../tags/tag.service';
 import { Tag } from '../tags/tag.models';
 import { CountsService } from '../../common/shell/counts.service';
+import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/http-error';
 
 /** Formulaire de la modale (création et modification). */
@@ -48,7 +49,8 @@ export class BuildingsComponent implements OnInit {
     private buildingService: BuildingService,
     private wingService: WingService,
     private tagService: TagService,
-    private counts: CountsService
+    private counts: CountsService,
+    public auth: AuthService
   ) {}
 
   ngOnInit(): void {
