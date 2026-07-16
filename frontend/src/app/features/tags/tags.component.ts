@@ -8,6 +8,7 @@ import { Wing } from '../wings/wing.models';
 import { BuildingService } from '../buildings/building.service';
 import { Building } from '../buildings/building.models';
 import { CountsService } from '../../common/shell/counts.service';
+import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/http-error';
 import * as QRCode from 'qrcode';
 
@@ -48,7 +49,8 @@ export class TagsComponent implements OnInit {
     private tagService: TagService,
     private wingService: WingService,
     private buildingService: BuildingService,
-    private counts: CountsService
+    private counts: CountsService,
+    public auth: AuthService
   ) {}
 
   ngOnInit(): void {

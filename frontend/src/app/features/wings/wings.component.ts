@@ -8,6 +8,7 @@ import { Building } from '../buildings/building.models';
 import { TagService } from '../tags/tag.service';
 import { Tag } from '../tags/tag.models';
 import { CountsService } from '../../common/shell/counts.service';
+import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/http-error';
 
 interface WingForm {
@@ -40,7 +41,8 @@ export class WingsComponent implements OnInit {
     private wingService: WingService,
     private buildingService: BuildingService,
     private tagService: TagService,
-    private counts: CountsService
+    private counts: CountsService,
+    public auth: AuthService
   ) {}
 
   ngOnInit(): void {
