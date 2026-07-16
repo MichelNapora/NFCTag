@@ -16,8 +16,15 @@
     </div>
     <div class="field">
       <label>Mot de passe</label>
-      <input type="password" [(ngModel)]="password" placeholder="••••••••"
-             (keyup.enter)="submit()" autocomplete="current-password">
+      <div class="pwd">
+        <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" placeholder="••••••••"
+               (keyup.enter)="submit()" autocomplete="current-password">
+        <button type="button" class="eye" (click)="showPassword = !showPassword"
+                [title]="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'">
+          <svg *ngIf="!showPassword" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <svg *ngIf="showPassword" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 20 20 4" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+      </div>
     </div>
 
     <button class="btn full" [disabled]="!canSubmit || submitting" (click)="submit()">
