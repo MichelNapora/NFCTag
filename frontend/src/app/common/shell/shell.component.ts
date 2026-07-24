@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Counts, CountsService } from './counts.service';
 import { AuthService } from '../auth/auth.service';
 
-/** Gabarit du back-office : barre latérale Spi + zone de contenu. */
+
 @Component({
   selector: 'app-shell',
   standalone: true,
@@ -13,7 +14,7 @@ import { AuthService } from '../auth/auth.service';
   styleUrl: './shell.component.scss'
 })
 export class ShellComponent implements OnInit {
-
+  private destroyRef = inject(DestroyRef);
   counts: Counts = { presences: 0, buildings: 0, wings: 0, tags: 0, businesses: 0 };
 
   constructor(
@@ -23,7 +24,9 @@ export class ShellComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.countsService.counts$.subscribe(c => this.counts = c);
+    this.countsService.counts$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(c => this.counts = c);
     this.countsService.refresh();
   }
 

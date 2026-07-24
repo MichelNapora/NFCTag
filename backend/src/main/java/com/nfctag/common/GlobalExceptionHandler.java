@@ -7,6 +7,7 @@ import com.nfctag.features.business.BusinessAlreadyExistsException;
 import com.nfctag.features.business.BusinessNotFoundException;
 import com.nfctag.features.employee.EmployeeAlreadyExistsException;
 import com.nfctag.features.employee.EmployeeNotFoundException;
+import com.nfctag.features.scan.InvalidScanException;
 import com.nfctag.features.tag.TagAlreadyExistsException;
 import com.nfctag.features.tag.TagNotFoundException;
 import com.nfctag.features.technician.TechnicianAlreadyExistsException;
@@ -58,8 +59,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body("Impossible to delete. Others datas are binded");
     }
-    @ExceptionHandler(EmployeePasswordRequiredException.class)
-    public ResponseEntity<String> handlePasswordRequired(EmployeePasswordRequiredException ex) {
+
+    @ExceptionHandler({
+            EmployeePasswordRequiredException.class,
+            InvalidScanException.class
+    })
+    public ResponseEntity<String> handleBadRequest(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 

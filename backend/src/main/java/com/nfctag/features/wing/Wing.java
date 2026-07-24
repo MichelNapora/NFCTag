@@ -16,7 +16,6 @@ public class Wing {
     private UUID id;
 
     @NotBlank
-    @Column(unique = true)
     private String name;
 
     @ManyToOne(optional = false)

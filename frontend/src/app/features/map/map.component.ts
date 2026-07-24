@@ -34,6 +34,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private wings: Wing[] = [];
   private buildings: Building[] = [];
   private timer: ReturnType<typeof setInterval> | null = null;
+  private fitted = false;
 
   constructor(
     private tagService: TagService,
@@ -88,7 +89,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     return `${building?.name ?? '—'} / ${wing.name}`;
   }
 
-  /** Nombre de techniciens actuellement sur place pour un tag (présences ouvertes). */
   private ongoingCount(tag: Tag, presences: PresenceView[]): number {
     const wing = this.wings.find(w => w.id === tag.wingId);
     const building = this.buildings.find(b => b.id === wing?.buildingId);
@@ -123,8 +123,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       marker.addTo(this.markers);
     }
 
-    if (bounds.length > 0) {
+    if (bounds.length > 0 && !this.fitted) {
       this.map.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 });
+      this.fitted = true;
     }
   }
 }

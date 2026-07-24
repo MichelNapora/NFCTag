@@ -11,6 +11,7 @@ import com.nfctag.features.tag.TagRepository;
 import com.nfctag.features.technician.Technician;
 import com.nfctag.features.technician.TechnicianNotFoundException;
 import com.nfctag.features.technician.TechnicianRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ public class ScanService {
     @Value("${nfctag.proximity-meters}") private double proximityMeters;
     @Value("${nfctag.max-accuracy-meters}") private double maxAccuracyMeters;
 
+    @Transactional
     public ScanResponseDTO scan(UUID scanToken, ScanRequestDTO request){
 
         Tag tag = tagRepository.findByScanToken(scanToken).orElseThrow(() -> new TagNotFoundException("Tag not found"));
@@ -86,9 +88,16 @@ public class ScanService {
                     .orElseThrow(() -> new TechnicianNotFoundException("Token not found"));
         }
 
-        Optional<Technician> existing = technicianRepository.findByMobile(request.getMobile());
-        if (existing.isPresent()) {
-            return existing.get();
+        if (request.getMobile() != null) {
+            Optional<Technician> existing = technicianRepository.findByMobile(request.getMobile());
+            if (existing.isPresent()) {
+                return existing.get();
+            }
+        }
+
+        if (isBlank(request.getFirstname()) || isBlank(request.getLastname())
+                || isBlank(request.getMobile()) || request.getBusinessId() == null) {
+            throw new InvalidScanException("The firts scan needs firstname, lastname, mobile and business");
         }
 
         Business business = businessRepository.findById(request.getBusinessId())
@@ -101,6 +110,10 @@ public class ScanService {
                 business
         );
         return technicianRepository.save(technician);
+    }
+
+    private boolean isBlank(String value){
+        return value == null || value.isBlank();
     }
 
     private boolean isLocationVerified(Tag tag, ScanRequestDTO request){
