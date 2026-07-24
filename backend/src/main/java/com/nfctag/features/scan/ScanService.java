@@ -11,10 +11,10 @@ import com.nfctag.features.tag.TagRepository;
 import com.nfctag.features.technician.Technician;
 import com.nfctag.features.technician.TechnicianNotFoundException;
 import com.nfctag.features.technician.TechnicianRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -97,7 +97,7 @@ public class ScanService {
 
         if (isBlank(request.getFirstname()) || isBlank(request.getLastname())
                 || isBlank(request.getMobile()) || request.getBusinessId() == null) {
-            throw new InvalidScanException("The firts scan needs firstname, lastname, mobile and business");
+            throw new InvalidScanException("The first scan needs firstname, lastname, mobile and business");
         }
 
         Business business = businessRepository.findById(request.getBusinessId())

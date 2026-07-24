@@ -33,6 +33,7 @@ export class TagsComponent implements OnInit {
   buildings: Building[] = [];
   loading = true;
   error: string | null = null;
+  private errorTimer: ReturnType<typeof setTimeout> | null = null;
   query = '';
   copied: string | null = null;
 
@@ -90,7 +91,6 @@ export class TagsComponent implements OnInit {
     return `${building?.name ?? '—'} / ${wing.name}`;
   }
 
-  /** Ailes encore libres (1 tag par aile) + l'aile du tag en cours de modification. */
   get availableWings(): Wing[] {
     return this.wings.filter(w =>
       !this.tags.some(t => t.wingId === w.id && t.id !== this.form.id)
@@ -146,7 +146,6 @@ export class TagsComponent implements OnInit {
     });
   }
 
-  /** Vide la position : le prochain scan précis effectué sur place redevient la référence. */
   recalibrate(t: Tag): void {
     if (!confirm(`Recalibrer le tag « ${this.wingLabel(t.wingId)} » ?\n` +
         `Sa position sera réenregistrée au prochain scan précis effectué sur place.`)) { return; }
@@ -165,6 +164,7 @@ export class TagsComponent implements OnInit {
   private fail(e: any): void {
     this.loading = false;
     this.error = errorMessage(e, 'Une erreur est survenue.');
-    setTimeout(() => this.error = null, 5000);
+    if (this.errorTimer) { clearTimeout(this.errorTimer); }
+    this.errorTimer = setTimeout(() => this.error = null, 5000);
   }
 }

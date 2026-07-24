@@ -19,14 +19,14 @@ spring:
     enabled: false
     baseline-on-migrate: true
 
-  server:
-    port: 8080
-    servlet:
-      session:
-        cookie:
-          http-only: true
-          same-site: strict
-          secure: ${COOKIE_SECURE:false}
+server:
+  port: 8080
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        same-site: strict
+        secure: ${COOKIE_SECURE:false}
 
 
 nfctag:

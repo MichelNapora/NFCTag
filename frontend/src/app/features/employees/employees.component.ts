@@ -30,6 +30,7 @@ export class EmployeesComponent implements OnInit {
   employees: Employee[] = [];
   loading = true;
   error: string | null = null;
+  private errorTimer: ReturnType<typeof setTimeout> | null = null;
   query = '';
 
   modalOpen = false;
@@ -127,6 +128,7 @@ export class EmployeesComponent implements OnInit {
   private fail(e: any): void {
     this.loading = false;
     this.error = errorMessage(e, 'Une erreur est survenue.');
-    setTimeout(() => this.error = null, 5000);
+    if (this.errorTimer) { clearTimeout(this.errorTimer); }
+    this.errorTimer = setTimeout(() => this.error = null, 5000);
   }
 }

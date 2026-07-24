@@ -11,7 +11,6 @@ import { CountsService } from '../../common/shell/counts.service';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/http-error';
 
-/** Formulaire de la modale (création et modification). */
 interface BuildingForm {
   id: string | null;
   name: string;
@@ -39,6 +38,7 @@ export class BuildingsComponent implements OnInit {
   tags: Tag[] = [];
   loading = true;
   error: string | null = null;
+  private errorTimer: ReturnType<typeof setTimeout> | null = null;
   query = '';
 
   modalOpen = false;
@@ -86,7 +86,6 @@ export class BuildingsComponent implements OnInit {
     return this.tags.filter(t => wingIds.includes(t.wingId)).length;
   }
 
-  // ---- Modale ----
   openCreate(): void {
     this.form = { ...EMPTY_FORM };
     this.modalOpen = true;
@@ -147,6 +146,7 @@ export class BuildingsComponent implements OnInit {
   private fail(e: any): void {
     this.loading = false;
     this.error = errorMessage(e, 'Une erreur est survenue.');
-    setTimeout(() => this.error = null, 5000);
+    if (this.errorTimer) { clearTimeout(this.errorTimer); }
+    this.errorTimer = setTimeout(() => this.error = null, 5000);
   }
 }

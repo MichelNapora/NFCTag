@@ -1,4 +1,3 @@
-/** AddressDTO du back. */
 export interface Address {
   id?: string;
   street: string;
@@ -8,7 +7,6 @@ export interface Address {
   city: string;
 }
 
-/** BuildingDTO du back (adresse imbriquée). */
 export interface Building {
   id: string;
   name: string;
