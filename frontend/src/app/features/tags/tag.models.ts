@@ -5,4 +5,5 @@ export interface Tag {
   latitude: number | null;
   longitude: number | null;
   wingId: string;
+  calibratedAt: string | null;
 }

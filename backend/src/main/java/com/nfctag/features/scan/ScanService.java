@@ -44,15 +44,7 @@ public class ScanService {
 
         Technician technician = resolveTechnician(request);
 
-        boolean locationVerified = isLocationVerified(tag, request);
-
-        if (tag.getLatitude() == null && request.getLatitude() != null && request.getLongitude() != null
-                && request.getAccuracy() != null && request.getAccuracy() <= maxAccuracyMeters) {
-            tag.setLatitude(request.getLatitude());
-            tag.setLongitude(request.getLongitude());
-            tagRepository.save(tag);
-            locationVerified = true;
-        }
+        final boolean locationVerified = isLocationVerified(tag, request);
 
         Optional<Presence> open = presenceRepository.findByTechnicianIdAndTagIdAndDepartedAtIsNull(technician.getId(), tag.getId());
 

@@ -17,6 +17,7 @@ public class TagMapper {
                 tag.getScanToken(),
                 tag.getLatitude(),
                 tag.getLongitude(),
+                tag.getCalibratedAt(),
                 tag.getWing().getId()
         );
     }

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public class TagDTO {
@@ -22,14 +23,18 @@ public class TagDTO {
     @DecimalMax("180.0")
     private Double longitude;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private OffsetDateTime calibratedAt;
+
     @NotNull
     private UUID wingId;
 
-    public TagDTO(UUID id, UUID scanToken, Double latitude, Double longitude, UUID wingId){
+    public TagDTO(UUID id, UUID scanToken, Double latitude, Double longitude, OffsetDateTime calibratedAt, UUID wingId){
         this.id=id;
         this.scanToken=scanToken;
         this.latitude=latitude;
         this.longitude=longitude;
+        this.calibratedAt=calibratedAt;
         this.wingId=wingId;
     }
 
@@ -53,6 +58,10 @@ public class TagDTO {
 
     public UUID getWingId(){
         return this.wingId;
+    }
+
+    public OffsetDateTime getCalibratedAt(){
+        return this.calibratedAt;
     }
 
     public void setLatitude(Double latitude){

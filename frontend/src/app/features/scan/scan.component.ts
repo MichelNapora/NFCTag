@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ScanService } from './scan.service';
 import { Business, ScanRequest, ScanResponse } from './scan.models';
+import {AuthService} from '../../common/auth/auth.service';
+import {CurrentEmployee} from '../../common/auth/auth.models';
 
 const DEVICE_TOKEN_KEY = 'nfctag.deviceToken';
 
@@ -37,9 +39,24 @@ export class ScanComponent implements OnInit {
   businessId: string | null = null;
   submitting = false;
 
+  // Mode calibration (employé Spi connecté)
+  employee: CurrentEmployee | null = null;
+  calibrating = false;
+  calibratedAt: string | null = null;
+  calibrationError: string | null = null;
+
   private position: GeoPosition = { latitude: null, longitude: null, accuracy: null };
 
-  constructor(private route: ActivatedRoute, private api: ScanService) {}
+  /** Précision GPS actuelle, pour l'affichage en mode calibration. */
+  get accuracy(): number | null {
+    return this.position.accuracy;
+  }
+
+  constructor(
+    private route: ActivatedRoute,
+    private api: ScanService,
+    private auth: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.scanToken = this.route.snapshot.paramMap.get('token') ?? '';
@@ -47,15 +64,24 @@ export class ScanComponent implements OnInit {
     // On relève d'abord la position (obligatoire pour vérifier la proximité du tag)
     this.getPosition().then((pos) => {
       this.position = pos;
-      const deviceToken = localStorage.getItem(DEVICE_TOKEN_KEY);
 
-      if (deviceToken) {
-        // Technicien déjà connu sur ce navigateur → scan direct
-        this.sendScan(deviceToken);
-      } else {
-        // 1er passage → formulaire (nom, prénom, mobile, société)
-        this.showForm();
-      }
+      // Employé Spi connecté ? → mode calibration, aucune présence enregistrée.
+      this.auth.isLoggedIn().subscribe((loggedIn) => {
+        if (loggedIn) {
+          this.employee = this.auth.employee;
+          this.loading = false;
+          return;
+        }
+
+        const deviceToken = localStorage.getItem(DEVICE_TOKEN_KEY);
+        if (deviceToken) {
+          // Technicien déjà connu sur ce navigateur → scan direct
+          this.sendScan(deviceToken);
+        } else {
+          // 1er passage → formulaire (nom, prénom, mobile, société)
+          this.showForm();
+        }
+      });
     });
   }
 
@@ -127,6 +153,36 @@ export class ScanComponent implements OnInit {
 
   get isArrival(): boolean {
     return this.result?.action === 'ARRIVAL';
+  }
+
+  /** Enregistre la position actuelle comme position du tag (employé connecté). */
+  calibrate(): void {
+    if (this.position.latitude == null || this.position.longitude == null
+      || this.position.accuracy == null) {
+      this.calibrationError = 'Position indisponible. Autorisez la géolocalisation puis rechargez.';
+      return;
+    }
+
+    this.calibrating = true;
+    this.calibrationError = null;
+
+    this.api.calibrate(this.scanToken, {
+      latitude: this.position.latitude,
+      longitude: this.position.longitude,
+      accuracy: this.position.accuracy
+    }).subscribe({
+      next: (tag) => {
+        this.calibrating = false;
+        this.calibratedAt = tag.calibratedAt;
+      },
+      error: (e) => {
+        this.calibrating = false;
+        const body = e?.error;
+        this.calibrationError = typeof body === 'string' && body
+          ? body
+          : 'Calibration impossible.';
+      }
+    });
   }
 
   /** Demande la position au navigateur ; renvoie des null si refusée/indisponible. */

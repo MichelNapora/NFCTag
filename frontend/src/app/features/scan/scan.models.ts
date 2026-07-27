@@ -29,3 +29,20 @@ export interface Business {
   name: string;
   bce: string;
 }
+
+/** Position envoyée lors de la calibration d'un tag par un employé. */
+export interface TagPosition {
+  latitude: number;
+  longitude: number;
+  accuracy: number;
+}
+
+/** Tag calibré renvoyé par le back (TagDTO). */
+export interface CalibratedTag {
+  id: string;
+  scanToken: string;
+  latitude: number | null;
+  longitude: number | null;
+  calibratedAt: string | null;
+  wingId: string;
+}

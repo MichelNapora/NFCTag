@@ -1,13 +1,19 @@
 package com.nfctag.features.tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import java.time.OffsetDateTime;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class TagService {
+
+    @Value("${nfctag.max-accuracy-meters}")
+    private double maxAccuracyMeters;
+
     @Autowired
     private TagRepository tagRepository;
 
@@ -40,6 +46,22 @@ public class TagService {
         existing.setLongitude(tag.getLongitude());
         existing.setWing(tag.getWing());
         return this.tagRepository.save(existing);
+    }
+
+    public Tag calibrate(UUID scanToken, TagPositionDTO position){
+        Tag tag = this.tagRepository.findByScanToken(scanToken)
+                .orElseThrow(() -> new TagNotFoundException("Tag not found : " + scanToken));
+
+        if (position.getAccuracy() > maxAccuracyMeters) {
+            throw new InsufficientAccuracyException(
+                    "GPS accuracy is inaccurate (" + Math.round(position.getAccuracy())
+                            + " m). Go outside and try again please");
+        }
+
+        tag.setLatitude(position.getLatitude());
+        tag.setLongitude(position.getLongitude());
+        tag.setCalibratedAt(OffsetDateTime.now());
+        return this.tagRepository.save(tag);
     }
 
     public void delete(UUID id){

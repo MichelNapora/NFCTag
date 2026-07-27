@@ -8,6 +8,7 @@ import com.nfctag.features.business.BusinessNotFoundException;
 import com.nfctag.features.employee.EmployeeAlreadyExistsException;
 import com.nfctag.features.employee.EmployeeNotFoundException;
 import com.nfctag.features.scan.InvalidScanException;
+import com.nfctag.features.tag.InsufficientAccuracyException;
 import com.nfctag.features.tag.TagAlreadyExistsException;
 import com.nfctag.features.tag.TagNotFoundException;
 import com.nfctag.features.technician.TechnicianAlreadyExistsException;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.nfctag.features.auth.InvalidCredentialsException;
 import com.nfctag.features.employee.EmployeePasswordRequiredException;
+import com.nfctag.features.tag.InsufficientAccuracyException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +64,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             EmployeePasswordRequiredException.class,
-            InvalidScanException.class
+            InvalidScanException.class,
+            InsufficientAccuracyException.class
     })
     public ResponseEntity<String> handleBadRequest(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());

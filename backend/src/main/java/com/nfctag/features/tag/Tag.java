@@ -8,6 +8,7 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
@@ -27,6 +28,8 @@ public class Tag {
     @DecimalMin("-180.0")
     @DecimalMax("180.0")
     private Double longitude;
+
+    private OffsetDateTime calibratedAt;
 
     @OneToOne(optional = false)
     @JoinColumn(name="wing_id",nullable = false,unique = true)
@@ -60,6 +63,10 @@ public class Tag {
         return this.wing;
     }
 
+    public OffsetDateTime getCalibratedAt(){
+        return this.calibratedAt;
+    }
+
     public void setLatitude(Double latitude){
         this.latitude=latitude;
     }
@@ -70,5 +77,9 @@ public class Tag {
 
     public void setWing(Wing wing){
         this.wing=wing;
+    }
+
+    public void setCalibratedAt(OffsetDateTime calibratedAt){
+        this.calibratedAt=calibratedAt;
     }
 }

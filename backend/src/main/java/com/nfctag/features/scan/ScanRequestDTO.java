@@ -16,6 +16,7 @@ public class ScanRequestDTO {
     @DecimalMax("180.0")
     private Double longitude;
 
+    @DecimalMin("0.0")
     private Double accuracy;
 
     private String firstname;

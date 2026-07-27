@@ -18,6 +18,28 @@
     <p class="errmsg">{{ error }}</p>
   </div>
 
+  <!-- Mode calibration : employé Spi connecté -->
+  <div *ngIf="!loading && employee" class="card">
+    <p class="who">Connecté : {{ employee.firstname }} {{ employee.lastname }}</p>
+
+    <h2>Calibration du tag</h2>
+
+    <div *ngIf="calibratedAt" class="place">
+      Position enregistrée le {{ calibratedAt | date:'dd/MM/yyyy HH:mm' }}
+    </div>
+
+    <p *ngIf="calibrationError" class="errmsg">{{ calibrationError }}</p>
+
+    <p class="hint" *ngIf="accuracy != null">
+      Précision GPS actuelle : {{ accuracy | number:'1.0-0' }} m
+    </p>
+
+    <button class="btn full" [disabled]="calibrating" (click)="calibrate()">
+      {{ calibrating ? 'Enregistrement…' : 'Calibrer ce tag ici' }}
+    </button>
+
+    <p class="hint">Appuyez uniquement lorsque vous êtes devant le tag.</p>
+  </div>
   <!-- 1er passage : identification -->
   <div *ngIf="!loading && needForm" class="card">
     <h2>Premier passage</h2>
