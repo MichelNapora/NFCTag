@@ -8,7 +8,7 @@
 
 <div *ngIf="error" class="banner error">{{ error }}</div>
 
-<p class="hint">Un tag par aile. L'URL générée est celle à encoder sur le tag physique. La position du tag s'enregistre automatiquement au premier scan précis effectué sur place (calibration) ; « Recalibrer » la vide si le tag est déplacé.</p>
+<p class="hint">Un tag par aile. L'URL générée est celle à encoder sur le tag physique. La position s'enregistre en scannant le tag sur place avec un téléphone connecté à l'application ; « Recalibrer » la vide si le tag est déplacé.</p>
 
 <div class="search">
   <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.7"/></svg>
@@ -39,7 +39,7 @@
             <svg *ngIf="copied !== t.id" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 15V4h11" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
             <svg *ngIf="copied === t.id" viewBox="0 0 24 24"><path d="M5 13l4 4 10-11" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
           </button>
-          <button class="iconbtn" title="Recalibrer (le prochain scan sur place redéfinit la position)"
+          <button class="iconbtn" title="Recalibrer (scannez le tag sur place avec un téléphone connecté)"
                   *ngIf="t.latitude != null" (click)="recalibrate(t)">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="currentColor" stroke-width="1.6"/></svg>
           </button>
