@@ -148,7 +148,7 @@ export class TagsComponent implements OnInit {
 
   recalibrate(t: Tag): void {
     if (!confirm(`Recalibrer le tag « ${this.wingLabel(t.wingId)} » ?\n` +
-        `Sa position sera réenregistrée au prochain scan précis effectué sur place.`)) { return; }
+      `Sa position sera réenregistrée en scannant le tag sur place avec un téléphone connecté.`)) { return; }
     this.tagService.update(t.id, t.wingId, null, null).subscribe({
       next: () => this.reload(),
       error: (e) => this.fail(e)

@@ -79,8 +79,8 @@
           <option *ngFor="let w of availableWings" [ngValue]="w.id">{{ wingLabel(w.id) }}</option>
         </select>
       </div>
-      <p class="modalnote">La position GPS n'est pas à encoder : elle sera enregistrée
-        automatiquement au premier scan précis effectué sur place.</p>
+      <p class="modalnote">La position GPS n'est pas à encoder ici : scannez le tag
+        sur place avec un téléphone connecté à l'application.</p>
     </div>
     <div class="mfoot">
       <button class="btn ghost" (click)="close()">Annuler</button>

@@ -44,6 +44,11 @@ public class TagService {
         }
         existing.setLatitude(tag.getLatitude());
         existing.setLongitude(tag.getLongitude());
+
+        if (tag.getLatitude() == null) {
+            existing.setCalibratedAt(null);
+        }
+
         existing.setWing(tag.getWing());
         return this.tagRepository.save(existing);
     }
