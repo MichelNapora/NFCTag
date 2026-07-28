@@ -3,7 +3,10 @@
     <div class="eyebrow">Vue d'ensemble</div>
     <h2>Interventions</h2>
   </div>
-  <button class="btn ghost" (click)="reload()">Actualiser</button>
+  <div>
+    <button class="btn ghost" (click)="exportCsv()">Exporter</button>
+    <button class="btn ghost" (click)="reload()">Actualiser</button>
+  </div>
 </div>
 
 <div *ngIf="error" class="banner error">{{ error }}</div>

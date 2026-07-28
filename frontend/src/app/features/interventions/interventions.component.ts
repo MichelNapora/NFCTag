@@ -7,6 +7,7 @@ import { formatDuration } from '../../common/utils/duration-formatter';
 import { LOCATION_LABEL } from '../../common/utils/location-status';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
+import {csvDate, csvToday, downloadCsv} from '../../common/utils/csv-export';
 
 
 type Filter = 'all' | 'ongoing' | 'done' | 'estimated' | 'suspect';
@@ -112,4 +113,27 @@ export class InterventionsComponent implements OnInit {
       error: (e) => { this.error = errorMessage(e, 'Suppression impossible.'); }
     });
   }
+  /** Exporte les lignes actuellement affichées (filtres compris). */
+  exportCsv(): void {
+    const header = ['Technicien', 'Mobile', 'Société', 'Bâtiment', 'Aile',
+      'Arrivée', 'Départ', 'Durée (min)', 'Estimé',
+      'Statut localisation', 'Distance (m)'];
+
+    const rows = this.filtered.map(p => [
+      p.technicianName,
+      p.mobile,
+      p.businessName,
+      p.buildingName,
+      p.wingName,
+      csvDate(p.arrivedAt),
+      csvDate(p.departedAt),
+      p.durationMinutes != null ? String(p.durationMinutes) : '',
+      p.estimated ? 'Oui' : 'Non',
+      this.locationLabel(p),
+      p.distanceMeters != null ? String(Math.round(p.distanceMeters)) : ''
+    ]);
+
+    downloadCsv(`interventions-${csvToday()}.csv`, header, rows);
+  }
+
 }
