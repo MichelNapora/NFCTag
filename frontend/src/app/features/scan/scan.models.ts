@@ -1,3 +1,5 @@
+import { LocationStatus } from '../../common/location-status';
+
 /** Ce que le front envoie au back lors d'un scan (ScanRequestDTO). */
 export interface ScanRequest {
   deviceToken: string | null;   // null au 1er scan sur ce navigateur
@@ -20,6 +22,8 @@ export interface ScanResponse {
   arrivedAt: string;
   departedAt: string | null;
   locationVerified: boolean;
+  locationStatus: LocationStatus;
+  distanceMeters: number | null;
   action: 'ARRIVAL' | 'DEPARTURE';
 }
 

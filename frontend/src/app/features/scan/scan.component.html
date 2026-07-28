@@ -74,10 +74,19 @@
       <div class="time">{{ (isArrival ? r.arrivedAt : r.departedAt) | date:'HH:mm' }}</div>
       <div class="date">{{ (isArrival ? r.arrivedAt : r.departedAt) | date:'EEEE d MMMM' }}</div>
       <p class="hint" *ngIf="isArrival">Rescannez le tag en partant pour enregistrer votre départ.</p>
-      <div class="warn" *ngIf="!r.locationVerified">
+      <div class="warn" *ngIf="r.locationStatus === 'TOO_FAR'">
         <svg viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3zM12 10v5M12 17.5v.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
-        Position non vérifiée — GPS refusé, imprécis ou trop éloigné du tag.
+        Vous êtes à {{ r.distanceMeters | number:'1.0-0' }} m du tag — ce passage sera signalé.
       </div>
+      <p class="hint" *ngIf="r.locationStatus === 'NO_GPS'">
+        Position non relevée (localisation refusée ou indisponible).
+      </p>
+      <p class="hint" *ngIf="r.locationStatus === 'IMPRECISE'">
+        Position trop imprécise pour être confirmée — fréquent en intérieur.
+      </p>
+      <p class="hint" *ngIf="r.locationStatus === 'TAG_NOT_CALIBRATED'">
+        Ce tag n'a pas encore de position enregistrée.
+      </p>
     </div>
   </ng-container>
 </div>
