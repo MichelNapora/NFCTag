@@ -24,37 +24,42 @@
 <div class="tablewrap">
   <table>
     <thead>
-      <tr>
-        <th>Technicien</th><th>Société</th><th>Bâtiment / Aile</th>
-        <th>Arrivée</th><th>Départ</th><th>Durée</th><th>État</th>
-      </tr>
+    <tr>
+      <th>Technicien</th><th>Société</th><th>Bâtiment / Aile</th>
+      <th>Arrivée</th><th>Départ</th><th>Durée</th><th>État</th><th></th>
+    </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let p of filtered">
-        <td>{{ p.technicianName }}<div class="sub">{{ p.mobile }}</div></td>
-        <td>{{ p.businessName }}</td>
-        <td>{{ p.buildingName }}<div class="sub">{{ p.wingName }}</div></td>
-        <td class="num">{{ p.arrivedAt | date:'dd/MM HH:mm' }}</td>
-        <td class="num">{{ p.departedAt ? (p.departedAt | date:'dd/MM HH:mm') : '—' }}</td>
-        <td class="num">{{ duration(p.durationMinutes) }}</td>
-        <td>
-          <span class="st fill" *ngIf="isOngoing(p)">En cours</span>
-          <span class="st gray" *ngIf="p.estimated">Estimé</span>
-          <span class="st" *ngIf="!isOngoing(p) && !p.estimated">Terminé</span>
-          <span class="st"
-                [class.alert]="p.locationStatus === 'TOO_FAR'"
-                [class.gray]="p.locationStatus !== 'TOO_FAR' && p.locationStatus !== 'VERIFIED'">
+    <tr *ngFor="let p of filtered">
+      <td>{{ p.technicianName }}<div class="sub">{{ p.mobile }}</div></td>
+      <td>{{ p.businessName }}</td>
+      <td>{{ p.buildingName }}<div class="sub">{{ p.wingName }}</div></td>
+      <td class="num">{{ p.arrivedAt | date:'dd/MM HH:mm' }}</td>
+      <td class="num">{{ p.departedAt ? (p.departedAt | date:'dd/MM HH:mm') : '—' }}</td>
+      <td class="num">{{ duration(p.durationMinutes) }}</td>
+      <td>
+        <span class="st fill" *ngIf="isOngoing(p)">En cours</span>
+        <span class="st gray" *ngIf="p.estimated">Estimé</span>
+        <span class="st" *ngIf="!isOngoing(p) && !p.estimated">Terminé</span>
+        <span class="st"
+              [class.alert]="p.locationStatus === 'TOO_FAR'"
+              [class.gray]="p.locationStatus !== 'TOO_FAR' && p.locationStatus !== 'VERIFIED'">
             {{ locationLabel(p) }}
           </span>
-          <span class="sub" *ngIf="p.distanceMeters != null">à {{ p.distanceMeters | number:'1.0-0' }} m</span>
-        </td>
-      </tr>
-      <tr *ngIf="!loading && filtered.length === 0">
-        <td colspan="7" class="muted">Aucune intervention ne correspond.</td>
-      </tr>
-      <tr *ngIf="loading">
-        <td colspan="7" class="muted">Chargement…</td>
-      </tr>
+        <span class="sub" *ngIf="p.distanceMeters != null">à {{ p.distanceMeters | number:'1.0-0' }} m</span>
+      </td>
+      <td class="actions">
+        <button class="iconbtn danger" title="Supprimer" *ngIf="auth.isAdmin" (click)="remove(p)">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6M14 11v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="!loading && filtered.length === 0">
+      <td colspan="8" class="muted">Aucune intervention ne correspond.</td>
+    </tr>
+    <tr *ngIf="loading">
+      <td colspan="8" class="muted">Chargement…</td>
+    </tr>
     </tbody>
   </table>
 </div>
