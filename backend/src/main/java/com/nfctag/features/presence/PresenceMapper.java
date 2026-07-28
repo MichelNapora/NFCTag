@@ -25,5 +25,16 @@ public class PresenceMapper {
               presence.getDistanceMeters()
       );
   }
+    public TechnicianStatsDTO toDto(TechnicianStats s){
+        return new TechnicianStatsDTO(
+                s.technicianId(),
+                s.technicianName(),
+                s.businessName(),
+                s.totalScans(),
+                s.locatedScans(),
+                s.tooFarScans(),
+                s.locatedRate()
+        );
+    }
 
 }

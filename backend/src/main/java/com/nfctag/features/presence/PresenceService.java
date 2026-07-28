@@ -38,19 +38,19 @@ public class PresenceService {
     }
 
     /** Fiabilité de localisation par technicien : détecte ceux qui coupent leur GPS. */
-    public List<TechnicianStatsDTO> statsByTechnician(){
+    public List<TechnicianStats> statsByTechnician(){
         Map<UUID, List<Presence>> byTechnician = this.presenceRepository.findAll().stream()
                 .collect(Collectors.groupingBy(p -> p.getTechnician().getId()));
 
         return byTechnician.values().stream()
                 .map(this::buildStats)
                 .sorted(Comparator.comparing(
-                        TechnicianStatsDTO::getLocatedRate,
+                        TechnicianStats::locatedRate,
                         Comparator.nullsLast(Comparator.naturalOrder())))
                 .toList();
     }
 
-    private TechnicianStatsDTO buildStats(List<Presence> presences){
+    private TechnicianStats buildStats(List<Presence> presences){
         Technician technician = presences.get(0).getTechnician();
 
         // Les tags non calibrés ne sont pas de la faute du technicien : hors calcul.
@@ -72,7 +72,7 @@ public class PresenceService {
                 ? null
                 : (int) Math.round(100.0 * located / measurable.size());
 
-        return new TechnicianStatsDTO(
+        return new TechnicianStats(
                 technician.getId(),
                 technician.getFirstname() + " " + technician.getLastname(),
                 technician.getBusiness().getName(),

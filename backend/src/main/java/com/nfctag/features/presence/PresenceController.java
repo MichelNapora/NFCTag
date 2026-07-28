@@ -21,10 +21,14 @@ public class PresenceController {
     public List<PresenceDTO> findAll() {
         return this.presenceService.findAll().stream().map(presenceMapper::toDto).toList();
     }
+    
     @GetMapping("/presences/technician-stats")
     public List<TechnicianStatsDTO> statsByTechnician() {
-        return this.presenceService.statsByTechnician();
+        return this.presenceService.statsByTechnician().stream()
+                .map(presenceMapper::toDto)
+                .toList();
     }
+
     @DeleteMapping("/presences/{id}")
     public void delete(@PathVariable UUID id) {
         this.presenceService.delete(id);
