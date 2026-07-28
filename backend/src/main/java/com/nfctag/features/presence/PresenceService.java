@@ -1,10 +1,15 @@
 package com.nfctag.features.presence;
 
+import com.nfctag.features.scan.LocationStatus;
+import com.nfctag.features.technician.Technician;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class PresenceService {
@@ -30,5 +35,51 @@ public class PresenceService {
 
     public List<Presence> findByTagId(UUID tagId) {
         return this.presenceRepository.findByTagId(tagId);
+    }
+
+    /** Fiabilité de localisation par technicien : détecte ceux qui coupent leur GPS. */
+    public List<TechnicianStatsDTO> statsByTechnician(){
+        Map<UUID, List<Presence>> byTechnician = this.presenceRepository.findAll().stream()
+                .collect(Collectors.groupingBy(p -> p.getTechnician().getId()));
+
+        return byTechnician.values().stream()
+                .map(this::buildStats)
+                .sorted(Comparator.comparing(
+                        TechnicianStatsDTO::getLocatedRate,
+                        Comparator.nullsLast(Comparator.naturalOrder())))
+                .toList();
+    }
+
+    private TechnicianStatsDTO buildStats(List<Presence> presences){
+        Technician technician = presences.get(0).getTechnician();
+
+        // Les tags non calibrés ne sont pas de la faute du technicien : hors calcul.
+        List<Presence> measurable = presences.stream()
+                .filter(p -> p.getLocationStatus() != null
+                        && p.getLocationStatus() != LocationStatus.TAG_NOT_CALIBRATED)
+                .toList();
+
+        long located = measurable.stream()
+                .filter(p -> p.getLocationStatus() == LocationStatus.VERIFIED
+                        || p.getLocationStatus() == LocationStatus.TOO_FAR)
+                .count();
+
+        long tooFar = measurable.stream()
+                .filter(p -> p.getLocationStatus() == LocationStatus.TOO_FAR)
+                .count();
+
+        Integer rate = measurable.isEmpty()
+                ? null
+                : (int) Math.round(100.0 * located / measurable.size());
+
+        return new TechnicianStatsDTO(
+                technician.getId(),
+                technician.getFirstname() + " " + technician.getLastname(),
+                technician.getBusiness().getName(),
+                presences.size(),
+                located,
+                tooFar,
+                rate
+        );
     }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PresenceService } from '../presences/presence.service';
-import { PresenceView } from '../presences/presence.models';
+import { PresenceView, TechnicianStats } from '../presences/presence.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
 import { LOCATION_LABEL } from '../../common/utils/location-status';
 
@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit {
   ongoing = 0;
   estimated = 0;
   unverified = 0;
+
+  stats: TechnicianStats[] = [];
 
   constructor(private presenceService: PresenceService) {}
 
@@ -49,6 +51,10 @@ export class DashboardComponent implements OnInit {
       },
       error: () => { this.error = 'Impossible de charger les interventions.'; this.loading = false; }
     });
+    this.presenceService.technicianStats().subscribe({
+      next: (list) => { this.stats = list; },
+      error: () => { /* le tableau reste vide, pas bloquant */ }
+    });
   }
 
   isOngoing(p: PresenceView): boolean {
@@ -61,6 +67,11 @@ export class DashboardComponent implements OnInit {
 
   locationLabel(p: PresenceView): string {
     return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : 'Non renseigné';
+  }
+
+  /** Un taux bas signale un technicien scanne sans GPS. */
+  isLowRate(s: TechnicianStats): boolean {
+    return s.locatedRate != null && s.locatedRate < 50;
   }
 
 }

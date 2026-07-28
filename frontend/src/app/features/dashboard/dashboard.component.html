@@ -74,3 +74,32 @@
     </tbody>
   </table>
 </div>
+<div class="sectionlbl">Fiabilité de localisation par technicien</div>
+<div class="tablewrap">
+  <table>
+    <thead>
+    <tr>
+      <th>Technicien</th><th>Société</th><th>Scans</th>
+      <th>Localisés</th><th>Anomalies</th><th>Taux</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let s of stats">
+      <td>{{ s.technicianName }}</td>
+      <td>{{ s.businessName }}</td>
+      <td class="num">{{ s.totalScans }}</td>
+      <td class="num">{{ s.locatedScans }}</td>
+      <td class="num">{{ s.tooFarScans || '—' }}</td>
+      <td class="num">
+          <span class="st" [class.alert]="isLowRate(s)" *ngIf="s.locatedRate != null">
+            {{ s.locatedRate }} %
+          </span>
+        <span class="st gray" *ngIf="s.locatedRate == null">—</span>
+      </td>
+    </tr>
+    <tr *ngIf="stats.length === 0">
+      <td colspan="6" class="muted">Aucune donnée.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

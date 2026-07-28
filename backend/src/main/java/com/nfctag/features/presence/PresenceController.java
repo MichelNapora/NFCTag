@@ -18,4 +18,8 @@ public class PresenceController {
     public List<PresenceDTO> findAll() {
         return this.presenceService.findAll().stream().map(presenceMapper::toDto).toList();
     }
+    @GetMapping("/presences/technician-stats")
+    public List<TechnicianStatsDTO> statsByTechnician() {
+        return this.presenceService.statsByTechnician();
+    }
 }
