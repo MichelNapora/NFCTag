@@ -41,7 +41,8 @@ public class TagController {
 
     @PostMapping("/tags/calibrate/{scanToken}")
     public TagDTO calibrate(@PathVariable UUID scanToken, @Valid @RequestBody TagPositionDTO position){
-        Tag calibrated = this.tagService.calibrate(scanToken, position);
+        Tag calibrated = this.tagService.calibrate(scanToken,
+                position.getLatitude(), position.getLongitude(), position.getAccuracy());
         return this.tagMapper.toDto(calibrated);
     }
 

@@ -2,6 +2,7 @@ package com.nfctag.features.presence;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.nfctag.features.scan.LocationStatus;
 import com.nfctag.features.tag.Tag;
 import com.nfctag.features.technician.Technician;
 import jakarta.persistence.*;
@@ -37,11 +38,20 @@ public class Presence {
 
     private boolean locationVerified;
 
-    public Presence(Technician technician,Tag tag, OffsetDateTime arrivedAt, boolean locationVerified){
+    @Enumerated(EnumType.STRING)
+    private LocationStatus locationStatus;
+
+    /** Distance mesurée entre le téléphone et le tag, si calculable. */
+    private Double distanceMeters;
+
+    public Presence(Technician technician, Tag tag, OffsetDateTime arrivedAt,
+                    LocationStatus locationStatus, Double distanceMeters){
         this.technician=technician;
         this.tag=tag;
         this.arrivedAt=arrivedAt;
-        this.locationVerified=locationVerified;
+        this.locationStatus=locationStatus;
+        this.distanceMeters=distanceMeters;
+        this.locationVerified = locationStatus == LocationStatus.VERIFIED;
     }
 
     public Presence(){}
@@ -72,6 +82,14 @@ public class Presence {
 
     public boolean isLocationVerified(){
         return this.locationVerified;
+    }
+
+    public LocationStatus getLocationStatus(){
+        return this.locationStatus;
+    }
+
+    public Double getDistanceMeters(){
+        return this.distanceMeters;
     }
 
     public void setDepartedAt(OffsetDateTime departedAt){

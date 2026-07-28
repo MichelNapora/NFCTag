@@ -12,9 +12,14 @@ public class ScanResponseDTO {
     private OffsetDateTime arrivedAt;
     private OffsetDateTime departedAt;
     private boolean locationVerified;
+    private LocationStatus locationStatus;
+    private Double distanceMeters;
     private ScanAction action;
 
-    public ScanResponseDTO(UUID deviceToken, String technicianName, String buildingName, String wingName, OffsetDateTime arrivedAt, OffsetDateTime departedAt, boolean locationVerified, ScanAction action){
+    public ScanResponseDTO(UUID deviceToken, String technicianName, String buildingName, String wingName,
+                           OffsetDateTime arrivedAt, OffsetDateTime departedAt,
+                           boolean locationVerified, LocationStatus locationStatus, Double distanceMeters,
+                           ScanAction action){
         this.deviceToken=deviceToken;
         this.technicianName=technicianName;
         this.buildingName=buildingName;
@@ -22,6 +27,8 @@ public class ScanResponseDTO {
         this.arrivedAt=arrivedAt;
         this.departedAt=departedAt;
         this.locationVerified=locationVerified;
+        this.locationStatus=locationStatus;
+        this.distanceMeters=distanceMeters;
         this.action=action;
     }
 
@@ -53,6 +60,14 @@ public class ScanResponseDTO {
 
     public boolean isLocationVerified(){
         return this.locationVerified;
+    }
+
+    public LocationStatus getLocationStatus(){
+        return this.locationStatus;
+    }
+
+    public Double getDistanceMeters(){
+        return this.distanceMeters;
     }
 
     public ScanAction getAction(){

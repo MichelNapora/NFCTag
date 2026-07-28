@@ -53,21 +53,22 @@ public class TagService {
         return this.tagRepository.save(existing);
     }
 
-    public Tag calibrate(UUID scanToken, TagPositionDTO position){
+    public Tag calibrate(UUID scanToken, Double latitude, Double longitude, Double accuracy){
         Tag tag = this.tagRepository.findByScanToken(scanToken)
                 .orElseThrow(() -> new TagNotFoundException("Tag not found : " + scanToken));
 
-        if (position.getAccuracy() > maxAccuracyMeters) {
+        if (accuracy > maxAccuracyMeters) {
             throw new InsufficientAccuracyException(
-                    "GPS accuracy is inaccurate (" + Math.round(position.getAccuracy())
-                            + " m). Go outside and try again please");
+                    "GPS accuracy is too low (" + Math.round(accuracy)
+                            + " m). Go outside and try again.");
         }
 
-        tag.setLatitude(position.getLatitude());
-        tag.setLongitude(position.getLongitude());
+        tag.setLatitude(latitude);
+        tag.setLongitude(longitude);
         tag.setCalibratedAt(OffsetDateTime.now());
         return this.tagRepository.save(tag);
     }
+
 
     public void delete(UUID id){
         this.findById(id);

@@ -44,7 +44,7 @@ public class ScanService {
 
         Technician technician = resolveTechnician(request);
 
-        final boolean locationVerified = isLocationVerified(tag, request);
+        final LocationCheck location = checkLocation(tag, request);
 
         Optional<Presence> open = presenceRepository.findByTechnicianIdAndTagIdAndDepartedAtIsNull(technician.getId(), tag.getId());
 
@@ -56,7 +56,8 @@ public class ScanService {
             presence.setDepartedAt(OffsetDateTime.now());
             action = ScanAction.DEPARTURE;
         } else {
-            presence = new Presence(technician, tag, OffsetDateTime.now(), locationVerified);
+            presence = new Presence(technician, tag, OffsetDateTime.now(),
+                    location.getStatus(), location.getDistanceMeters());
             action = ScanAction.ARRIVAL;
         }
 
@@ -69,7 +70,9 @@ public class ScanService {
                 tag.getWing().getName(),
                 presence.getArrivedAt(),
                 presence.getDepartedAt(),
-                locationVerified,
+                location.isVerified(),
+                location.getStatus(),
+                location.getDistanceMeters(),
                 action
         );
     }
@@ -108,21 +111,26 @@ public class ScanService {
         return value == null || value.isBlank();
     }
 
-    private boolean isLocationVerified(Tag tag, ScanRequestDTO request){
+    private LocationCheck checkLocation(Tag tag, ScanRequestDTO request){
 
         if (tag.getLatitude() == null || tag.getLongitude() == null) {
-            return false;
+            return new LocationCheck(LocationStatus.TAG_NOT_CALIBRATED, null);
         }
         if (request.getLatitude() == null || request.getLongitude() == null) {
-            return false;
+            return new LocationCheck(LocationStatus.NO_GPS, null);
         }
         if (request.getAccuracy() == null || request.getAccuracy() > maxAccuracyMeters) {
-            return false;
+            return new LocationCheck(LocationStatus.IMPRECISE, null);
         }
+
         double distance = geoDistanceCalculator.meters(
                 tag.getLatitude(), tag.getLongitude(),
                 request.getLatitude(), request.getLongitude()
         );
-        return distance <= proximityMeters;
+
+        return new LocationCheck(
+                distance <= proximityMeters ? LocationStatus.VERIFIED : LocationStatus.TOO_FAR,
+                distance
+        );
     }
 }
