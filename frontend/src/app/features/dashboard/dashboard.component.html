@@ -57,7 +57,12 @@
           <span class="st fill" *ngIf="isOngoing(p)">En cours</span>
           <span class="st gray" *ngIf="p.estimated">Estimé</span>
           <span class="st" *ngIf="!isOngoing(p) && !p.estimated">Terminé</span>
-          <span class="st alert" *ngIf="!p.locationVerified">Position non vérifiée</span>
+          <span class="st"
+                [class.alert]="p.locationStatus === 'TOO_FAR'"
+                [class.gray]="p.locationStatus !== 'TOO_FAR' && p.locationStatus !== 'VERIFIED'">
+            {{ locationLabel(p) }}
+          </span>
+          <span class="sub" *ngIf="p.distanceMeters != null">à {{ p.distanceMeters | number:'1.0-0' }} m</span>
         </td>
       </tr>
       <tr *ngIf="!loading && recent.length === 0">

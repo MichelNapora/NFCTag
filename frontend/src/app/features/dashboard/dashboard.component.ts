@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit {
   duration(minutes: number | null): string {
     return formatDuration(minutes);
   }
-  
+
   locationLabel(p: PresenceView): string {
     return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : 'Non renseigné';
   }
