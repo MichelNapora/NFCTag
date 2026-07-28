@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PresenceService } from '../presences/presence.service';
 import { PresenceView } from '../presences/presence.models';
-import { formatDuration } from '../../common/duration-formatter';
+import { formatDuration } from '../../common/utils/duration-formatter';
 
 type Filter = 'all' | 'ongoing' | 'done' | 'estimated' | 'unverified';
 

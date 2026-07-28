@@ -9,7 +9,7 @@ import { BuildingService } from '../buildings/building.service';
 import { Building } from '../buildings/building.models';
 import { CountsService } from '../../common/shell/counts.service';
 import { AuthService } from '../../common/auth/auth.service';
-import { errorMessage } from '../../common/http-error';
+import { errorMessage } from '../../common/utils/http-error';
 import * as QRCode from 'qrcode';
 
 interface TagForm {

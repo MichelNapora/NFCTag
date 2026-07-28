@@ -1,4 +1,4 @@
-import { LocationStatus } from '../../common/location-status';
+import { LocationStatus } from '../../common/utils/location-status';
 
 /** Ce que le front envoie au back lors d'un scan (ScanRequestDTO). */
 export interface ScanRequest {

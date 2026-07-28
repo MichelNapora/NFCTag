@@ -5,7 +5,7 @@ import { BusinessService } from './business.service';
 import { Business } from './business.models';
 import { CountsService } from '../../common/shell/counts.service';
 import { AuthService } from '../../common/auth/auth.service';
-import { errorMessage } from '../../common/http-error';
+import { errorMessage } from '../../common/utils/http-error';
 
 interface BusinessForm {
   id: string | null;

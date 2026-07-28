@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PresenceService } from '../presences/presence.service';
 import { PresenceView } from '../presences/presence.models';
-import { formatDuration } from '../../common/duration-formatter';
+import { formatDuration } from '../../common/utils/duration-formatter';
 
 @Component({
   selector: 'app-dashboard',

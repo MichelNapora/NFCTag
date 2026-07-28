@@ -9,7 +9,7 @@ import { TagService } from '../tags/tag.service';
 import { Tag } from '../tags/tag.models';
 import { CountsService } from '../../common/shell/counts.service';
 import { AuthService } from '../../common/auth/auth.service';
-import { errorMessage } from '../../common/http-error';
+import { errorMessage } from '../../common/utils/http-error';
 
 interface WingForm {
   id: string | null;

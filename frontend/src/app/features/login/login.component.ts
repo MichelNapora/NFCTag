@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../common/auth/auth.service';
-import { errorMessage } from '../../common/http-error';
+import { errorMessage } from '../../common/utils/http-error';
 
 @Component({
   selector: 'app-login',

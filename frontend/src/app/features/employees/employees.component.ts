@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { EmployeeService } from './employee.service';
 import { Employee } from './employee.models';
 import { AuthService } from '../../common/auth/auth.service';
-import { errorMessage } from '../../common/http-error';
+import { errorMessage } from '../../common/utils/http-error';
 
 interface EmployeeForm {
   id: string | null;
