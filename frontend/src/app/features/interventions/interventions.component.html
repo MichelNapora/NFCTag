@@ -12,6 +12,10 @@
   <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.7"/></svg>
   <input [(ngModel)]="query" placeholder="Rechercher par technicien, société, bâtiment…">
 </div>
+<div class="chips">
+  <button class="chip" [class.on]="year === null" (click)="setYear(null)">Toutes les années</button>
+  <button class="chip" *ngFor="let y of years" [class.on]="year === y" (click)="setYear(y)">{{ y }}</button>
+</div>
 
 <div class="chips">
   <button class="chip" [class.on]="filter === 'all'" (click)="setFilter('all')"><b>{{ count('all') }}</b> Tout</button>

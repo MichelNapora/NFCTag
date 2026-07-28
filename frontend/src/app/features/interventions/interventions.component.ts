@@ -25,6 +25,7 @@ export class InterventionsComponent implements OnInit {
   all: PresenceView[] = [];
   query = '';
   filter: Filter = 'all';
+  year: string | null = null;   // null = toutes les années
 
   constructor(
     private presenceService: PresenceService,
@@ -71,12 +72,28 @@ export class InterventionsComponent implements OnInit {
     );
   }
 
+  /** Années présentes dans les données, les plus récentes d'abord. */
+  get years(): string[] {
+    const set = new Set(this.all.map(p => p.arrivedAt.substring(0, 4)));
+    return [...set].sort((a, b) => b.localeCompare(a));
+  }
+
+  setYear(year: string | null): void {
+    this.year = year;
+  }
+
+  /** l'année sélectionnée ou tout. */
+  private get inYear(): PresenceView[] {
+    return this.year ? this.all.filter(p => p.arrivedAt.startsWith(this.year!)) : this.all;
+  }
+
   private byFilter(filter: Filter): PresenceView[] {
-    if (filter === 'ongoing') { return this.all.filter(p => this.isOngoing(p)); }
-    if (filter === 'done') { return this.all.filter(p => !this.isOngoing(p) && !p.estimated); }
-    if (filter === 'estimated') { return this.all.filter(p => p.estimated); }
-    if (filter === 'suspect') { return this.all.filter(p => p.locationStatus === 'TOO_FAR'); }
-    return this.all;
+    const base = this.inYear;
+    if (filter === 'ongoing') { return base.filter(p => this.isOngoing(p)); }
+    if (filter === 'done') { return base.filter(p => !this.isOngoing(p) && !p.estimated); }
+    if (filter === 'estimated') { return base.filter(p => p.estimated); }
+    if (filter === 'suspect') { return base.filter(p => p.locationStatus === 'TOO_FAR'); }
+    return base;
   }
 
   duration(minutes: number | null): string {
