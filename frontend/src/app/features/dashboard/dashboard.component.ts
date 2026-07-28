@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PresenceService } from '../presences/presence.service';
 import { PresenceView } from '../presences/presence.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
+import { LOCATION_LABEL } from '../../common/utils/location-status';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,7 +41,7 @@ export class DashboardComponent implements OnInit {
         this.totalMinutes = list.reduce((sum, p) => sum + (p.durationMinutes ?? 0), 0);
         this.ongoing = list.filter(p => p.departedAt === null).length;
         this.estimated = list.filter(p => p.estimated).length;
-        this.unverified = list.filter(p => !p.locationVerified).length;
+        this.unverified = list.filter(p => p.locationStatus === 'TOO_FAR').length;
         this.recent = [...list]
           .sort((a, b) => b.arrivedAt.localeCompare(a.arrivedAt))
           .slice(0, 8);
@@ -57,4 +58,9 @@ export class DashboardComponent implements OnInit {
   duration(minutes: number | null): string {
     return formatDuration(minutes);
   }
+  
+  locationLabel(p: PresenceView): string {
+    return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : 'Non renseigné';
+  }
+
 }

@@ -5,3 +5,4 @@ export type LocationStatus =
   | 'NO_GPS'
   | 'IMPRECISE'
   | 'TAG_NOT_CALIBRATED';
+

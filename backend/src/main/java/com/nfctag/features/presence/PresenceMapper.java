@@ -20,7 +20,9 @@ public class PresenceMapper {
               presence.getDepartedAt(),
               durationCalculator.compute(presence),
               presence.isEstimated(),
-              presence.isLocationVerified()
+              presence.isLocationVerified(),
+              presence.getLocationStatus(),
+              presence.getDistanceMeters()
       );
   }
 

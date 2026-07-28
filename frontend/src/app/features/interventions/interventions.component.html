@@ -18,7 +18,7 @@
   <button class="chip" [class.on]="filter === 'ongoing'" (click)="setFilter('ongoing')"><b>{{ count('ongoing') }}</b> En cours</button>
   <button class="chip" [class.on]="filter === 'done'" (click)="setFilter('done')"><b>{{ count('done') }}</b> Terminées</button>
   <button class="chip" [class.on]="filter === 'estimated'" (click)="setFilter('estimated')"><b>{{ count('estimated') }}</b> Estimées</button>
-  <button class="chip" [class.on]="filter === 'unverified'" (click)="setFilter('unverified')"><b>{{ count('unverified') }}</b> Position non vérifiée</button>
+  <button class="chip" [class.on]="filter === 'suspect'" (click)="setFilter('suspect')"><b>{{ count('suspect') }}</b> Anomalies</button>
 </div>
 
 <div class="tablewrap">
@@ -41,7 +41,8 @@
           <span class="st fill" *ngIf="isOngoing(p)">En cours</span>
           <span class="st gray" *ngIf="p.estimated">Estimé</span>
           <span class="st" *ngIf="!isOngoing(p) && !p.estimated">Terminé</span>
-          <span class="st alert" *ngIf="!p.locationVerified">Position non vérifiée</span>
+          <span [class]="locationClass(p)">{{ locationLabel(p) }}</span>
+          <span class="sub" *ngIf="p.distanceMeters != null">à {{ p.distanceMeters | number:'1.0-0' }} m</span>
         </td>
       </tr>
       <tr *ngIf="!loading && filtered.length === 0">

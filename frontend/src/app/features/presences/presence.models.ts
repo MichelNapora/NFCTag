@@ -1,3 +1,5 @@
+import { LocationStatus } from '../../common/utils/location-status';
+
 /** Une intervention (PresenceDTO du back). */
 export interface PresenceView {
   id: string;
@@ -11,4 +13,6 @@ export interface PresenceView {
   durationMinutes: number | null;
   estimated: boolean;
   locationVerified: boolean;
+  locationStatus: LocationStatus | null;
+  distanceMeters: number | null;
 }

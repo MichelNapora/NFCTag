@@ -1,6 +1,7 @@
 package com.nfctag.features.presence;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nfctag.features.scan.LocationStatus;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -9,23 +10,22 @@ public class PresenceDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UUID id;
-
     private String technicianName;
     private String mobile;
     private String businessName;
     private String buildingName;
     private String wingName;
-
     private OffsetDateTime arrivedAt;
     private OffsetDateTime departedAt;
     private Long durationMinutes;
-
     private boolean estimated;
     private boolean locationVerified;
+    private LocationStatus locationStatus;
+    private Double distanceMeters;
 
     public PresenceDTO() {}
 
-    public PresenceDTO(UUID id, String technicianName, String mobile, String businessName, String buildingName, String wingName, OffsetDateTime arrivedAt, OffsetDateTime departedAt, Long durationMinutes, boolean estimated, boolean locationVerified) {
+    public PresenceDTO(UUID id, String technicianName, String mobile, String businessName, String buildingName, String wingName, OffsetDateTime arrivedAt, OffsetDateTime departedAt, Long durationMinutes, boolean estimated, boolean locationVerified, LocationStatus locationStatus, Double distanceMeters) {
         this.id = id;
         this.technicianName = technicianName;
         this.mobile = mobile;
@@ -37,6 +37,8 @@ public class PresenceDTO {
         this.durationMinutes = durationMinutes;
         this.estimated = estimated;
         this.locationVerified = locationVerified;
+        this.locationStatus = locationStatus;
+        this.distanceMeters = distanceMeters;
     }
 
     public UUID getId() {
@@ -83,4 +85,11 @@ public class PresenceDTO {
         return locationVerified;
     }
 
+    public LocationStatus getLocationStatus() {
+        return this.locationStatus;
+    }
+
+    public Double getDistanceMeters() {
+        return this.distanceMeters;
+    }
 }

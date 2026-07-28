@@ -4,8 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { PresenceService } from '../presences/presence.service';
 import { PresenceView } from '../presences/presence.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
+import { LOCATION_LABEL } from '../../common/utils/location-status';
 
-type Filter = 'all' | 'ongoing' | 'done' | 'estimated' | 'unverified';
+type Filter = 'all' | 'ongoing' | 'done' | 'estimated' | 'suspect';
 
 @Component({
   selector: 'app-interventions',
@@ -68,11 +69,15 @@ export class InterventionsComponent implements OnInit {
     if (filter === 'ongoing') { return this.all.filter(p => this.isOngoing(p)); }
     if (filter === 'done') { return this.all.filter(p => !this.isOngoing(p) && !p.estimated); }
     if (filter === 'estimated') { return this.all.filter(p => p.estimated); }
-    if (filter === 'unverified') { return this.all.filter(p => !p.locationVerified); }
+    if (filter === 'suspect') { return this.all.filter(p => p.locationStatus === 'TOO_FAR'); }
     return this.all;
   }
 
   duration(minutes: number | null): string {
     return formatDuration(minutes);
+  }
+
+  locationLabel(p: PresenceView): string {
+    return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : 'Non renseigné';
   }
 }
