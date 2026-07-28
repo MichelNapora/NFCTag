@@ -82,4 +82,11 @@ public class PresenceService {
                 rate
         );
     }
+    public void delete(UUID id){
+        if (!this.presenceRepository.existsById(id)) {
+            throw new PresenceNotFoundException("Presence not found : " + id);
+        }
+        this.presenceRepository.deleteById(id);
+    }
+
 }

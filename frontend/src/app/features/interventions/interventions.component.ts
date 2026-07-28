@@ -5,6 +5,9 @@ import { PresenceService } from '../presences/presence.service';
 import { PresenceView } from '../presences/presence.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
 import { LOCATION_LABEL } from '../../common/utils/location-status';
+import { AuthService } from '../../common/auth/auth.service';
+import { errorMessage } from '../../common/utils/http-error';
+
 
 type Filter = 'all' | 'ongoing' | 'done' | 'estimated' | 'suspect';
 
@@ -23,7 +26,10 @@ export class InterventionsComponent implements OnInit {
   query = '';
   filter: Filter = 'all';
 
-  constructor(private presenceService: PresenceService) {}
+  constructor(
+    private presenceService: PresenceService,
+    public auth: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.reload();
@@ -79,5 +85,14 @@ export class InterventionsComponent implements OnInit {
 
   locationLabel(p: PresenceView): string {
     return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : 'Non renseigné';
+  }
+
+  remove(p: PresenceView): void {
+    const quand = new Date(p.arrivedAt).toLocaleString('fr-BE');
+    if (!confirm(`Supprimer l'intervention de ${p.technicianName} du ${quand} ?\nCette suppression est définitive.`)) { return; }
+    this.presenceService.delete(p.id).subscribe({
+      next: () => this.reload(),
+      error: (e) => { this.error = errorMessage(e, 'Suppression impossible.'); }
+    });
   }
 }

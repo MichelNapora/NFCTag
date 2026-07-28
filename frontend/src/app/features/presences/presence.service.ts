@@ -12,7 +12,12 @@ export class PresenceService {
   findAll(): Observable<PresenceView[]> {
     return this.http.get<PresenceView[]>('/api/presences');
   }
+
   technicianStats(): Observable<TechnicianStats[]> {
     return this.http.get<TechnicianStats[]>('/api/presences/technician-stats');
+  }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/presences/${id}`);
   }
 }

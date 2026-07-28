@@ -7,6 +7,7 @@ import com.nfctag.features.business.BusinessAlreadyExistsException;
 import com.nfctag.features.business.BusinessNotFoundException;
 import com.nfctag.features.employee.EmployeeAlreadyExistsException;
 import com.nfctag.features.employee.EmployeeNotFoundException;
+import com.nfctag.features.presence.PresenceNotFoundException;
 import com.nfctag.features.scan.InvalidScanException;
 import com.nfctag.features.tag.InsufficientAccuracyException;
 import com.nfctag.features.tag.TagAlreadyExistsException;
@@ -38,7 +39,8 @@ public class GlobalExceptionHandler {
             BusinessNotFoundException.class,
             TechnicianNotFoundException.class,
             TagNotFoundException.class,
-            EmployeeNotFoundException.class
+            EmployeeNotFoundException.class,
+            PresenceNotFoundException.class
     })
     public ResponseEntity<String> handleNotFound(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
