@@ -12,13 +12,16 @@ import java.util.UUID;
 public class ScanController {
 
     private final ScanService scanService;
+    private final ScanMapper scanMapper;
 
-    public ScanController(ScanService scanService){
+    public ScanController(ScanService scanService, ScanMapper scanMapper){
         this.scanService=scanService;
+        this.scanMapper=scanMapper;
     }
 
     @PostMapping("/scan/{scanToken}")
     public ScanResponseDTO scan(@PathVariable UUID scanToken, @Valid @RequestBody ScanRequestDTO request){
-        return scanService.scan(scanToken, request);
+        ScanResult result = scanService.scan(scanToken, scanMapper.toCommand(request));
+        return scanMapper.toDto(result);
     }
 }
