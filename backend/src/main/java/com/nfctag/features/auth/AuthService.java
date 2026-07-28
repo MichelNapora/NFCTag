@@ -28,11 +28,11 @@ public class AuthService {
     private final HttpSessionSecurityContextRepository securityContextRepository =
             new HttpSessionSecurityContextRepository();
 
-    public Employee login(LoginDTO dto, HttpServletRequest request, HttpServletResponse response){
-        Employee employee = this.employeeRepository.findByEmail(dto.getEmail())
+    public Employee login(Credentials credentials, HttpServletRequest request, HttpServletResponse response){
+        Employee employee = this.employeeRepository.findByEmail(credentials.email())
                 .orElseThrow(() -> new InvalidCredentialsException("Email or password not correct"));
 
-        if (!this.passwordEncoder.matches(dto.getPassword(), employee.getPasswordHash())) {
+        if (!this.passwordEncoder.matches(credentials.password(), employee.getPasswordHash())) {
             throw new InvalidCredentialsException("Email or password not correct");
         }
 

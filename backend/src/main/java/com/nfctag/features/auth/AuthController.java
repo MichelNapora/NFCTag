@@ -16,12 +16,16 @@ public class AuthController {
     private AuthService authService;
 
     @Autowired
+    private AuthMapper authMapper;
+
+    @Autowired
     private EmployeeMapper employeeMapper;
 
     @PostMapping("/auth/login")
     public EmployeeDTO login(@Valid @RequestBody LoginDTO dto,
                              HttpServletRequest request, HttpServletResponse response){
-        return this.employeeMapper.toDto(this.authService.login(dto, request, response));
+        return this.employeeMapper.toDto(
+                this.authService.login(this.authMapper.toCredentials(dto), request, response));
     }
 
     @PostMapping("/auth/logout")
