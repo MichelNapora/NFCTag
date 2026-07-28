@@ -38,13 +38,13 @@ public class ScanService {
     @Value("${nfctag.max-accuracy-meters}") private double maxAccuracyMeters;
 
     @Transactional
-    public ScanResponseDTO scan(UUID scanToken, ScanRequestDTO request){
+    public ScanResult scan(UUID scanToken, ScanCommand command){
 
         Tag tag = tagRepository.findByScanToken(scanToken).orElseThrow(() -> new TagNotFoundException("Tag not found"));
 
-        Technician technician = resolveTechnician(request);
+        Technician technician = resolveTechnician(command);
 
-        final LocationCheck location = checkLocation(tag, request);
+        final LocationCheck location = checkLocation(tag, command);
 
         Optional<Presence> open = presenceRepository.findByTechnicianIdAndTagIdAndDepartedAtIsNull(technician.getId(), tag.getId());
 
@@ -63,45 +63,34 @@ public class ScanService {
 
         presenceRepository.save(presence);
 
-        return new ScanResponseDTO(
-                technician.getDeviceToken(),
-                technician.getFirstname() + " " + technician.getLastname(),
-                tag.getWing().getBuilding().getName(),
-                tag.getWing().getName(),
-                presence.getArrivedAt(),
-                presence.getDepartedAt(),
-                location.isVerified(),
-                location.getStatus(),
-                location.getDistanceMeters(),
-                action
-        );
+        return new ScanResult(technician, tag, presence, location, action);
     }
 
-    private Technician resolveTechnician(ScanRequestDTO request){
-        if (request.getDeviceToken() != null) {
-            return technicianRepository.findByDeviceToken(request.getDeviceToken())
+    private Technician resolveTechnician(ScanCommand command){
+        if (command.deviceToken() != null) {
+            return technicianRepository.findByDeviceToken(command.deviceToken())
                     .orElseThrow(() -> new TechnicianNotFoundException("Token not found"));
         }
 
-        if (request.getMobile() != null) {
-            Optional<Technician> existing = technicianRepository.findByMobile(request.getMobile());
+        if (command.mobile() != null) {
+            Optional<Technician> existing = technicianRepository.findByMobile(command.mobile());
             if (existing.isPresent()) {
                 return existing.get();
             }
         }
 
-        if (isBlank(request.getFirstname()) || isBlank(request.getLastname())
-                || isBlank(request.getMobile()) || request.getBusinessId() == null) {
+        if (isBlank(command.firstname()) || isBlank(command.lastname())
+                || isBlank(command.mobile()) || command.businessId() == null) {
             throw new InvalidScanException("The first scan needs firstname, lastname, mobile and business");
         }
 
-        Business business = businessRepository.findById(request.getBusinessId())
+        Business business = businessRepository.findById(command.businessId())
                 .orElseThrow(() -> new BusinessNotFoundException("Business not found"));
 
         Technician technician = new Technician(
-                request.getFirstname(),
-                request.getLastname(),
-                request.getMobile(),
+                command.firstname(),
+                command.lastname(),
+                command.mobile(),
                 business
         );
         return technicianRepository.save(technician);
@@ -111,21 +100,21 @@ public class ScanService {
         return value == null || value.isBlank();
     }
 
-    private LocationCheck checkLocation(Tag tag, ScanRequestDTO request){
+    private LocationCheck checkLocation(Tag tag, ScanCommand command){
 
         if (tag.getLatitude() == null || tag.getLongitude() == null) {
             return new LocationCheck(LocationStatus.TAG_NOT_CALIBRATED, null);
         }
-        if (request.getLatitude() == null || request.getLongitude() == null) {
+        if (command.latitude() == null || command.longitude() == null) {
             return new LocationCheck(LocationStatus.NO_GPS, null);
         }
-        if (request.getAccuracy() == null || request.getAccuracy() > maxAccuracyMeters) {
+        if (command.accuracy() == null || command.accuracy() > maxAccuracyMeters) {
             return new LocationCheck(LocationStatus.IMPRECISE, null);
         }
 
         double distance = geoDistanceCalculator.meters(
                 tag.getLatitude(), tag.getLongitude(),
-                request.getLatitude(), request.getLongitude()
+                command.latitude(), command.longitude()
         );
 
         return new LocationCheck(
