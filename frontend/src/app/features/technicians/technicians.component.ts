@@ -95,9 +95,9 @@ export class TechniciansComponent implements OnInit {
   }
 
   save(): void {
-    if (!this.canSave || this.saving || !this.form.id) { return; }
-    this.saving = true;
     const f = this.form;
+    if (!this.canSave || this.saving || !f.id) { return; }
+    this.saving = true;
 
     this.technicianService.update(f.id, f.firstname.trim(), f.lastname.trim(), f.mobile.trim(), f.businessId!)
       .subscribe({
