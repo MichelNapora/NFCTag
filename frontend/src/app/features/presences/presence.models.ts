@@ -1,4 +1,4 @@
-import { LocationModel } from '../location/location.model';
+import { LocationModels } from '../location/location.models';
 
 /** Une intervention (PresenceDTO du back). */
 export interface PresenceView {
@@ -13,7 +13,7 @@ export interface PresenceView {
   durationMinutes: number | null;
   estimated: boolean;
   locationVerified: boolean;
-  locationStatus: LocationModel | null;
+  locationStatus: LocationModels | null;
   distanceMeters: number | null;
 }
 

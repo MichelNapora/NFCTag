@@ -1,5 +1,5 @@
-/** Statut de localisation d'un scan (LocationModel du back). */
-export type LocationModel =
+/** Statut de localisation d'un scan (LocationStatus du back). */
+export type LocationModels =
   | 'VERIFIED'
   | 'TOO_FAR'
   | 'NO_GPS'
@@ -7,7 +7,7 @@ export type LocationModel =
   | 'TAG_NOT_CALIBRATED';
 
 /** Libellé français par statut, pour le back-office. */
-export const LOCATION_LABEL: Record<LocationModel, string> = {
+export const LOCATION_LABEL: Record<LocationModels, string> = {
   VERIFIED: 'Position vérifiée',
   TOO_FAR: 'Trop loin du tag',
   NO_GPS: 'Sans GPS',
