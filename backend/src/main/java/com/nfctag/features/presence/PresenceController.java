@@ -1,5 +1,6 @@
 package com.nfctag.features.presence;
 
+import com.nfctag.features.stats.TechnicianStatsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

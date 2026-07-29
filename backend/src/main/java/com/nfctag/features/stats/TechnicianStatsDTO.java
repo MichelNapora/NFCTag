@@ -1,4 +1,4 @@
-package com.nfctag.features.presence;
+package com.nfctag.features.stats;
 
 import java.util.UUID;
 
