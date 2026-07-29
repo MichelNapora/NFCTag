@@ -5,6 +5,7 @@ import { StatsService } from '../stats/stats.service';
 import { TechnicianStats } from '../stats/stats.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
 import { LOCATION_LABEL } from '../location/location.models';
+import {PresenceView} from '../presences/presence.models';
 
 @Component({
   selector: 'app-dashboard',
@@ -55,7 +56,7 @@ export class DashboardComponent implements OnInit {
       },
       error: () => { this.error = 'Impossible de charger les interventions.'; this.loading = false; }
     });
-    this.presenceService.technicianStats().subscribe({
+    this.statsService.byTechnician().subscribe({
       next: (list) => { this.stats = list; },
       error: () => { /* le tableau reste vide, pas bloquant */ }
     });
