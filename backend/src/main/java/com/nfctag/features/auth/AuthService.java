@@ -44,7 +44,9 @@ public class AuthService {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);
-        request.changeSessionId();
+        if (request.getSession(false) != null) {
+            request.changeSessionId();
+        }
         this.securityContextRepository.saveContext(context, request, response);
 
         return employee;
