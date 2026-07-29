@@ -31,6 +31,7 @@ export class ShellComponent implements OnInit {
   }
 
   logout(): void {
+    if (!confirm('Se déconnecter ?')) { return; }
     this.auth.logout().subscribe({
       next: () => this.router.navigate(['/login']),
       error: () => { this.auth.clear(); this.router.navigate(['/login']); }

@@ -30,7 +30,7 @@ public class ForgottenPresenceCloser {
 
         for (Presence presence : openPresences) {
             LocalDate arrivalDay = presence.getArrivedAt().atZoneSameInstant(zone).toLocalDate();
-            
+
             if (arrivalDay.isBefore(today)) {
                 presence.setDepartedAt(presence.getArrivedAt().plusMinutes(estimatedDurationMinutes));
                 presence.setEstimated(true);
