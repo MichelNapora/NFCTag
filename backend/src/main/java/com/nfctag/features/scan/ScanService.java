@@ -75,7 +75,9 @@ public class ScanService {
         if (command.mobile() != null) {
             Optional<Technician> existing = technicianRepository.findByMobile(command.mobile());
             if (existing.isPresent()) {
-                return existing.get();
+                Technician technician = existing.get();
+                updateBusinessIfChanged(technician, command.businessId());
+                return technicianRepository.save(technician);
             }
         }
 
@@ -121,5 +123,16 @@ public class ScanService {
                 distance <= proximityMeters ? LocationStatus.VERIFIED : LocationStatus.TOO_FAR,
                 distance
         );
+    }
+    
+    private void updateBusinessIfChanged(Technician technician, UUID businessId){
+        if (businessId == null || businessId.equals(technician.getBusiness().getId())) {
+            return;
+        }
+
+        Business business = businessRepository.findById(businessId)
+                .orElseThrow(() -> new BusinessNotFoundException("Business not found"));
+
+        technician.setBusiness(business);
     }
 }
