@@ -1,7 +1,5 @@
 package com.nfctag.features.presence;
 
-import com.nfctag.features.stats.TechnicianStats;
-import com.nfctag.features.stats.TechnicianStatsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PresenceService } from '../presences/presence.service';
-import { PresenceView, TechnicianStats } from '../presences/presence.models';
+import { StatsService } from '../stats/stats.service';
+import { TechnicianStats } from '../stats/stats.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
 import { LOCATION_LABEL } from '../location/location.models';
 
@@ -27,7 +28,10 @@ export class DashboardComponent implements OnInit {
 
   stats: TechnicianStats[] = [];
 
-  constructor(private presenceService: PresenceService) {}
+  constructor(
+    private presenceService: PresenceService,
+    private statsService: StatsService
+  ) {}
 
   ngOnInit(): void {
     this.reload();
