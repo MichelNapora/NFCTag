@@ -31,6 +31,7 @@ server:
 
 nfctag:
   estimated-duration-minutes: 60
+  timezone: Europe/Brussels
   public-base-url: ${PUBLIC_BASE_URL:http://localhost:4200}
   proximity-meters: 200
   max-accuracy-meters: 50
