@@ -75,9 +75,7 @@ public class ScanService {
         if (command.mobile() != null) {
             Optional<Technician> existing = technicianRepository.findByMobile(command.mobile());
             if (existing.isPresent()) {
-                Technician technician = existing.get();
-                updateBusinessIfChanged(technician, command.businessId());
-                return technicianRepository.save(technician);
+                return existing.get();
             }
         }
 
@@ -124,7 +122,6 @@ public class ScanService {
                 distance
         );
     }
-
     private void updateBusinessIfChanged(Technician technician, UUID businessId){
         if (businessId == null || businessId.equals(technician.getBusiness().getId())) {
             return;
@@ -135,4 +132,5 @@ public class ScanService {
 
         technician.setBusiness(business);
     }
+
 }
