@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TechnicianStats } from './stats.models';
 
-/** Statistiques du back-office. */
 @Injectable({ providedIn: 'root' })
 export class StatsService {
 
