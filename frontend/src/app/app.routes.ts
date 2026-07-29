@@ -13,9 +13,9 @@ import { EmployeesComponent } from './features/employees/employees.component';
 import { ProfileComponent } from './features/profile/profile.component';
 import { authGuard } from './common/auth/auth.guard';
 import { adminGuard } from './common/auth/admin.guard';
+import { TechniciansComponent } from './features/technicians/technicians.component';
 
 export const routes: Routes = [
-  // URL inscrite sur le tag NFC : /scan/<scan_token> — publique, sans barre latérale
   { path: 'scan/:token', component: ScanComponent },
 
   // Page de connexion — publique
@@ -35,6 +35,7 @@ export const routes: Routes = [
       { path: 'ailes', component: WingsComponent },
       { path: 'tags', component: TagsComponent },
       { path: 'societes', component: BusinessesComponent },
+      { path: 'techniciens', component: TechniciansComponent },
       { path: 'profil', component: ProfileComponent },
       // Réservé aux administrateurs
       { path: 'utilisateurs', component: EmployeesComponent, canActivate: [adminGuard] },

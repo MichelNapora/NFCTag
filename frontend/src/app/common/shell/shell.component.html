@@ -43,6 +43,11 @@
         <span class="badge">{{ counts.businesses }}</span>
       </a>
 
+      <a routerLink="/techniciens" routerLinkActive="active">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c1.2-3.4 3.8-5 7-5s5.8 1.6 7 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        Techniciens
+      </a>
+
       <ng-container *ngIf="auth.isAdmin">
         <div class="group">Administration</div>
         <a routerLink="/utilisateurs" routerLinkActive="active">

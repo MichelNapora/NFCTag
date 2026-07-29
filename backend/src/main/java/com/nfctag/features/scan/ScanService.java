@@ -122,15 +122,4 @@ public class ScanService {
                 distance
         );
     }
-    private void updateBusinessIfChanged(Technician technician, UUID businessId){
-        if (businessId == null || businessId.equals(technician.getBusiness().getId())) {
-            return;
-        }
-
-        Business business = businessRepository.findById(businessId)
-                .orElseThrow(() -> new BusinessNotFoundException("Business not found"));
-
-        technician.setBusiness(business);
-    }
-
 }
