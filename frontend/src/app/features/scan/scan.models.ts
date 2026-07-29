@@ -1,4 +1,4 @@
-import { LocationStatus } from '../../common/utils/location-status';
+import { LocationModel } from '../location/location.model';
 
 /** Ce que le front envoie au back lors d'un scan (ScanRequestDTO). */
 export interface ScanRequest {
@@ -22,7 +22,7 @@ export interface ScanResponse {
   arrivedAt: string;
   departedAt: string | null;
   locationVerified: boolean;
-  locationStatus: LocationStatus;
+  locationStatus: LocationModel;
   distanceMeters: number | null;
   action: 'ARRIVAL' | 'DEPARTURE';
 }

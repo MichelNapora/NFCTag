@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PresenceService } from '../presences/presence.service';
 import { PresenceView, TechnicianStats } from '../presences/presence.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
-import { LOCATION_LABEL } from '../../common/utils/location-status';
+import { LOCATION_LABEL } from '../location/location.model';
 
 @Component({
   selector: 'app-dashboard',
