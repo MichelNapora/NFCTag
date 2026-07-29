@@ -1,5 +1,6 @@
 package com.nfctag.features.scan;
 
+import com.nfctag.features.location.LocationCheck;
 import com.nfctag.features.presence.Presence;
 import com.nfctag.features.tag.Tag;
 import com.nfctag.features.technician.Technician;

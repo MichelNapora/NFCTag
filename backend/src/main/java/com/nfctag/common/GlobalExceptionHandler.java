@@ -9,7 +9,7 @@ import com.nfctag.features.employee.EmployeeAlreadyExistsException;
 import com.nfctag.features.employee.EmployeeNotFoundException;
 import com.nfctag.features.presence.PresenceNotFoundException;
 import com.nfctag.features.scan.InvalidScanException;
-import com.nfctag.features.tag.InsufficientAccuracyException;
+import com.nfctag.features.location.InsufficientAccuracyException;
 import com.nfctag.features.tag.TagAlreadyExistsException;
 import com.nfctag.features.tag.TagNotFoundException;
 import com.nfctag.features.technician.TechnicianAlreadyExistsException;
@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.nfctag.features.auth.InvalidCredentialsException;
 import com.nfctag.features.employee.EmployeePasswordRequiredException;
-import com.nfctag.features.tag.InsufficientAccuracyException;
 
 import java.util.HashMap;
 import java.util.Map;

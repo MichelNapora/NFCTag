@@ -1,4 +1,4 @@
-package com.nfctag.features.scan;
+package com.nfctag.features.location;
 
 import org.springframework.stereotype.Component;
 

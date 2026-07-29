@@ -1,5 +1,7 @@
 package com.nfctag.features.scan;
 
+import com.nfctag.features.location.LocationStatus;
+
 import java.time.OffsetDateTime;
 import java.util.UUID;
 

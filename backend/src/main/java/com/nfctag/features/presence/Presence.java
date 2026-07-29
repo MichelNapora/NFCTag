@@ -2,7 +2,7 @@ package com.nfctag.features.presence;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.nfctag.features.scan.LocationStatus;
+import com.nfctag.features.location.LocationStatus;
 import com.nfctag.features.tag.Tag;
 import com.nfctag.features.technician.Technician;
 import jakarta.persistence.*;

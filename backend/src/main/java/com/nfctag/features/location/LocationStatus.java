@@ -1,4 +1,4 @@
-package com.nfctag.features.scan;
+package com.nfctag.features.location;
 
 public enum LocationStatus {
     /** GPS fiable et à portée du tag : passage confirmé. */

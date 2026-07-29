@@ -1,6 +1,6 @@
 package com.nfctag.features.presence;
 
-import com.nfctag.features.scan.LocationStatus;
+import com.nfctag.features.location.LocationStatus;
 import com.nfctag.features.technician.Technician;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
