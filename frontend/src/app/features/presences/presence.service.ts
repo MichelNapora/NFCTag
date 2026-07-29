@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TechnicianStats } from './stats.models';
+import { PresenceView } from './presence.models';
 
-/** Statistiques du back-office. */
+/** Consultation des interventions. */
 @Injectable({ providedIn: 'root' })
-export class StatsService {
+export class PresenceService {
 
   constructor(private http: HttpClient) {}
 
-  byTechnician(): Observable<TechnicianStats[]> {
-    return this.http.get<TechnicianStats[]>('/api/stats/technicians');
+  findAll(): Observable<PresenceView[]> {
+    return this.http.get<PresenceView[]>('/api/presences');
+  }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/presences/${id}`);
   }
 }
