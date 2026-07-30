@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PresenceService } from '../presences/presence.service';
+import { FormsModule } from '@angular/forms';
 import { StatsService } from '../stats/stats.service';
 import { TechnicianStats, BusinessStats } from '../stats/stats.models';
+import { PresenceView } from '../presences/presence.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
 import { LOCATION_LABEL } from '../location/location.models';
-import {PresenceView} from '../presences/presence.models';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,24 +18,20 @@ export class DashboardComponent implements OnInit {
 
   loading = true;
   error: string | null = null;
-  presences: PresenceView[] = [];
-  recent: PresenceView[] = [];
 
+  // Compteurs et dernières interventions, calculés par le serveur
   totalPassages = 0;
   totalMinutes = 0;
   ongoing = 0;
   estimated = 0;
   unverified = 0;
+  recent: PresenceView[] = [];
 
   stats: TechnicianStats[] = [];
-
   businessStats: BusinessStats[] = [];
   statsQuery = '';
 
-  constructor(
-    private presenceService: PresenceService,
-    private statsService: StatsService
-  ) {}
+  constructor(private statsService: StatsService) {}
 
   ngOnInit(): void {
     this.reload();
@@ -45,25 +40,25 @@ export class DashboardComponent implements OnInit {
   reload(): void {
     this.loading = true;
     this.error = null;
-    this.presenceService.findAll().subscribe({
-      next: (list) => {
-        this.presences = list;
-        this.totalPassages = list.length;
-        this.totalMinutes = list.reduce((sum, p) => sum + (p.durationMinutes ?? 0), 0);
-        this.ongoing = list.filter(p => p.departedAt === null).length;
-        this.estimated = list.filter(p => p.estimated).length;
-        this.unverified = list.filter(p => p.locationStatus === 'TOO_FAR').length;
-        this.recent = [...list]
-          .sort((a, b) => b.arrivedAt.localeCompare(a.arrivedAt))
-          .slice(0, 8);
+
+    this.statsService.dashboard().subscribe({
+      next: (d) => {
+        this.totalPassages = d.totalPassages;
+        this.totalMinutes = d.totalMinutes;
+        this.ongoing = d.ongoing;
+        this.estimated = d.estimated;
+        this.unverified = d.suspect;
+        this.recent = d.recent;
         this.loading = false;
       },
-      error: () => { this.error = 'Impossible de charger les interventions.'; this.loading = false; }
+      error: () => { this.error = 'Impossible de charger le tableau de bord.'; this.loading = false; }
     });
+
     this.statsService.byTechnician().subscribe({
       next: (list) => { this.stats = list; },
-      error: () => { /* le tableau reste vide, pas bloquant */ }
+      error: () => { /* pas bloquant */ }
     });
+
     this.statsService.byBusiness().subscribe({
       next: (list) => { this.businessStats = list; },
       error: () => { /* pas bloquant */ }
@@ -82,11 +77,6 @@ export class DashboardComponent implements OnInit {
     return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : 'Non renseigné';
   }
 
-  /** Un taux bas signale un technicien scanne sans GPS. */
-  isLowRate(s: TechnicianStats): boolean {
-    return s.locatedRate != null && s.locatedRate < 50;
-  }
-
   get filteredStats(): TechnicianStats[] {
     const q = this.statsQuery.trim().toLowerCase();
     return this.stats.filter(s => !q ||
@@ -99,8 +89,11 @@ export class DashboardComponent implements OnInit {
     return this.businessStats.filter(s => !q || s.businessName.toLowerCase().includes(q));
   }
 
-  isLowBusinessRate(s: BusinessStats): boolean {
+  isLowRate(s: TechnicianStats): boolean {
     return s.locatedRate != null && s.locatedRate < 50;
   }
 
+  isLowBusinessRate(s: BusinessStats): boolean {
+    return s.locatedRate != null && s.locatedRate < 50;
+  }
 }
