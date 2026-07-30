@@ -47,5 +47,9 @@ public class BuildingService {
         return this.buildingRepository.save(existing);
     }
 
+    public long count(){
+        return this.buildingRepository.count();
+    }
+
 
 }

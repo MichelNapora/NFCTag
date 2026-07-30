@@ -46,4 +46,8 @@ public class WingService {
         return this.wingRepository.findByBuildingId(buildingId);
     }
 
+    public long count(){
+        return this.wingRepository.count();
+    }
+
 }

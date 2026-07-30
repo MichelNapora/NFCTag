@@ -31,6 +31,11 @@ public class TechnicianController {
         return this.technicianMapper.toDto(worker);
     }
 
+    @GetMapping("/technicians/count")
+    public long count() {
+        return this.technicianService.count();
+    }
+
     @PostMapping("/technicians")
     public TechnicianDTO create(@Valid @RequestBody TechnicianDTO dto){
         Technician w = this.technicianMapper.toEntity(dto);

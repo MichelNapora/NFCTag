@@ -98,4 +98,8 @@ public class PresenceService {
         return this.presenceRepository.findAll(spec, Sort.by(Sort.Direction.DESC, "arrivedAt"));
     }
 
+    public long count(){
+        return this.presenceRepository.count();
+    }
+
 }

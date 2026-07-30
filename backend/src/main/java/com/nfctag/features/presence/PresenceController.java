@@ -56,6 +56,11 @@ public class PresenceController {
                 .toList();
     }
 
+    @GetMapping("/presences/count")
+    public long count() {
+        return this.presenceService.count();
+    }
+
     @DeleteMapping("/presences/{id}")
     public void delete(@PathVariable UUID id) {
         this.presenceService.delete(id);

@@ -25,6 +25,11 @@ public class BusinessController {
         return this.businessMapper.toDto(business);
     }
 
+    @GetMapping("/businesses/count")
+    public long count() {
+        return this.businessService.count();
+    }
+
     @PostMapping("/businesses")
     public BusinessDTO create(@Valid @RequestBody BusinessDTO dto){
         Business b = this.businessMapper.toEntity(dto);

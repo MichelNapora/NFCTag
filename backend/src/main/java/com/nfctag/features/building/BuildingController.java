@@ -25,6 +25,11 @@ public class BuildingController {
         return this.buildingMapper.toDto(building);
     }
 
+    @GetMapping("/buildings/count")
+    public long count() {
+        return this.buildingService.count();
+    }
+
     @PostMapping("/buildings")
     public BuildingDTO create(@Valid @RequestBody BuildingDTO dto){
         Building b = this.buildingMapper.toEntity(dto);

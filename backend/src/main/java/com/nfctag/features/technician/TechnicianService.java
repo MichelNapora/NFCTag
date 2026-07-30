@@ -60,4 +60,8 @@ public class TechnicianService {
         this.findById(id);
         this.technicianRepository.deleteById(id);
     }
+
+    public long count(){
+        return this.technicianRepository.count();
+    }
 }

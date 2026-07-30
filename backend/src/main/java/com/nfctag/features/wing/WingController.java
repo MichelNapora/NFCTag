@@ -32,6 +32,11 @@ public class WingController {
         return this.wingMapper.toDto(wing);
     }
 
+    @GetMapping("/wings/count")
+    public long count() {
+        return this.wingService.count();
+    }
+
     @PostMapping("/wings")
     public WingDTO create(@Valid @RequestBody WingDTO dto){
         Wing w = this.wingMapper.toEntity(dto);

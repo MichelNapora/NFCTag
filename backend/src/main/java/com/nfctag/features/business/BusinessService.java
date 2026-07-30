@@ -40,4 +40,8 @@ public class BusinessService {
         this.findById(id);
         this.businessRepository.deleteById(id);
     }
+
+    public long count(){
+        return this.businessRepository.count();
+    }
 }

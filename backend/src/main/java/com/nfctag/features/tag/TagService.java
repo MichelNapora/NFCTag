@@ -76,4 +76,8 @@ public class TagService {
         this.tagRepository.deleteById(id);
     }
 
+    public long count(){
+        return this.tagRepository.count();
+    }
+
 }

@@ -31,6 +31,10 @@ public class TagController {
         return this.tagMapper.toDto(tag);
     }
 
+    @GetMapping("/tags/count")
+    public long count() {
+        return this.tagService.count();
+    }
 
     @PostMapping("/tags")
     public TagDTO create(@Valid @RequestBody TagDTO dto){
