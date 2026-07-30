@@ -16,4 +16,16 @@ public class StatsMapper {
                 s.locatedRate()
         );
     }
+
+    public BusinessStatsDTO toDto(BusinessStats s){
+        return new BusinessStatsDTO(
+                s.businessId(),
+                s.businessName(),
+                s.technicianCount(),
+                s.totalScans(),
+                s.locatedScans(),
+                s.tooFarScans(),
+                s.locatedRate()
+        );
+    }
 }

@@ -1,5 +1,6 @@
 package com.nfctag.features.stats;
 
+import com.nfctag.features.business.Business;
 import com.nfctag.features.location.LocationStatus;
 import com.nfctag.features.presence.Presence;
 import com.nfctag.features.presence.PresenceRepository;
@@ -46,7 +47,38 @@ public class StatsService {
                 counters.rate()
         );
     }
+    /** Même fiabilité, agrégée par société. */
+    public List<BusinessStats> byBusiness(){
+        Map<UUID, List<Presence>> byBusiness = this.presenceRepository.findAll().stream()
+                .collect(Collectors.groupingBy(p -> p.getTechnician().getBusiness().getId()));
 
+        return byBusiness.values().stream()
+                .map(this::buildBusinessStats)
+                .sorted(Comparator.comparing(
+                        BusinessStats::locatedRate,
+                        Comparator.nullsLast(Comparator.naturalOrder())))
+                .toList();
+    }
+
+    private BusinessStats buildBusinessStats(List<Presence> presences){
+        Business business = presences.get(0).getTechnician().getBusiness();
+        LocationCounters counters = countLocation(presences);
+
+        long technicians = presences.stream()
+                .map(p -> p.getTechnician().getId())
+                .distinct()
+                .count();
+
+        return new BusinessStats(
+                business.getId(),
+                business.getName(),
+                technicians,
+                presences.size(),
+                counters.located(),
+                counters.tooFar(),
+                counters.rate()
+        );
+    }
     /** Compteurs de fiabilité, communs aux différentes statistiques. */
     private LocationCounters countLocation(List<Presence> presences){
         // Les tags non calibrés ne sont pas de la faute du technicien : hors calcul.

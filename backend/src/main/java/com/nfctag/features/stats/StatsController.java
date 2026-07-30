@@ -21,4 +21,11 @@ public class StatsController {
                 .map(statsMapper::toDto)
                 .toList();
     }
+
+    @GetMapping("/stats/businesses")
+    public List<BusinessStatsDTO> byBusiness() {
+        return this.statsService.byBusiness().stream()
+                .map(statsMapper::toDto)
+                .toList();
+    }
 }
