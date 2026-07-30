@@ -19,3 +19,15 @@ export interface BusinessStats {
   tooFarScans: number;
   locatedRate: number | null;
 }
+
+import { PresenceView } from '../presences/presence.models';
+
+/** Indicateurs du tableau de bord (DashboardStatsDTO du back). */
+export interface DashboardStats {
+  totalPassages: number;
+  totalMinutes: number;
+  ongoing: number;
+  estimated: number;
+  suspect: number;
+  recent: PresenceView[];
+}
