@@ -1,0 +1,17 @@
+<div class="modal-back" *ngIf="open" (click)="cancelled.emit()">
+  <div class="modal" role="dialog" (click)="$event.stopPropagation()">
+    <div class="mhead">
+      <h3>{{ title }}</h3>
+      <button class="iconbtn" title="Fermer" (click)="cancelled.emit()">
+        <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19" stroke="currentColor" stroke-width="1.7"/></svg>
+      </button>
+    </div>
+    <div class="mbody">
+      <p>{{ message }}</p>
+    </div>
+    <div class="mfoot">
+      <button class="btn ghost" (click)="cancelled.emit()">Annuler</button>
+      <button class="btn" [class.danger]="danger" (click)="confirmed.emit()">{{ confirmLabel }}</button>
+    </div>
+  </div>
+</div>

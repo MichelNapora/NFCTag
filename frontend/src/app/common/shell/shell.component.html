@@ -78,3 +78,12 @@
     <router-outlet></router-outlet>
   </main>
 </div>
+
+<app-confirm
+  [open]="logoutOpen"
+  title="Se déconnecter"
+  message="Voulez-vous continuer ?"
+  confirmLabel="Se déconnecter"
+  (confirmed)="confirmLogout()"
+  (cancelled)="cancelLogout()">
+</app-confirm>
