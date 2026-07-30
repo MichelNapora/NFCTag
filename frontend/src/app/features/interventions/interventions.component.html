@@ -4,7 +4,9 @@
     <h2>Interventions</h2>
   </div>
   <div>
-    <button class="btn ghost" (click)="exportCsv()">Exporter</button>
+    <button class="btn ghost" [disabled]="exporting" (click)="exportCsv()">
+      {{ exporting ? 'Export…' : 'Exporter' }}
+    </button>
     <button class="btn ghost" (click)="reload()">Actualiser</button>
   </div>
 </div>
@@ -13,11 +15,13 @@
 
 <div class="search">
   <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.7"/></svg>
-  <input [(ngModel)]="query" placeholder="Rechercher par technicien, société, bâtiment…">
+  <input [(ngModel)]="query" (ngModelChange)="onQueryChange()"
+         placeholder="Rechercher par technicien, société, bâtiment…">
 </div>
+
 <div class="chips">
   <button class="chip" [class.on]="year === null" (click)="setYear(null)">Toutes les années</button>
-  <button class="chip" *ngFor="let y of years" [class.on]="year === y" (click)="setYear(y)">{{ y }}</button>
+  <button class="chip" *ngFor="let y of meta.years" [class.on]="year === y" (click)="setYear(y)">{{ y }}</button>
 </div>
 
 <div class="chips">
@@ -37,7 +41,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let p of filtered">
+    <tr *ngFor="let p of rows">
       <td>{{ p.technicianName }}<div class="sub">{{ p.mobile }}</div></td>
       <td>{{ p.businessName }}</td>
       <td>{{ p.buildingName }}<div class="sub">{{ p.wingName }}</div></td>
@@ -61,7 +65,7 @@
         </button>
       </td>
     </tr>
-    <tr *ngIf="!loading && filtered.length === 0">
+    <tr *ngIf="!loading && rows.length === 0">
       <td colspan="8" class="muted">Aucune intervention ne correspond.</td>
     </tr>
     <tr *ngIf="loading">
@@ -70,3 +74,12 @@
     </tbody>
   </table>
 </div>
+
+<!-- Navigation entre les pages -->
+<div class="chips" *ngIf="totalPages > 1">
+  <button class="chip" [disabled]="!canPrevious" (click)="goToPage(page - 1)">‹ Précédente</button>
+  <span class="hint">Page {{ page + 1 }} sur {{ totalPages }} — {{ totalElements }} intervention(s)</span>
+  <button class="chip" [disabled]="!canNext" (click)="goToPage(page + 1)">Suivante ›</button>
+</div>
+
+<p class="hint" *ngIf="totalPages <= 1 && !loading">{{ totalElements }} intervention(s)</p>
