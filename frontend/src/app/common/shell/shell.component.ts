@@ -15,7 +15,7 @@ import { AuthService } from '../auth/auth.service';
 })
 export class ShellComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-  counts: Counts = { presences: 0, buildings: 0, wings: 0, tags: 0, businesses: 0 };
+  counts: Counts = { presences: 0, buildings: 0, wings: 0, tags: 0, businesses: 0, technicians:0 };
 
   constructor(
     private countsService: CountsService,
