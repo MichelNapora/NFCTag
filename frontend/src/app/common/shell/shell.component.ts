@@ -46,17 +46,4 @@ export class ShellComponent implements OnInit {
       });
     });
   }
-
-  cancelLogout(): void {
-    this.logoutOpen = false;
-  }
-
-  /** Déconnexion réellement confirmée. */
-  confirmLogout(): void {
-    this.logoutOpen = false;
-    this.auth.logout().subscribe({
-      next: () => this.router.navigate(['/login']),
-      error: () => { this.auth.clear(); this.router.navigate(['/login']); }
-    });
-  }
 }
