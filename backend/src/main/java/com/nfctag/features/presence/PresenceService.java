@@ -67,4 +67,30 @@ public class PresenceService {
         this.presenceRepository.deleteById(id);
     }
 
+    /** Compteurs des pastilles et années disponibles, pour l'année et la recherche en cours. */
+    public SearchMetaDTO searchMeta(Integer year, String query){
+        Specification<Presence> base = Specification
+                .where(PresenceSpecifications.inYear(year, ZoneId.of(timezone)))
+                .and(PresenceSpecifications.matching(query));
+
+        return new SearchMetaDTO(
+                this.presenceRepository.findDistinctYears(),
+                this.presenceRepository.count(base),
+                this.presenceRepository.count(base.and(PresenceSpecifications.withState("ongoing"))),
+                this.presenceRepository.count(base.and(PresenceSpecifications.withState("done"))),
+                this.presenceRepository.count(base.and(PresenceSpecifications.withState("estimated"))),
+                this.presenceRepository.count(base.and(PresenceSpecifications.withState("suspect")))
+        );
+    }
+
+    /** Toutes les lignes correspondant aux filtres, sans pagination — pour l'export. */
+    public List<Presence> searchAll(Integer year, String state, String query){
+        Specification<Presence> spec = Specification
+                .where(PresenceSpecifications.inYear(year, ZoneId.of(timezone)))
+                .and(PresenceSpecifications.withState(state))
+                .and(PresenceSpecifications.matching(query));
+
+        return this.presenceRepository.findAll(spec, Sort.by(Sort.Direction.DESC, "arrivedAt"));
+    }
+
 }

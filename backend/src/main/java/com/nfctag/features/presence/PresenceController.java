@@ -2,8 +2,6 @@ package com.nfctag.features.presence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedModel;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +33,24 @@ public class PresenceController {
 
         return new PagedModel<>(result.map(presenceMapper::toDto));
     }
+
+    @GetMapping("/presences/search-meta")
+    public SearchMetaDTO searchMeta(
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) String query) {
+        return this.presenceService.searchMeta(year, query);
+    }
+
+    @GetMapping("/presences/export")
+    public List<PresenceDTO> export(
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) String state,
+            @RequestParam(required = false) String query) {
+        return this.presenceService.searchAll(year, state, query).stream()
+                .map(presenceMapper::toDto)
+                .toList();
+    }
+    
     @DeleteMapping("/presences/{id}")
     public void delete(@PathVariable UUID id) {
         this.presenceService.delete(id);
