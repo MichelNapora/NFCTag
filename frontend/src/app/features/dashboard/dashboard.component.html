@@ -74,6 +74,14 @@
     </tbody>
   </table>
 </div>
+</div>
+
+<div class="search">
+  <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.7"/></svg>
+  <input [(ngModel)]="statsQuery" placeholder="Filtrer par technicien ou société…">
+</div>
+
+<div class="sectionlbl">Fiabilité de localisation par technicien</div>
 <div class="sectionlbl">Fiabilité de localisation par technicien</div>
 <div class="tablewrap">
   <table>
@@ -84,7 +92,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let s of stats">
+    <tr *ngFor="let s of filteredStats">
       <td>{{ s.technicianName }}</td>
       <td>{{ s.businessName }}</td>
       <td class="num">{{ s.totalScans }}</td>
@@ -97,7 +105,37 @@
         <span class="st gray" *ngIf="s.locatedRate == null">—</span>
       </td>
     </tr>
-    <tr *ngIf="stats.length === 0">
+    <tr *ngIf="filteredStats.length === 0">
+      <td colspan="6" class="muted">Aucune donnée.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sectionlbl">Fiabilité de localisation par société</div>
+<div class="tablewrap">
+  <table>
+    <thead>
+    <tr>
+      <th>Société</th><th>Techniciens</th><th>Scans</th>
+      <th>Localisés</th><th>Anomalies</th><th>Taux</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let s of filteredBusinessStats">
+      <td>{{ s.businessName }}</td>
+      <td class="num">{{ s.technicianCount }}</td>
+      <td class="num">{{ s.totalScans }}</td>
+      <td class="num">{{ s.locatedScans }}</td>
+      <td class="num">{{ s.tooFarScans || '—' }}</td>
+      <td class="num">
+          <span class="st" [class.alert]="isLowBusinessRate(s)" *ngIf="s.locatedRate != null">
+            {{ s.locatedRate }} %
+          </span>
+        <span class="st gray" *ngIf="s.locatedRate == null">—</span>
+      </td>
+    </tr>
+    <tr *ngIf="filteredBusinessStats.length === 0">
       <td colspan="6" class="muted">Aucune donnée.</td>
     </tr>
     </tbody>

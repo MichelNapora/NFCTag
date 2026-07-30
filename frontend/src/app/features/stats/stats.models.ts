@@ -8,3 +8,14 @@ export interface TechnicianStats {
   tooFarScans: number;
   locatedRate: number | null;
 }
+
+/** Fiabilité de localisation par société (BusinessStatsDTO du back). */
+export interface BusinessStats {
+  businessId: string;
+  businessName: string;
+  technicianCount: number;
+  totalScans: number;
+  locatedScans: number;
+  tooFarScans: number;
+  locatedRate: number | null;
+}

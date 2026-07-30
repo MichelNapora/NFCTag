@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PresenceService } from '../presences/presence.service';
 import { StatsService } from '../stats/stats.service';
-import { TechnicianStats } from '../stats/stats.models';
+import { TechnicianStats, BusinessStats } from '../stats/stats.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
 import { LOCATION_LABEL } from '../location/location.models';
 import {PresenceView} from '../presences/presence.models';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +29,9 @@ export class DashboardComponent implements OnInit {
   unverified = 0;
 
   stats: TechnicianStats[] = [];
+
+  businessStats: BusinessStats[] = [];
+  statsQuery = '';
 
   constructor(
     private presenceService: PresenceService,
@@ -60,6 +64,10 @@ export class DashboardComponent implements OnInit {
       next: (list) => { this.stats = list; },
       error: () => { /* le tableau reste vide, pas bloquant */ }
     });
+    this.statsService.byBusiness().subscribe({
+      next: (list) => { this.businessStats = list; },
+      error: () => { /* pas bloquant */ }
+    });
   }
 
   isOngoing(p: PresenceView): boolean {
@@ -76,6 +84,22 @@ export class DashboardComponent implements OnInit {
 
   /** Un taux bas signale un technicien scanne sans GPS. */
   isLowRate(s: TechnicianStats): boolean {
+    return s.locatedRate != null && s.locatedRate < 50;
+  }
+
+  get filteredStats(): TechnicianStats[] {
+    const q = this.statsQuery.trim().toLowerCase();
+    return this.stats.filter(s => !q ||
+      s.technicianName.toLowerCase().includes(q) ||
+      s.businessName.toLowerCase().includes(q));
+  }
+
+  get filteredBusinessStats(): BusinessStats[] {
+    const q = this.statsQuery.trim().toLowerCase();
+    return this.businessStats.filter(s => !q || s.businessName.toLowerCase().includes(q));
+  }
+
+  isLowBusinessRate(s: BusinessStats): boolean {
     return s.locatedRate != null && s.locatedRate < 50;
   }
 
