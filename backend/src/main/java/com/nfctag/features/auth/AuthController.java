@@ -28,6 +28,11 @@ public class AuthController {
                 this.authService.login(this.authMapper.toCredentials(dto), request, response));
     }
 
+    @PostMapping("/auth/password")
+    public void changePassword(@Valid @RequestBody ChangePasswordDTO dto, Authentication authentication){
+        this.authService.changePassword(authentication, this.authMapper.toPasswordChange(dto));
+    }
+
     @PostMapping("/auth/logout")
     public void logout(HttpServletRequest request){
         this.authService.logout(request);

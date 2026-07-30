@@ -63,4 +63,16 @@ public class AuthService {
         return this.employeeRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new InvalidCredentialsException("Session invalid"));
     }
+
+    /** L'employé connecté change son propre mot de passe. */
+    public void changePassword(Authentication authentication, PasswordChange change){
+        Employee employee = this.me(authentication);
+
+        if (!this.passwordEncoder.matches(change.currentPassword(), employee.getPasswordHash())) {
+            throw new InvalidCredentialsException("Le mot de passe actuel est incorrect");
+        }
+
+        employee.setPasswordHash(this.passwordEncoder.encode(change.newPassword()));
+        this.employeeRepository.save(employee);
+    }
 }
