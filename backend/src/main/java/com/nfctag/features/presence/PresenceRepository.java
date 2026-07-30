@@ -1,5 +1,6 @@
 package com.nfctag.features.presence;
 
+import com.nfctag.features.location.LocationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,19 @@ public interface PresenceRepository extends JpaRepository<Presence, UUID>, JpaSp
     @Query(value = "select distinct extract(year from arrived_at)::int from presence order by 1 desc",
             nativeQuery = true)
     List<Integer> findDistinctYears();
+
+    /** Les 8 dernières interventions, pour le tableau de bord. */
+    List<Presence> findTop8ByOrderByArrivedAtDesc();
+
+    long countByDepartedAtIsNull();
+
+    long countByEstimatedTrue();
+
+    long countByLocationStatus(LocationStatus status);
+
+    /** Somme des durées en minutes, à l'identique de PresenceDurationCalculator. */
+    @Query(value = "select coalesce(sum(floor(extract(epoch from (departed_at - arrived_at))/60)), 0)::bigint "
+            + "from presence where departed_at is not null",
+            nativeQuery = true)
+    long sumDurationMinutes();
 }

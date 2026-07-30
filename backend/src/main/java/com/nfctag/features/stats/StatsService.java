@@ -102,4 +102,16 @@ public class StatsService {
 
         return new LocationCounters(located, tooFar, rate);
     }
+
+    /** Indicateurs du tableau de bord : 5 compteurs et 8 lignes, rien de plus. */
+    public DashboardStats dashboard(){
+        return new DashboardStats(
+                this.presenceRepository.count(),
+                this.presenceRepository.sumDurationMinutes(),
+                this.presenceRepository.countByDepartedAtIsNull(),
+                this.presenceRepository.countByEstimatedTrue(),
+                this.presenceRepository.countByLocationStatus(LocationStatus.TOO_FAR),
+                this.presenceRepository.findTop8ByOrderByArrivedAtDesc()
+        );
+    }
 }

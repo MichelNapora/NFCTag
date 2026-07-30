@@ -28,4 +28,10 @@ public class StatsController {
                 .map(statsMapper::toDto)
                 .toList();
     }
+
+    @GetMapping("/stats/dashboard")
+    public DashboardStatsDTO dashboard() {
+        return this.statsMapper.toDto(this.statsService.dashboard());
+    }
+    
 }
