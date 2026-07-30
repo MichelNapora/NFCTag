@@ -50,7 +50,7 @@ public class PresenceController {
                 .map(presenceMapper::toDto)
                 .toList();
     }
-    
+
     @DeleteMapping("/presences/{id}")
     public void delete(@PathVariable UUID id) {
         this.presenceService.delete(id);

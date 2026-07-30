@@ -17,3 +17,27 @@ export interface PresenceView {
   distanceMeters: number | null;
 }
 
+/** Métadonnées de pagination renvoyées par Spring (PagedModel). */
+export interface PageMeta {
+  size: number;
+  number: number;
+  totalElements: number;
+  totalPages: number;
+}
+
+/** Une page d'interventions. */
+export interface PresencePage {
+  content: PresenceView[];
+  page: PageMeta;
+}
+
+/** Compteurs des pastilles et années disponibles (SearchMetaDTO du back). */
+export interface SearchMeta {
+  years: number[];
+  all: number;
+  ongoing: number;
+  done: number;
+  estimated: number;
+  suspect: number;
+}
+
