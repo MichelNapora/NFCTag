@@ -69,9 +69,12 @@ public class AuthService {
         Employee employee = this.me(authentication);
 
         if (!this.passwordEncoder.matches(change.currentPassword(), employee.getPasswordHash())) {
-            throw new InvalidCredentialsException("Le mot de passe actuel est incorrect");
+            throw new InvalidCredentialsException("This password is invalid");
         }
 
+        if (this.passwordEncoder.matches(change.newPassword(), employee.getPasswordHash())) {
+            throw new InvalidCredentialsException("The new password must be different");
+        }
         employee.setPasswordHash(this.passwordEncoder.encode(change.newPassword()));
         this.employeeRepository.save(employee);
     }
