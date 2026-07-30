@@ -27,6 +27,11 @@ public class PresenceService {
         return this.presenceRepository.findAll();
     }
 
+    /** Interventions en cours — celles sans scan de départ. */
+    public List<Presence> findOngoing(){
+        return this.presenceRepository.findByDepartedAtIsNull();
+    }
+
     /** Recherche paginée et filtrée pour la page Interventions. */
     public Page<Presence> search(Integer year, String state, String query, int page, int size){
         Pageable pageable = PageRequest.of(

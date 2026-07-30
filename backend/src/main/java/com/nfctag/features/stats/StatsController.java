@@ -33,5 +33,5 @@ public class StatsController {
     public DashboardStatsDTO dashboard() {
         return this.statsMapper.toDto(this.statsService.dashboard());
     }
-    
+
 }

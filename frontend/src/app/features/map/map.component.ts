@@ -67,7 +67,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       tags: this.tagService.findAll(),
       wings: this.wingService.findAll(),
       buildings: this.buildingService.findAll(),
-      presences: this.presenceService.findAll()
+      presences: this.presenceService.findOngoing()
     }).subscribe({
       next: ({ tags, wings, buildings, presences }) => {
         this.wings = wings;

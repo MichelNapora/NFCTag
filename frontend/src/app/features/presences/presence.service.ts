@@ -45,6 +45,11 @@ export class PresenceService {
     return params;
   }
 
+  /** Interventions en cours uniquement — pour la carte. */
+  findOngoing(): Observable<PresenceView[]> {
+    return this.http.get<PresenceView[]>('/api/presences/ongoing');
+  }
+
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`/api/presences/${id}`);
   }

@@ -41,6 +41,11 @@ public class PresenceController {
         return this.presenceService.searchMeta(year, query);
     }
 
+    @GetMapping("/presences/ongoing")
+    public List<PresenceDTO> findOngoing() {
+        return this.presenceService.findOngoing().stream().map(presenceMapper::toDto).toList();
+    }
+
     @GetMapping("/presences/export")
     public List<PresenceDTO> export(
             @RequestParam(required = false) Integer year,
