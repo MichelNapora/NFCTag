@@ -6,6 +6,7 @@ import { Business } from './business.models';
 import { CountsService } from '../../common/shell/counts.service';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
+import { ConfirmService } from '../../common/confirm/confirm.service';
 
 interface BusinessForm {
   id: string | null;
@@ -35,7 +36,8 @@ export class BusinessesComponent implements OnInit {
   constructor(
     private businessService: BusinessService,
     private counts: CountsService,
-    public auth: AuthService
+    public auth: AuthService,
+    private confirm: ConfirmService
   ) {}
 
   ngOnInit(): void {
@@ -90,10 +92,16 @@ export class BusinessesComponent implements OnInit {
   }
 
   remove(b: Business): void {
-    if (!confirm(`Supprimer la société « ${b.name} » ?`)) { return; }
-    this.businessService.delete(b.id).subscribe({
-      next: () => { this.reload(); this.counts.refresh(); },
-      error: (e) => this.fail(e)
+    this.confirm.ask({
+      title: 'Supprimer la société',
+      message: `Voulez-vous supprimer « ${b.name} » ?`,
+      confirmLabel: 'Supprimer',
+      danger: true
+    }).subscribe(() => {
+      this.businessService.delete(b.id).subscribe({
+        next: () => { this.reload(); this.counts.refresh(); },
+        error: (e) => this.fail(e)
+      });
     });
   }
 
