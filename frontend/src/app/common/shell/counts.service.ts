@@ -9,9 +9,10 @@ export interface Counts {
   wings: number;
   tags: number;
   businesses: number;
+  technicians: number;
 }
 
-const EMPTY: Counts = { presences: 0, buildings: 0, wings: 0, tags: 0, businesses: 0 };
+const EMPTY: Counts = { presences: 0, buildings: 0, wings: 0, tags: 0, businesses: 0, technicians: 0 };
 
 @Injectable({ providedIn: 'root' })
 export class CountsService {
@@ -20,22 +21,17 @@ export class CountsService {
 
   constructor(private http: HttpClient) {}
 
-  /** Recharge tous les compteurs (appelé au démarrage et après chaque ajout/suppression). */
+  /** Recharge tous les compteurs — la base compte, on ne télécharge plus les listes. */
   refresh(): void {
     forkJoin({
-      presences: this.http.get<unknown[]>('/api/presences'),
-      buildings: this.http.get<unknown[]>('/api/buildings'),
-      wings: this.http.get<unknown[]>('/api/wings'),
-      tags: this.http.get<unknown[]>('/api/tags'),
-      businesses: this.http.get<unknown[]>('/api/businesses')
+      presences: this.http.get<number>('/api/presences/count'),
+      buildings: this.http.get<number>('/api/buildings/count'),
+      wings: this.http.get<number>('/api/wings/count'),
+      tags: this.http.get<number>('/api/tags/count'),
+      businesses: this.http.get<number>('/api/businesses/count'),
+      technicians: this.http.get<number>('/api/technicians/count')
     }).subscribe({
-      next: (r) => this.counts$.next({
-        presences: r.presences.length,
-        buildings: r.buildings.length,
-        wings: r.wings.length,
-        tags: r.tags.length,
-        businesses: r.businesses.length
-      }),
+      next: (r) => this.counts$.next(r),
       error: () => this.counts$.next(EMPTY)
     });
   }
