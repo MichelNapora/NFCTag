@@ -5,6 +5,7 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 import { Counts, CountsService } from './counts.service';
 import { AuthService } from '../auth/auth.service';
 import {ConfirmComponent} from '../confirm/confirm.component';
+import {ConfirmService} from '../confirm/confirm.service';
 
 
 @Component({
@@ -17,11 +18,11 @@ import {ConfirmComponent} from '../confirm/confirm.component';
 export class ShellComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   counts: Counts = { presences: 0, buildings: 0, wings: 0, tags: 0, businesses: 0, technicians:0 };
-  logoutOpen = false;
 
   constructor(
     private countsService: CountsService,
     public auth: AuthService,
+    public confirm: ConfirmService,
     private router: Router
   ) {}
 
@@ -32,9 +33,18 @@ export class ShellComponent implements OnInit {
     this.countsService.refresh();
   }
 
-  /** Ouvre la demande de confirmation. */
+  /** Demande confirmation, puis déconnecte. */
   logout(): void {
-    this.logoutOpen = true;
+    this.confirm.ask({
+      title: 'Se déconnecter',
+      message: 'Voulez-vous continuer ?',
+      confirmLabel: 'Se déconnecter'
+    }).subscribe(() => {
+      this.auth.logout().subscribe({
+        next: () => this.router.navigate(['/login']),
+        error: () => { this.auth.clear(); this.router.navigate(['/login']); }
+      });
+    });
   }
 
   cancelLogout(): void {

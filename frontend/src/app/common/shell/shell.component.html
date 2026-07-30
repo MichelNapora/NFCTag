@@ -80,10 +80,11 @@
 </div>
 
 <app-confirm
-  [open]="logoutOpen"
-  title="Se déconnecter"
-  message="Voulez-vous continuer ?"
-  confirmLabel="Se déconnecter"
-  (confirmed)="confirmLogout()"
-  (cancelled)="cancelLogout()">
+  [open]="confirm.open"
+  [title]="confirm.title"
+  [message]="confirm.message"
+  [confirmLabel]="confirm.confirmLabel"
+  [danger]="confirm.danger"
+  (confirmed)="confirm.accept()"
+  (cancelled)="confirm.reject()">
 </app-confirm>

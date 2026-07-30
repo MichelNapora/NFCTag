@@ -72,6 +72,8 @@ html, body {
 .btn:disabled { background: var(--g-500); border-color: var(--g-500); cursor: not-allowed; }
 .btn.ghost { background: var(--paper); color: var(--ink); }
 .btn.ghost:hover { background: var(--g-050); }
+.btn.danger { background: var(--danger); border-color: var(--danger); }
+.btn.danger:hover { background: #b42318; }
 .btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 .iconbtn {
