@@ -59,4 +59,8 @@ export class AuthService {
       catchError(() => { this.clear(); return of(false); })
     );
   }
+
+  changePassword(currentPassword: string, newPassword: string): Observable<void> {
+    return this.http.post<void>('/api/auth/password', { currentPassword, newPassword });
+  }
 }

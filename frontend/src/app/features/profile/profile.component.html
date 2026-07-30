@@ -18,11 +18,28 @@
     </div>
   </div>
 
-  <p class="hint" *ngIf="e.role === 'EMPLOYEE'">
-    Pour modifier vos informations ou votre mot de passe, adressez-vous à un administrateur
-    (page Utilisateurs).
-  </p>
-  <p class="hint" *ngIf="e.role === 'ADMIN'">
-    Vous pouvez modifier vos informations et votre mot de passe depuis la page Utilisateurs.
-  </p>
+  <div class="sectionlbl">Changer mon mot de passe</div>
+
+  <div class="profile-card">
+    <div class="field">
+      <label>Mot de passe actuel</label>
+      <input type="password" [(ngModel)]="currentPassword" autocomplete="current-password">
+    </div>
+    <div class="field">
+      <label>Nouveau mot de passe (8 caractères minimum)</label>
+      <input type="password" [(ngModel)]="newPassword" autocomplete="new-password">
+    </div>
+    <div class="field">
+      <label>Confirmer le nouveau mot de passe</label>
+      <input type="password" [(ngModel)]="confirmPassword" autocomplete="new-password">
+    </div>
+
+    <p class="hint" *ngIf="hint">{{ hint }}</p>
+    <div class="banner error" *ngIf="error">{{ error }}</div>
+    <p class="hint" *ngIf="success">Mot de passe modifié.</p>
+
+    <button class="btn" [disabled]="!canSave || saving" (click)="save()">
+      {{ saving ? 'Enregistrement…' : 'Changer le mot de passe' }}
+    </button>
+  </div>
 </ng-container>
