@@ -20,12 +20,12 @@ public class BusinessService {
     }
 
     public Business findById(UUID id){
-        return this.businessRepository.findById(id).orElseThrow(()-> new BusinessNotFoundException("Business not found : "+ id));
+        return this.businessRepository.findById(id).orElseThrow(()-> new BusinessNotFoundException(id));
     }
 
     public Business create(Business business){
         if(this.businessRepository.existsByBce(business.getBce())){
-            throw new BusinessAlreadyExistsException("BCE already exists : "+ business.getBce());
+            throw new BusinessAlreadyExistsException(business.getBce());
         }
         return this.businessRepository.save(business);
     }
@@ -33,7 +33,7 @@ public class BusinessService {
     public Business update(UUID id, Business business){
         Business existing = this.findById(id);
         if(this.businessRepository.existsByBceAndIdNot(business.getBce(),id)){
-            throw new BusinessAlreadyExistsException("BCE already exists : "+ business.getBce());
+            throw new BusinessAlreadyExistsException(business.getBce());
         }
         existing.setName(business.getName());
         existing.setBce(business.getBce());
@@ -44,8 +44,7 @@ public class BusinessService {
         this.findById(id);
         long technicians = this.technicianRepository.countByBusinessId(id);
         if (technicians > 0) {
-            throw new BusinessNotEmptyException(
-                    "This company has " + technicians + " technician(s).");
+            throw new BusinessNotEmptyException(technicians);
         }
         this.businessRepository.deleteById(id);
     }

@@ -72,7 +72,7 @@ public class ScanService {
     private Technician resolveTechnician(ScanCommand command){
         if (command.deviceToken() != null) {
             return technicianRepository.findByDeviceToken(command.deviceToken())
-                    .orElseThrow(() -> new TechnicianNotFoundException("Token not found"));
+                    .orElseThrow(() -> new TechnicianNotFoundException(command.deviceToken()));
         }
 
         if (command.mobile() != null) {
@@ -88,7 +88,7 @@ public class ScanService {
         }
 
         Business business = businessRepository.findById(command.businessId())
-                .orElseThrow(() -> new BusinessNotFoundException("Business not found"));
+                .orElseThrow(() -> new BusinessNotFoundException(command.businessId()));
 
         Technician technician = new Technician(
                 command.firstname(),

@@ -27,12 +27,12 @@ public class TechnicianService {
     }
 
     public Technician findById(UUID id){
-        return this.technicianRepository.findById(id).orElseThrow(()-> new TechnicianNotFoundException("Technician not found : "+ id));
+        return this.technicianRepository.findById(id).orElseThrow(()-> new TechnicianNotFoundException(id));
     }
 
     public List<Technician>findByBusinessId(UUID id){
         if (!this.businessRepository.existsById(id)) {
-            throw new BusinessNotFoundException("Business not found : "+ id);
+            throw new BusinessNotFoundException(id);
         }
         return this.technicianRepository.findByBusinessId(id);
     }
@@ -43,7 +43,7 @@ public class TechnicianService {
 
     public Technician create(Technician technician){
         if(this.technicianRepository.existsByMobile(technician.getMobile())){
-            throw new TechnicianAlreadyExistsException("Mobile already exists : "+ technician.getMobile());
+            throw new TechnicianAlreadyExistsException(technician.getMobile());
         }
         return this.technicianRepository.save(technician);
     }
@@ -51,7 +51,7 @@ public class TechnicianService {
     public Technician update(UUID id, Technician technician){
         Technician existing=this.findById(id);
         if(this.technicianRepository.existsByMobileAndIdNot(technician.getMobile(),id)){
-            throw new TechnicianAlreadyExistsException("Mobile already exists : "+technician.getMobile());
+            throw new TechnicianAlreadyExistsException(technician.getMobile());
         }
         existing.setFirstname(technician.getFirstname());
         existing.setLastname(technician.getLastname());
@@ -64,8 +64,7 @@ public class TechnicianService {
         this.findById(id);
         long presences = this.presenceRepository.countByTechnicianId(id);
         if (presences > 0) {
-            throw new TechnicianNotEmptyException(
-                    "This technician has " + presences + " intervention(s) recorded.");
+            throw new TechnicianNotEmptyException(presences);
         }
         this.technicianRepository.deleteById(id);
     }

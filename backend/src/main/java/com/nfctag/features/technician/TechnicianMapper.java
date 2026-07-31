@@ -22,7 +22,7 @@ public class TechnicianMapper {
     }
 
     public Technician toEntity(TechnicianDTO dto){
-        Business business= this.businessRepository.findById(dto.getBusinessId()).orElseThrow(()-> new BusinessNotFoundException("Business not found : "+dto.getBusinessId()));
+        Business business= this.businessRepository.findById(dto.getBusinessId()).orElseThrow(()-> new BusinessNotFoundException(dto.getBusinessId()));
         return new Technician(dto.getFirstname(),dto.getLastname(),dto.getMobile(),business);
     }
 }
