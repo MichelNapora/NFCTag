@@ -80,9 +80,7 @@ export class DashboardComponent implements OnInit {
 
   get filteredStats(): TechnicianStats[] {
     const q = this.technicianQuery.trim().toLowerCase();
-    return this.stats.filter(s => !q ||
-      s.technicianName.toLowerCase().includes(q) ||
-      s.businessName.toLowerCase().includes(q));
+    return this.stats.filter(s => !q || s.technicianName.toLowerCase().includes(q));
   }
 
   get filteredBusinessStats(): BusinessStats[] {
