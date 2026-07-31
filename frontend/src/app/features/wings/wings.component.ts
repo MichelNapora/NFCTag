@@ -10,6 +10,7 @@ import { Tag } from '../tags/tag.models';
 import { CountsService } from '../../common/shell/counts.service';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
+import { ConfirmService } from '../../common/confirm/confirm.service';
 
 interface WingForm {
   id: string | null;
@@ -43,7 +44,8 @@ export class WingsComponent implements OnInit {
     private buildingService: BuildingService,
     private tagService: TagService,
     private counts: CountsService,
-    public auth: AuthService
+    public auth: AuthService,
+    private confirm: ConfirmService
   ) {}
 
   ngOnInit(): void {
@@ -110,10 +112,16 @@ export class WingsComponent implements OnInit {
   }
 
   remove(w: Wing): void {
-    if (!confirm(`Supprimer l'aile « ${w.name} » ?`)) { return; }
-    this.wingService.delete(w.id).subscribe({
-      next: () => { this.reload(); this.counts.refresh(); },
-      error: (e) => this.fail(e)
+    this.confirm.ask({
+      title: "Supprimer l'aile",
+      message: `Voulez-vous supprimer « ${w.name} » ?`,
+      confirmLabel: 'Supprimer',
+      danger: true
+    }).subscribe(() => {
+      this.wingService.delete(w.id).subscribe({
+        next: () => { this.reload(); this.counts.refresh(); },
+        error: (e) => this.fail(e)
+      });
     });
   }
 

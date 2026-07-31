@@ -7,6 +7,7 @@ import { BusinessService } from '../businesses/business.service';
 import { Business } from '../businesses/business.models';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
+import {ConfirmService} from '../../common/confirm/confirm.service';
 
 interface TechnicianForm {
   id: string | null;
@@ -39,7 +40,8 @@ export class TechniciansComponent implements OnInit {
   constructor(
     private technicianService: TechnicianService,
     private businessService: BusinessService,
-    public auth: AuthService
+    public auth: AuthService,
+    private confirm: ConfirmService
   ) {}
 
   ngOnInit(): void {
@@ -107,10 +109,16 @@ export class TechniciansComponent implements OnInit {
   }
 
   remove(t: Technician): void {
-    if (!confirm(`Supprimer le technicien « ${t.firstname} ${t.lastname} » ?\nSes interventions seront perdues.`)) { return; }
-    this.technicianService.delete(t.id).subscribe({
-      next: () => this.reload(),
-      error: (e) => this.fail(e)
+    this.confirm.ask({
+      title: 'Supprimer le technicien',
+      message: `Voulez-vous supprimer « ${t.firstname} ${t.lastname} » ? Ses interventions seront perdues.`,
+      confirmLabel: 'Supprimer',
+      danger: true
+    }).subscribe(() => {
+      this.technicianService.delete(t.id).subscribe({
+        next: () => this.reload(),
+        error: (e) => this.fail(e)
+      });
     });
   }
 

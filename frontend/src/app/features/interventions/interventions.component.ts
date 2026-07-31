@@ -8,6 +8,7 @@ import { LOCATION_LABEL } from '../location/location.models';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import { downloadCsv, csvDate, csvToday } from '../../common/utils/csv-export';
+import {ConfirmService} from '../../common/confirm/confirm.service';
 
 type Filter = 'all' | 'ongoing' | 'done' | 'estimated' | 'suspect';
 
@@ -44,7 +45,8 @@ export class InterventionsComponent implements OnInit {
 
   constructor(
     private presenceService: PresenceService,
-    public auth: AuthService
+    public auth: AuthService,
+    private confirm: ConfirmService
   ) {}
 
   ngOnInit(): void {
@@ -127,10 +129,16 @@ export class InterventionsComponent implements OnInit {
 
   remove(p: PresenceView): void {
     const quand = new Date(p.arrivedAt).toLocaleString('fr-BE');
-    if (!confirm(`Supprimer l'intervention de ${p.technicianName} du ${quand} ?\nCette suppression est définitive.`)) { return; }
-    this.presenceService.delete(p.id).subscribe({
-      next: () => this.reload(),
-      error: (e) => { this.error = errorMessage(e, 'Suppression impossible.'); }
+    this.confirm.ask({
+      title: "Supprimer l'intervention",
+      message: `Intervention de ${p.technicianName} du ${quand}. Cette suppression est définitive.`,
+      confirmLabel: 'Supprimer',
+      danger: true
+    }).subscribe(() => {
+      this.presenceService.delete(p.id).subscribe({
+        next: () => this.reload(),
+        error: (e) => { this.error = errorMessage(e, 'Suppression impossible.'); }
+      });
     });
   }
 

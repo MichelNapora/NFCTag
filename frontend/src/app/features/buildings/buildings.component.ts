@@ -10,6 +10,7 @@ import { Tag } from '../tags/tag.models';
 import { CountsService } from '../../common/shell/counts.service';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
+import {ConfirmService} from '../../common/confirm/confirm.service';
 
 interface BuildingForm {
   id: string | null;
@@ -50,7 +51,8 @@ export class BuildingsComponent implements OnInit {
     private wingService: WingService,
     private tagService: TagService,
     private counts: CountsService,
-    public auth: AuthService
+    public auth: AuthService,
+    private confirm: ConfirmService
   ) {}
 
   ngOnInit(): void {
@@ -136,10 +138,16 @@ export class BuildingsComponent implements OnInit {
   }
 
   remove(b: Building): void {
-    if (!confirm(`Supprimer le bâtiment « ${b.name} » ?`)) { return; }
-    this.buildingService.delete(b.id).subscribe({
-      next: () => { this.reload(); this.counts.refresh(); },
-      error: (e) => this.fail(e)
+    this.confirm.ask({
+      title: 'Supprimer le bâtiment',
+      message: `Voulez-vous supprimer « ${b.name} » ?`,
+      confirmLabel: 'Supprimer',
+      danger: true
+    }).subscribe(() => {
+      this.buildingService.delete(b.id).subscribe({
+        next: () => { this.reload(); this.counts.refresh(); },
+        error: (e) => this.fail(e)
+      });
     });
   }
 

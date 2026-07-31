@@ -5,6 +5,7 @@ import { EmployeeService } from './employee.service';
 import { Employee } from './employee.models';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
+import {ConfirmService} from '../../common/confirm/confirm.service';
 
 interface EmployeeForm {
   id: string | null;
@@ -41,7 +42,8 @@ export class EmployeesComponent implements OnInit {
 
   constructor(
     private employeeService: EmployeeService,
-    public auth: AuthService
+    public auth: AuthService,
+    private confirm: ConfirmService
   ) {}
 
   ngOnInit(): void {
@@ -118,10 +120,16 @@ export class EmployeesComponent implements OnInit {
 
   remove(e: Employee): void {
     if (this.isMe(e)) { return; }
-    if (!confirm(`Supprimer le compte de « ${e.firstname} ${e.lastname} » ?`)) { return; }
-    this.employeeService.delete(e.id).subscribe({
-      next: () => this.reload(),
-      error: (err) => this.fail(err)
+    this.confirm.ask({
+      title: 'Supprimer le compte',
+      message: `Voulez-vous supprimer le compte de « ${e.firstname} ${e.lastname} » ?`,
+      confirmLabel: 'Supprimer',
+      danger: true
+    }).subscribe(() => {
+      this.employeeService.delete(e.id).subscribe({
+        next: () => this.reload(),
+        error: (err) => this.fail(err)
+      });
     });
   }
 

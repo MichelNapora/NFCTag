@@ -11,6 +11,7 @@ import { CountsService } from '../../common/shell/counts.service';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import * as QRCode from 'qrcode';
+import {ConfirmService} from '../../common/confirm/confirm.service';
 
 interface TagForm {
   id: string | null;
@@ -51,7 +52,8 @@ export class TagsComponent implements OnInit {
     private wingService: WingService,
     private buildingService: BuildingService,
     private counts: CountsService,
-    public auth: AuthService
+    public auth: AuthService,
+    private confirm: ConfirmService
   ) {}
 
   ngOnInit(): void {
@@ -139,19 +141,29 @@ export class TagsComponent implements OnInit {
   }
 
   remove(t: Tag): void {
-    if (!confirm(`Supprimer le tag « ${this.wingLabel(t.wingId)} » ?`)) { return; }
-    this.tagService.delete(t.id).subscribe({
-      next: () => { this.reload(); this.counts.refresh(); },
-      error: (e) => this.fail(e)
+    this.confirm.ask({
+      title: 'Supprimer le tag',
+      message: `Voulez-vous supprimer le tag « ${this.wingLabel(t.wingId)} » ?`,
+      confirmLabel: 'Supprimer',
+      danger: true
+    }).subscribe(() => {
+      this.tagService.delete(t.id).subscribe({
+        next: () => { this.reload(); this.counts.refresh(); },
+        error: (e) => this.fail(e)
+      });
     });
   }
 
   recalibrate(t: Tag): void {
-    if (!confirm(`Recalibrer le tag « ${this.wingLabel(t.wingId)} » ?\n` +
-      `Sa position sera réenregistrée en scannant le tag sur place avec un téléphone connecté.`)) { return; }
-    this.tagService.update(t.id, t.wingId, null, null).subscribe({
-      next: () => this.reload(),
-      error: (e) => this.fail(e)
+    this.confirm.ask({
+      title: 'Recalibrer le tag',
+      message: `La position du tag « ${this.wingLabel(t.wingId)} » sera effacée, puis réenregistrée en scannant le tag sur place avec un téléphone connecté.`,
+      confirmLabel: 'Recalibrer'
+    }).subscribe(() => {
+      this.tagService.update(t.id, t.wingId, null, null).subscribe({
+        next: () => this.reload(),
+        error: (e) => this.fail(e)
+      });
     });
   }
 
