@@ -29,7 +29,8 @@ export class DashboardComponent implements OnInit {
 
   stats: TechnicianStats[] = [];
   businessStats: BusinessStats[] = [];
-  statsQuery = '';
+  technicianQuery = '';
+  businessQuery = '';
 
   constructor(private statsService: StatsService) {}
 
@@ -78,14 +79,14 @@ export class DashboardComponent implements OnInit {
   }
 
   get filteredStats(): TechnicianStats[] {
-    const q = this.statsQuery.trim().toLowerCase();
+    const q = this.technicianQuery.trim().toLowerCase();
     return this.stats.filter(s => !q ||
       s.technicianName.toLowerCase().includes(q) ||
       s.businessName.toLowerCase().includes(q));
   }
 
   get filteredBusinessStats(): BusinessStats[] {
-    const q = this.statsQuery.trim().toLowerCase();
+    const q = this.businessQuery.trim().toLowerCase();
     return this.businessStats.filter(s => !q || s.businessName.toLowerCase().includes(q));
   }
 

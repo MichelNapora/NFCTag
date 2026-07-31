@@ -1,6 +1,7 @@
 package com.nfctag.common;
 
 import com.nfctag.features.address.AddressNotFoundException;
+import com.nfctag.features.auth.InvalidPasswordException;
 import com.nfctag.features.building.BuildingAlreadyExistsException;
 import com.nfctag.features.building.BuildingNotFoundException;
 import com.nfctag.features.business.BusinessAlreadyExistsException;
@@ -66,7 +67,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             EmployeePasswordRequiredException.class,
             InvalidScanException.class,
-            InsufficientAccuracyException.class
+            InsufficientAccuracyException.class,
+            InvalidPasswordException.class
     })
     public ResponseEntity<String> handleBadRequest(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());

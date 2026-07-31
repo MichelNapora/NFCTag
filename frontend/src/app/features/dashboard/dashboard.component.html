@@ -79,7 +79,7 @@
 
 <div class="search">
   <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.7"/></svg>
-  <input [(ngModel)]="statsQuery" placeholder="Filtrer par technicien ou société…">
+  <input [(ngModel)]="technicianQuery" placeholder="Filtrer par technicien">
 </div>
 
 <div class="tablewrap">
@@ -112,6 +112,10 @@
 </div>
 
 <div class="sectionlbl">Fiabilité de localisation par société</div>
+<div class="search">
+  <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.7"/></svg>
+  <input [(ngModel)]="businessQuery" placeholder="Filtrer par société…">
+</div>
 <div class="tablewrap">
   <table>
     <thead>
