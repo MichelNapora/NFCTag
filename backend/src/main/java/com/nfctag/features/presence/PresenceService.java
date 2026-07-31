@@ -67,7 +67,7 @@ public class PresenceService {
 
     public void delete(UUID id){
         if (!this.presenceRepository.existsById(id)) {
-            throw new PresenceNotFoundException("Presence not found : " + id);
+            throw new PresenceNotFoundException(id);
         }
         this.presenceRepository.deleteById(id);
     }

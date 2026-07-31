@@ -12,7 +12,7 @@ public class AddressService {
     private AddressRepository addressRepository;
 
     public Address findById(UUID id){
-        return this.addressRepository.findById(id).orElseThrow(()-> new AddressNotFoundException(("Address Not Found : "+id)));
+        return this.addressRepository.findById(id).orElseThrow(()-> new AddressNotFoundException(id));
     }
     public Address update(UUID id, Address address){
         Address existing = this.findById(id);

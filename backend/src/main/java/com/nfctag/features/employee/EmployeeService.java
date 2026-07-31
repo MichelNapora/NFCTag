@@ -18,15 +18,15 @@ public class EmployeeService {
 
     public Employee findById(UUID id){
         return this.employeeRepository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found : " + id));
+                .orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
     public Employee create(Employee employee){
         if (this.employeeRepository.existsByEmail(employee.getEmail())) {
-            throw new EmployeeAlreadyExistsException("Email already exists : " + employee.getEmail());
+            throw new EmployeeAlreadyExistsException(employee.getEmail());
         }
         if (employee.getPasswordHash() == null) {
-            throw new EmployeePasswordRequiredException("A password is required to create an employee");
+            throw new EmployeePasswordRequiredException();
         }
         return this.employeeRepository.save(employee);
     }
@@ -34,7 +34,7 @@ public class EmployeeService {
     public Employee update(UUID id, Employee employee){
         Employee existing = this.findById(id);
         if (this.employeeRepository.existsByEmailAndIdNot(employee.getEmail(), id)) {
-            throw new EmployeeAlreadyExistsException("Email already exists : " + employee.getEmail());
+            throw new EmployeeAlreadyExistsException(employee.getEmail());
         }
         existing.setFirstname(employee.getFirstname());
         existing.setLastname(employee.getLastname());

@@ -1,7 +1,9 @@
 package com.nfctag.features.employee;
 
+import java.util.UUID;
+
 public class EmployeeNotFoundException extends RuntimeException {
-    public EmployeeNotFoundException(String message) {
-        super(message);
+    public EmployeeNotFoundException(UUID id) {
+        super("Employee not found : " + id);
     }
 }
