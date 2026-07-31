@@ -1,5 +1,6 @@
 package com.nfctag.features.building;
 
+import com.nfctag.features.wing.WingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,9 @@ public class BuildingService {
 
     @Autowired
     private BuildingRepository buildingRepository;
+
+    @Autowired
+    private WingRepository wingRepository;
 
     public List<Building> findAll(){
         return this.buildingRepository.findAll();
@@ -29,6 +33,11 @@ public class BuildingService {
 
     public void delete(UUID id){
         this.findById(id);
+        long wings = this.wingRepository.countByBuildingId(id);
+        if (wings > 0) {
+            throw new BuildingNotEmptyException(
+                    "This building contains " + wings + " wing(s). Delete them first.");
+        }
         this.buildingRepository.deleteById(id);
     }
 

@@ -9,4 +9,5 @@ public interface WingRepository extends JpaRepository<Wing, UUID> {
     List<Wing> findByBuildingId(UUID buildingId);
     boolean existsByNameAndBuildingId(String name, UUID buildingId);
     boolean existsByNameAndBuildingIdAndIdNot(String name, UUID buildingId, UUID id);
+    long countByBuildingId(UUID buildingId);
 }

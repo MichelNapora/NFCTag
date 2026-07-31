@@ -3,6 +3,7 @@ package com.nfctag.common;
 import com.nfctag.features.address.AddressNotFoundException;
 import com.nfctag.features.auth.InvalidPasswordException;
 import com.nfctag.features.building.BuildingAlreadyExistsException;
+import com.nfctag.features.building.BuildingNotEmptyException;
 import com.nfctag.features.building.BuildingNotFoundException;
 import com.nfctag.features.business.BusinessAlreadyExistsException;
 import com.nfctag.features.business.BusinessNotFoundException;
@@ -58,6 +59,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
+    @ExceptionHandler({
+            BuildingNotEmptyException.class
+    })
+    public ResponseEntity<String> handleNotEmpty(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+    
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrity(DataIntegrityViolationException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
