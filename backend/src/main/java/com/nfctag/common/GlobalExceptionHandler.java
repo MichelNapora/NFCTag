@@ -1,6 +1,5 @@
 package com.nfctag.common;
 
-import com.nfctag.features.address.AddressNotFoundException;
 import com.nfctag.features.auth.InvalidPasswordException;
 import com.nfctag.features.auth.SamePasswordException;
 import com.nfctag.features.auth.SessionInvalidException;
@@ -41,7 +40,6 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({
-            AddressNotFoundException.class,
             BuildingNotFoundException.class,
             WingNotFoundException.class,
             BusinessNotFoundException.class,
