@@ -2,6 +2,8 @@ package com.nfctag.common;
 
 import com.nfctag.features.address.AddressNotFoundException;
 import com.nfctag.features.auth.InvalidPasswordException;
+import com.nfctag.features.auth.SamePasswordException;
+import com.nfctag.features.auth.SessionInvalidException;
 import com.nfctag.features.building.BuildingAddressAlreadyExistsException;
 import com.nfctag.features.building.BuildingAlreadyExistsException;
 import com.nfctag.features.building.BuildingNotEmptyException;
@@ -88,14 +90,18 @@ public class GlobalExceptionHandler {
             EmployeePasswordRequiredException.class,
             InvalidScanException.class,
             InsufficientAccuracyException.class,
-            InvalidPasswordException.class
+            InvalidPasswordException.class,
+            SamePasswordException.class
     })
     public ResponseEntity<String> handleBadRequest(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
-    @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<String> handleInvalidCredentials(InvalidCredentialsException ex) {
+    @ExceptionHandler({
+            InvalidCredentialsException.class,
+            SessionInvalidException.class
+    })
+    public ResponseEntity<String> handleInvalidCredentials(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 

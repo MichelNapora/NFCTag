@@ -64,9 +64,7 @@ public class TagService {
                 .orElseThrow(() -> new TagNotFoundException(scanToken));
 
         if (accuracy > maxAccuracyMeters) {
-            throw new InsufficientAccuracyException(
-                    "GPS accuracy is too low (" + Math.round(accuracy)
-                            + " m). Go outside and try again.");
+            throw new InsufficientAccuracyException(accuracy);
         }
 
         tag.setLatitude(latitude);

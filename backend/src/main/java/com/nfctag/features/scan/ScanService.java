@@ -84,7 +84,7 @@ public class ScanService {
 
         if (isBlank(command.firstname()) || isBlank(command.lastname())
                 || isBlank(command.mobile()) || command.businessId() == null) {
-            throw new InvalidScanException("The first scan needs firstname, lastname, mobile and business");
+            throw new InvalidScanException();
         }
 
         Business business = businessRepository.findById(command.businessId())

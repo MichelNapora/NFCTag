@@ -30,10 +30,10 @@ public class AuthService {
 
     public Employee login(Credentials credentials, HttpServletRequest request, HttpServletResponse response){
         Employee employee = this.employeeRepository.findByEmail(credentials.email())
-                .orElseThrow(() -> new InvalidCredentialsException("Email or password not correct"));
+                .orElseThrow(() -> new InvalidCredentialsException());
 
         if (!this.passwordEncoder.matches(credentials.password(), employee.getPasswordHash())) {
-            throw new InvalidCredentialsException("Email or password not correct");
+            throw new InvalidCredentialsException();
         }
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -61,7 +61,7 @@ public class AuthService {
 
     public Employee me(Authentication authentication){
         return this.employeeRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new InvalidCredentialsException("Session invalid"));
+                .orElseThrow(() -> new SessionInvalidException());
     }
 
     /** L'employé connecté change son propre mot de passe. */
@@ -69,11 +69,11 @@ public class AuthService {
         Employee employee = this.me(authentication);
 
         if (!this.passwordEncoder.matches(change.currentPassword(), employee.getPasswordHash())) {
-            throw new InvalidPasswordException("This password is invalid");
+            throw new InvalidPasswordException();
         }
 
         if (this.passwordEncoder.matches(change.newPassword(), employee.getPasswordHash())) {
-            throw new InvalidPasswordException("The new password must be different");
+            throw new SamePasswordException();
         }
         employee.setPasswordHash(this.passwordEncoder.encode(change.newPassword()));
         this.employeeRepository.save(employee);
