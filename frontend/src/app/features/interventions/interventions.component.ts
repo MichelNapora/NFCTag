@@ -9,6 +9,7 @@ import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import { downloadCsv, csvDate, csvToday } from '../../common/utils/csv-export';
 import {ConfirmService} from '../../common/confirm/confirm.service';
+import { CountsService } from '../../common/shell/counts.service';
 
 type Filter = 'all' | 'ongoing' | 'done' | 'estimated' | 'suspect';
 
@@ -46,7 +47,8 @@ export class InterventionsComponent implements OnInit {
   constructor(
     private presenceService: PresenceService,
     public auth: AuthService,
-    private confirm: ConfirmService
+    private confirm: ConfirmService,
+    private counts: CountsService
   ) {}
 
   ngOnInit(): void {
@@ -136,7 +138,7 @@ export class InterventionsComponent implements OnInit {
       danger: true
     }).subscribe(() => {
       this.presenceService.delete(p.id).subscribe({
-        next: () => this.reload(),
+        next: () => { this.reload(); this.counts.refresh(); },
         error: (e) => { this.error = errorMessage(e, 'Suppression impossible.'); }
       });
     });

@@ -8,6 +8,7 @@ import { Business } from '../businesses/business.models';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import {ConfirmService} from '../../common/confirm/confirm.service';
+import { CountsService } from '../../common/shell/counts.service';
 
 interface TechnicianForm {
   id: string | null;
@@ -41,7 +42,8 @@ export class TechniciansComponent implements OnInit {
     private technicianService: TechnicianService,
     private businessService: BusinessService,
     public auth: AuthService,
-    private confirm: ConfirmService
+    private confirm: ConfirmService,
+    private counts: CountsService
   ) {}
 
   ngOnInit(): void {
@@ -116,7 +118,7 @@ export class TechniciansComponent implements OnInit {
       danger: true
     }).subscribe(() => {
       this.technicianService.delete(t.id).subscribe({
-        next: () => this.reload(),
+        next: () => { this.reload(); this.counts.refresh(); },
         error: (e) => this.fail(e)
       });
     });
