@@ -3,9 +3,12 @@
     <div class="eyebrow">Compte</div>
     <h2>Mon profil</h2>
   </div>
+  <button class="btn" (click)="open()">Changer mon mot de passe</button>
 </div>
 
 <ng-container *ngIf="auth.employee as e">
+  <div class="banner ok" *ngIf="success">Mot de passe modifié.</div>
+
   <div class="profile-card">
     <div class="avatar">{{ e.firstname.charAt(0) }}{{ e.lastname.charAt(0) }}</div>
     <div class="who">
@@ -17,29 +20,64 @@
       </div>
     </div>
   </div>
-
-  <div class="sectionlbl">Changer mon mot de passe</div>
-
-  <div class="profile-card">
-    <div class="field">
-      <label>Mot de passe actuel</label>
-      <input type="password" [(ngModel)]="currentPassword" autocomplete="current-password">
-    </div>
-    <div class="field">
-      <label>Nouveau mot de passe (8 caractères minimum)</label>
-      <input type="password" [(ngModel)]="newPassword" autocomplete="new-password">
-    </div>
-    <div class="field">
-      <label>Confirmer le nouveau mot de passe</label>
-      <input type="password" [(ngModel)]="confirmPassword" autocomplete="new-password">
-    </div>
-
-    <p class="hint" *ngIf="hint">{{ hint }}</p>
-    <div class="banner error" *ngIf="error">{{ error }}</div>
-    <p class="hint" *ngIf="success">Mot de passe modifié.</p>
-
-    <button class="btn" [disabled]="!canSave || saving" (click)="save()">
-      {{ saving ? 'Enregistrement…' : 'Changer le mot de passe' }}
-    </button>
-  </div>
 </ng-container>
+
+<!-- Modale changement de mot de passe -->
+<div class="modal-back" *ngIf="modalOpen" (click)="close()">
+  <div class="modal" role="dialog" (click)="$event.stopPropagation()">
+    <div class="mhead">
+      <h3>Changer mon mot de passe</h3>
+      <button class="iconbtn" title="Fermer" (click)="close()">
+        <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19" stroke="currentColor" stroke-width="1.7"/></svg>
+      </button>
+    </div>
+    <div class="mbody">
+      <div class="msec">Sécurité</div>
+
+      <div class="field">
+        <label>Mot de passe actuel</label>
+        <div class="pwd">
+          <input [type]="showCurrent ? 'text' : 'password'" [(ngModel)]="currentPassword" autocomplete="current-password">
+          <button type="button" class="eye" (click)="showCurrent = !showCurrent"
+                  [title]="showCurrent ? 'Masquer le mot de passe' : 'Afficher le mot de passe'">
+            <svg *ngIf="!showCurrent" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            <svg *ngIf="showCurrent" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 20 20 4" stroke="currentColor" stroke-width="1.6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Nouveau mot de passe (8 caractères minimum)</label>
+        <div class="pwd">
+          <input [type]="showNew ? 'text' : 'password'" [(ngModel)]="newPassword" autocomplete="new-password">
+          <button type="button" class="eye" (click)="showNew = !showNew"
+                  [title]="showNew ? 'Masquer le mot de passe' : 'Afficher le mot de passe'">
+            <svg *ngIf="!showNew" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            <svg *ngIf="showNew" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 20 20 4" stroke="currentColor" stroke-width="1.6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Confirmer le nouveau mot de passe</label>
+        <div class="pwd">
+          <input [type]="showConfirm ? 'text' : 'password'" [(ngModel)]="confirmPassword" autocomplete="new-password">
+          <button type="button" class="eye" (click)="showConfirm = !showConfirm"
+                  [title]="showConfirm ? 'Masquer le mot de passe' : 'Afficher le mot de passe'">
+            <svg *ngIf="!showConfirm" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            <svg *ngIf="showConfirm" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 20 20 4" stroke="currentColor" stroke-width="1.6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <p class="hint" *ngIf="hint">{{ hint }}</p>
+      <div class="banner error" *ngIf="error">{{ error }}</div>
+    </div>
+    <div class="mfoot">
+      <button class="btn ghost" (click)="close()">Annuler</button>
+      <button class="btn" [disabled]="!canSave || saving" (click)="save()">
+        {{ saving ? 'Enregistrement…' : 'Enregistrer' }}
+      </button>
+    </div>
+  </div>
+</div>

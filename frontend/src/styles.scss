@@ -236,6 +236,13 @@ html, body {
   margin-bottom: 16px;
 }
 
+.banner.ok {
+  border: 1px solid var(--ink);
+  padding: 10px 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
 /* ---------- Formulaires ---------- */
 .field {
   margin-bottom: 10px;

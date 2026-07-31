@@ -13,15 +13,32 @@ import { errorMessage } from '../../common/utils/http-error';
 })
 export class ProfileComponent {
 
+  modalOpen = false;
+
   currentPassword = '';
   newPassword = '';
   confirmPassword = '';
+
+  showCurrent = false;
+  showNew = false;
+  showConfirm = false;
 
   saving = false;
   error: string | null = null;
   success = false;
 
   constructor(public auth: AuthService) {}
+
+  open(): void {
+    this.reset();
+    this.success = false;
+    this.modalOpen = true;
+  }
+
+  close(): void {
+    this.modalOpen = false;
+    this.reset();
+  }
 
   get canSave(): boolean {
     return !!(this.currentPassword && this.newPassword.length >= 8
@@ -43,20 +60,28 @@ export class ProfileComponent {
     if (!this.canSave || this.saving) { return; }
     this.saving = true;
     this.error = null;
-    this.success = false;
 
     this.auth.changePassword(this.currentPassword, this.newPassword).subscribe({
       next: () => {
         this.saving = false;
         this.success = true;
-        this.currentPassword = '';
-        this.newPassword = '';
-        this.confirmPassword = '';
+        this.close();
       },
       error: (e) => {
         this.saving = false;
         this.error = errorMessage(e, 'Changement impossible.');
       }
     });
+  }
+
+  /** Vide les champs et les yeux : rien ne doit survivre à la fermeture. */
+  private reset(): void {
+    this.currentPassword = '';
+    this.newPassword = '';
+    this.confirmPassword = '';
+    this.showCurrent = false;
+    this.showNew = false;
+    this.showConfirm = false;
+    this.error = null;
   }
 }
