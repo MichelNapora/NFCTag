@@ -32,12 +32,12 @@ public class TagService {
     }
 
     public Tag findById(UUID id){
-        return this.tagRepository.findById(id).orElseThrow(()-> new TagNotFoundException("Tag not found : "+id));
+        return this.tagRepository.findById(id).orElseThrow(()-> new TagNotFoundException(id));
     }
 
     public Tag create(Tag tag){
         if(this.tagRepository.existsByWingId(tag.getWing().getId())){
-            throw new TagAlreadyExistsException("This wing already has a tag !");
+            throw new TagAlreadyExistsException();
         }
         return this.tagRepository.save(tag);
     }
@@ -46,7 +46,7 @@ public class TagService {
     public Tag update(UUID id, Tag tag){
         Tag existing = this.findById(id);
         if(this.tagRepository.existsByWingIdAndIdNot(tag.getWing().getId(), id)){
-            throw new TagAlreadyExistsException("This wing already has a tag !");
+            throw new TagAlreadyExistsException();
         }
         existing.setLatitude(tag.getLatitude());
         existing.setLongitude(tag.getLongitude());
@@ -61,7 +61,7 @@ public class TagService {
 
     public Tag calibrate(UUID scanToken, Double latitude, Double longitude, Double accuracy){
         Tag tag = this.tagRepository.findByScanToken(scanToken)
-                .orElseThrow(() -> new TagNotFoundException("Tag not found : " + scanToken));
+                .orElseThrow(() -> new TagNotFoundException(scanToken));
 
         if (accuracy > maxAccuracyMeters) {
             throw new InsufficientAccuracyException(
@@ -80,8 +80,7 @@ public class TagService {
         this.findById(id);
         long presences = this.presenceRepository.countByTagId(id);
         if (presences > 0) {
-            throw new TagNotEmptyException(
-                    "This tag has " + presences + " intervention(s) recorded.");
+            throw new TagNotEmptyException(presences);
         }
         this.tagRepository.deleteById(id);
     }

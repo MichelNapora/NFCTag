@@ -21,12 +21,12 @@ public class WingService {
     }
 
     public Wing findById(UUID id){
-        return this.wingRepository.findById(id).orElseThrow(()-> new WingNotFoundException("Wing not found : "+ id));
+        return this.wingRepository.findById(id).orElseThrow(()-> new WingNotFoundException(id));
     }
 
     public Wing create(Wing wing){
         if(this.wingRepository.existsByNameAndBuildingId(wing.getName(),wing.getBuilding().getId())){
-            throw  new WingAlreadyExistsException("Wing "+ wing.getName()+ " already exists for this building");
+            throw  new WingAlreadyExistsException(wing.getName());
         }
         return this.wingRepository.save(wing);
     }
@@ -34,7 +34,7 @@ public class WingService {
     public Wing update(UUID id, Wing w){
         Wing existing = this.findById(id);
         if (this.wingRepository.existsByNameAndBuildingIdAndIdNot(w.getName(), w.getBuilding().getId(), id)) {
-            throw new WingAlreadyExistsException( "Wing " + w.getName() + " already exists for this building");
+            throw new WingAlreadyExistsException(w.getName());
         }
         existing.setName(w.getName());
         existing.setBuilding(w.getBuilding());
@@ -45,7 +45,7 @@ public class WingService {
         this.findById(id);
         long tags = this.tagRepository.countByWingId(id);
         if (tags > 0) {
-            throw new WingNotEmptyException("This wing has a tag. Delete it first.");
+            throw new WingNotEmptyException();
         }
         this.wingRepository.deleteById(id);
     }

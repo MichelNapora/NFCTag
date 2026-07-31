@@ -1,7 +1,9 @@
 package com.nfctag.features.tag;
 
+import java.util.UUID;
+
 public class TagNotFoundException extends RuntimeException {
-    public TagNotFoundException(String message) {
-        super(message);
+    public TagNotFoundException(UUID id) {
+        super("Tag not found : " + id);
     }
 }

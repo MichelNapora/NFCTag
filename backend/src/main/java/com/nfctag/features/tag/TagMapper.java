@@ -23,7 +23,7 @@ public class TagMapper {
     }
 
     public Tag toEntity(TagDTO dto){
-        Wing wing = this.wingRepository.findById(dto.getWingId()).orElseThrow(()->new WingNotFoundException("Wing not found : " + dto.getWingId()));
+        Wing wing = this.wingRepository.findById(dto.getWingId()).orElseThrow(()->new WingNotFoundException(dto.getWingId()));
         return new Tag(wing,dto.getLatitude(),dto.getLongitude());
     }
 }

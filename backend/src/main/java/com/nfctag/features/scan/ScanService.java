@@ -43,7 +43,7 @@ public class ScanService {
     @Transactional
     public ScanResult scan(UUID scanToken, ScanCommand command){
 
-        Tag tag = tagRepository.findByScanToken(scanToken).orElseThrow(() -> new TagNotFoundException("Tag not found"));
+        Tag tag = tagRepository.findByScanToken(scanToken).orElseThrow(() -> new TagNotFoundException(scanToken));
 
         Technician technician = resolveTechnician(command);
 
