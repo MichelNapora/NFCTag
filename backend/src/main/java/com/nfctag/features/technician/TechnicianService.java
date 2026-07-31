@@ -2,6 +2,7 @@ package com.nfctag.features.technician;
 
 import com.nfctag.features.business.BusinessNotFoundException;
 import com.nfctag.features.business.BusinessRepository;
+import com.nfctag.features.presence.PresenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ public class TechnicianService {
 
     @Autowired
     private BusinessRepository businessRepository;
+
+    @Autowired
+    private PresenceRepository presenceRepository;
 
     public List<Technician> findAll(){
         return this.technicianRepository.findAll();
@@ -58,6 +62,11 @@ public class TechnicianService {
 
     public void delete (UUID id){
         this.findById(id);
+        long presences = this.presenceRepository.countByTechnicianId(id);
+        if (presences > 0) {
+            throw new TechnicianNotEmptyException(
+                    "This technician has " + presences + " intervention(s) recorded.");
+        }
         this.technicianRepository.deleteById(id);
     }
 

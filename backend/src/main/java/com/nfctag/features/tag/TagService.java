@@ -1,6 +1,7 @@
 package com.nfctag.features.tag;
 
 import com.nfctag.features.location.InsufficientAccuracyException;
+import com.nfctag.features.presence.PresenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,10 @@ public class TagService {
 
     @Autowired
     private TagRepository tagRepository;
+
+
+    @Autowired
+    private PresenceRepository presenceRepository;
 
     public List<Tag> findAll(){
         return this.tagRepository.findAll();
@@ -73,6 +78,11 @@ public class TagService {
 
     public void delete(UUID id){
         this.findById(id);
+        long presences = this.presenceRepository.countByTagId(id);
+        if (presences > 0) {
+            throw new TagNotEmptyException(
+                    "This tag has " + presences + " intervention(s) recorded.");
+        }
         this.tagRepository.deleteById(id);
     }
 

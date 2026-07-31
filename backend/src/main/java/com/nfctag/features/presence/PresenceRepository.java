@@ -36,4 +36,7 @@ public interface PresenceRepository extends JpaRepository<Presence, UUID>, JpaSp
             + "from presence where departed_at is not null",
             nativeQuery = true)
     long sumDurationMinutes();
+
+    long countByTagId(UUID tagId);
+    long countByTechnicianId(UUID technicianId);
 }

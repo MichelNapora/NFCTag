@@ -1,5 +1,6 @@
 package com.nfctag.features.wing;
 
+import com.nfctag.features.tag.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,9 @@ public class WingService {
 
     @Autowired
     private WingRepository wingRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
     public List<Wing> findAll(){
         return this.wingRepository.findAll();
@@ -39,6 +43,10 @@ public class WingService {
 
     public void delete(UUID id){
         this.findById(id);
+        long tags = this.tagRepository.countByWingId(id);
+        if (tags > 0) {
+            throw new WingNotEmptyException("This wing has a tag. Delete it first.");
+        }
         this.wingRepository.deleteById(id);
     }
 

@@ -12,4 +12,5 @@ public interface TechnicianRepository extends JpaRepository<Technician, UUID> {
     List<Technician> findByBusinessId(UUID businessId);
     Optional<Technician> findByMobile(String mobile);
     Optional<Technician> findByDeviceToken(UUID deviceToken);
+    long countByBusinessId(UUID businessId);
 }

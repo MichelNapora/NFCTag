@@ -6,6 +6,7 @@ import com.nfctag.features.building.BuildingAlreadyExistsException;
 import com.nfctag.features.building.BuildingNotEmptyException;
 import com.nfctag.features.building.BuildingNotFoundException;
 import com.nfctag.features.business.BusinessAlreadyExistsException;
+import com.nfctag.features.business.BusinessNotEmptyException;
 import com.nfctag.features.business.BusinessNotFoundException;
 import com.nfctag.features.employee.EmployeeAlreadyExistsException;
 import com.nfctag.features.employee.EmployeeNotFoundException;
@@ -13,10 +14,13 @@ import com.nfctag.features.presence.PresenceNotFoundException;
 import com.nfctag.features.scan.InvalidScanException;
 import com.nfctag.features.location.InsufficientAccuracyException;
 import com.nfctag.features.tag.TagAlreadyExistsException;
+import com.nfctag.features.tag.TagNotEmptyException;
 import com.nfctag.features.tag.TagNotFoundException;
 import com.nfctag.features.technician.TechnicianAlreadyExistsException;
+import com.nfctag.features.technician.TechnicianNotEmptyException;
 import com.nfctag.features.technician.TechnicianNotFoundException;
 import com.nfctag.features.wing.WingAlreadyExistsException;
+import com.nfctag.features.wing.WingNotEmptyException;
 import com.nfctag.features.wing.WingNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -60,12 +64,17 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            BuildingNotEmptyException.class
+            BuildingNotEmptyException.class,
+            WingNotEmptyException.class,
+            TagNotEmptyException.class,
+            BusinessNotEmptyException.class,
+            TechnicianNotEmptyException.class
     })
+
     public ResponseEntity<String> handleNotEmpty(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
-    
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrity(DataIntegrityViolationException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)

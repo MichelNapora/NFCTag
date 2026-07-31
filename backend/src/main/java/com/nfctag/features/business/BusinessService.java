@@ -1,5 +1,6 @@
 package com.nfctag.features.business;
 
+import com.nfctag.features.technician.TechnicianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,9 @@ import java.util.UUID;
 public class BusinessService {
     @Autowired
     private BusinessRepository businessRepository;
+
+    @Autowired
+    private TechnicianRepository technicianRepository;
 
     public List<Business> findAll(){
         return this.businessRepository.findAll();
@@ -38,6 +42,11 @@ public class BusinessService {
 
     public void delete(UUID id){
         this.findById(id);
+        long technicians = this.technicianRepository.countByBusinessId(id);
+        if (technicians > 0) {
+            throw new BusinessNotEmptyException(
+                    "This company has " + technicians + " technician(s).");
+        }
         this.businessRepository.deleteById(id);
     }
 

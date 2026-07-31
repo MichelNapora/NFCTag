@@ -11,4 +11,5 @@ public interface TagRepository extends JpaRepository<Tag,UUID> {
     boolean existsByWingId(UUID wingId);
     boolean existsByWingIdAndIdNot(UUID wingId, UUID id);
     List<Tag> findByWingBuildingId(UUID buildingId);
+    long countByWingId(UUID wingId);
 }
