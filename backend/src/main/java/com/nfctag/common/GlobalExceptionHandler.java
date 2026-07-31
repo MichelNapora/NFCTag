@@ -2,6 +2,7 @@ package com.nfctag.common;
 
 import com.nfctag.features.address.AddressNotFoundException;
 import com.nfctag.features.auth.InvalidPasswordException;
+import com.nfctag.features.building.BuildingAddressAlreadyExistsException;
 import com.nfctag.features.building.BuildingAlreadyExistsException;
 import com.nfctag.features.building.BuildingNotEmptyException;
 import com.nfctag.features.building.BuildingNotFoundException;
@@ -57,8 +58,10 @@ public class GlobalExceptionHandler {
             BusinessAlreadyExistsException.class,
             TechnicianAlreadyExistsException.class,
             TagAlreadyExistsException.class,
-            EmployeeAlreadyExistsException.class
+            EmployeeAlreadyExistsException.class,
+            BuildingAddressAlreadyExistsException.class
     })
+
     public ResponseEntity<String> handleAlreadyExists(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }

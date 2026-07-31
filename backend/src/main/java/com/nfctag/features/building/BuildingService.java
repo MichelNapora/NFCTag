@@ -1,5 +1,7 @@
 package com.nfctag.features.building;
 
+import com.nfctag.features.address.Address;
+import com.nfctag.features.address.AddressRepository;
 import com.nfctag.features.wing.WingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,10 @@ public class BuildingService {
     @Autowired
     private WingRepository wingRepository;
 
+
+    @Autowired
+    private AddressRepository addressRepository;
+
     public List<Building> findAll(){
         return this.buildingRepository.findAll();
     }
@@ -28,6 +34,13 @@ public class BuildingService {
         if(this.buildingRepository.existsByProjectCode(building.getProjectCode())){
             throw new BuildingAlreadyExistsException("Project code already exists : "+ building.getProjectCode());
         }
+
+        Address a = building.getAddress();
+        if (this.addressRepository.existsByStreetIgnoreCaseAndNumberAndBoxAndPostalCodeAndCityIgnoreCase(
+                a.getStreet(), a.getNumber(), a.getBox(), a.getPostalCode(), a.getCity())) {
+            throw new BuildingAddressAlreadyExistsException(a);
+        }
+
         return this.buildingRepository.save(building);
     }
 
@@ -53,6 +66,12 @@ public class BuildingService {
         existing.getAddress().setBox(building.getAddress().getBox());
         existing.getAddress().setPostalCode(building.getAddress().getPostalCode());
         existing.getAddress().setCity(building.getAddress().getCity());
+        Address a = building.getAddress();
+        if (this.addressRepository.existsByStreetIgnoreCaseAndNumberAndBoxAndPostalCodeAndCityIgnoreCaseAndIdNot(
+                a.getStreet(), a.getNumber(), a.getBox(), a.getPostalCode(), a.getCity(),
+                existing.getAddress().getId())) {
+            throw new BuildingAddressAlreadyExistsException(a);
+        }
         return this.buildingRepository.save(existing);
     }
 

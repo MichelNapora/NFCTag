@@ -18,7 +18,7 @@ public class AddressMapper {
         return new Address(
                 dto.getStreet(),
                 dto.getNumber(),
-                dto.getBox(),
+                dto.getBox() == null ? "" : dto.getBox(),
                 dto.getPostalCode(),
                 dto.getCity()
         );
