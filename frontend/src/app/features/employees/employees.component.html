@@ -31,7 +31,11 @@
         <td>
           <span class="st fill" *ngIf="e.role === 'ADMIN'">Admin</span>
           <span class="st" *ngIf="e.role === 'EMPLOYEE'">Employé</span>
+          <span class="st alert" *ngIf="e.locked">Verrouillé</span>
         </td>
+        <button class="iconbtn" title="Déverrouiller le compte" *ngIf="e.locked" (click)="unlock(e)">
+          <svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 8 0" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
         <td class="actions">
           <button class="iconbtn" title="Modifier" (click)="openEdit(e)">
             <svg viewBox="0 0 24 24"><path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19l-4 1z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>

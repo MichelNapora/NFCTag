@@ -5,4 +5,5 @@ export interface Employee {
   lastname: string;
   email: string;
   role: 'ADMIN' | 'EMPLOYEE';
+  locked: boolean;
 }

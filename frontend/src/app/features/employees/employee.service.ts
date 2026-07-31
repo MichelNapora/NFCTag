@@ -21,6 +21,11 @@ export class EmployeeService {
     return this.http.put<Employee>(`/api/employees/${id}`, { firstname, lastname, email, role, password });
   }
 
+  /** L'admin libère un compte verrouillé après trop d'échecs de connexion. */
+  unlock(id: string): Observable<Employee> {
+    return this.http.post<Employee>(`/api/employees/${id}/unlock`, {});
+  }
+
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`/api/employees/${id}`);
   }

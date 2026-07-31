@@ -118,6 +118,19 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
+  unlock(e: Employee): void {
+    this.confirm.ask({
+      title: 'Déverrouiller le compte',
+      message: `Voulez-vous déverrouiller le compte de « ${e.firstname} ${e.lastname} » ?`,
+      confirmLabel: 'Déverrouiller'
+    }).subscribe(() => {
+      this.employeeService.unlock(e.id).subscribe({
+        next: () => this.reload(),
+        error: (err) => this.fail(err)
+      });
+    });
+  }
+
   remove(e: Employee): void {
     if (this.isMe(e)) { return; }
     this.confirm.ask({
