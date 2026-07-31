@@ -5,6 +5,7 @@ import com.nfctag.features.employee.EmployeeRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,6 +26,9 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Value("${nfctag.max-login-attempts}")
+    private int maxLoginAttempts;
+
     private final HttpSessionSecurityContextRepository securityContextRepository =
             new HttpSessionSecurityContextRepository();
 
@@ -32,9 +36,21 @@ public class AuthService {
         Employee employee = this.employeeRepository.findByEmail(credentials.email())
                 .orElseThrow(() -> new InvalidCredentialsException());
 
+        if (employee.isLocked()) {
+            throw new AccountLockedException();
+        }
+
         if (!this.passwordEncoder.matches(credentials.password(), employee.getPasswordHash())) {
+            employee.setFailedAttempts(employee.getFailedAttempts() + 1);
+            if (employee.getFailedAttempts() >= this.maxLoginAttempts) {
+                employee.setLocked(true);
+            }
+            this.employeeRepository.save(employee);
             throw new InvalidCredentialsException();
         }
+
+        employee.setFailedAttempts(0);
+        this.employeeRepository.save(employee);
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 employee.getEmail(),

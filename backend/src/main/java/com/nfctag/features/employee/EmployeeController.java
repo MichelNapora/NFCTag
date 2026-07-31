@@ -33,6 +33,12 @@ public class EmployeeController {
         return this.employeeMapper.toDto(saved);
     }
 
+    @PostMapping("/employees/{id}/unlock")
+    public EmployeeDTO unlock(@PathVariable UUID id){
+        return this.employeeMapper.toDto(this.employeeService.unlock(id));
+    }
+
+
     @PutMapping("/employees/{id}")
     public EmployeeDTO update(@PathVariable UUID id, @Valid @RequestBody EmployeeDTO dto){
         Employee e = this.employeeMapper.toEntity(dto);

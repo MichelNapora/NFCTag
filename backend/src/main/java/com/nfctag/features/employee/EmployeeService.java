@@ -46,6 +46,15 @@ public class EmployeeService {
         return this.employeeRepository.save(existing);
     }
 
+    /** L'administrateur libère un compte verrouillé après trop d'échecs. */
+    public Employee unlock(UUID id){
+        Employee employee = this.findById(id);
+        employee.setLocked(false);
+        employee.setFailedAttempts(0);
+        return this.employeeRepository.save(employee);
+    }
+
+
     public void delete(UUID id){
         this.findById(id);
         this.employeeRepository.deleteById(id);

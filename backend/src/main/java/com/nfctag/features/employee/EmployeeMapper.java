@@ -16,7 +16,8 @@ public class EmployeeMapper {
                 e.getFirstname(),
                 e.getLastname(),
                 e.getEmail(),
-                e.getRole()
+                e.getRole(),
+                e.isLocked()
         );
     }
 

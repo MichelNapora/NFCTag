@@ -1,8 +1,6 @@
 package com.nfctag.common;
 
-import com.nfctag.features.auth.InvalidPasswordException;
-import com.nfctag.features.auth.SamePasswordException;
-import com.nfctag.features.auth.SessionInvalidException;
+import com.nfctag.features.auth.*;
 import com.nfctag.features.building.BuildingAddressAlreadyExistsException;
 import com.nfctag.features.building.BuildingAlreadyExistsException;
 import com.nfctag.features.building.BuildingNotEmptyException;
@@ -30,7 +28,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import com.nfctag.features.auth.InvalidCredentialsException;
 import com.nfctag.features.employee.EmployeePasswordRequiredException;
 
 import java.util.HashMap;
@@ -97,7 +94,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             InvalidCredentialsException.class,
-            SessionInvalidException.class
+            SessionInvalidException.class,
+            AccountLockedException.class
     })
     public ResponseEntity<String> handleInvalidCredentials(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());

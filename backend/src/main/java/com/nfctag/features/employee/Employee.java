@@ -35,6 +35,10 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private int failedAttempts;
+
+    private boolean locked;
+
     public Employee(String firstname, String lastname, String email, String passwordHash, Role role){
         this.firstname=firstname;
         this.lastname=lastname;
@@ -69,6 +73,14 @@ public class Employee {
         return this.role;
     }
 
+    public int getFailedAttempts(){
+        return this.failedAttempts;
+    }
+
+    public boolean isLocked(){
+        return this.locked;
+    }
+
     public void setFirstname(String firstname){
         this.firstname=firstname;
     }
@@ -87,6 +99,14 @@ public class Employee {
 
     public void setRole(Role role){
         this.role=role;
+    }
+
+    public void setFailedAttempts(int failedAttempts){
+        this.failedAttempts=failedAttempts;
+    }
+
+    public void setLocked(boolean locked){
+        this.locked=locked;
     }
 
 }

@@ -28,14 +28,17 @@ public class EmployeeDTO {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    public EmployeeDTO(UUID id, String firstname, String lastname, String email, Role role){
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private boolean locked;
+
+    public EmployeeDTO(UUID id, String firstname, String lastname, String email, Role role, boolean locked){
         this.id=id;
         this.firstname=firstname;
         this.lastname=lastname;
         this.email=email;
         this.role=role;
+        this.locked=locked;
     }
-
     public EmployeeDTO(){}
 
     public UUID getId(){
@@ -56,6 +59,11 @@ public class EmployeeDTO {
 
     public Role getRole(){
         return this.role;
+    }
+
+
+    public boolean isLocked(){
+        return this.locked;
     }
 
     public String getPassword(){
