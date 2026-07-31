@@ -27,16 +27,16 @@ server:
         http-only: true
         same-site: strict
         secure: ${COOKIE_SECURE:true}
-        max-login-attempts: ${MAX_LOGIN_ATTEMPTS}
 
 nfctag:
   estimated-duration-minutes: 60
   timezone: Europe/Brussels
+  max-login-attempts: ${MAX_LOGIN_ATTEMPTS}
   public-base-url: ${PUBLIC_BASE_URL:http://localhost:4200}
   proximity-meters: 200
   max-accuracy-meters: 50
   job-interval-ms: 600000
-  admin-email: ${ADMIN_EMAIL:admin.spi@spi.be}
+  admin-email: ${ADMIN_EMAIL}
   admin-password: ${ADMIN_PASSWORD}
 
 logging:
