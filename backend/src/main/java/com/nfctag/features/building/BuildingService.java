@@ -27,18 +27,18 @@ public class BuildingService {
     }
 
     public Building findById(UUID id){
-        return this.buildingRepository.findById(id).orElseThrow(()-> new BuildingNotFoundException("Building not found : "+id));
+        return this.buildingRepository.findById(id).orElseThrow(()-> new BuildingNotFoundException(id));
     }
 
     public Building create(Building building){
         if(this.buildingRepository.existsByProjectCode(building.getProjectCode())){
-            throw new BuildingAlreadyExistsException("Project code already exists : "+ building.getProjectCode());
+            throw new BuildingAlreadyExistsException(building.getProjectCode());
         }
 
         Address a = building.getAddress();
         if (this.addressRepository.existsByStreetIgnoreCaseAndNumberAndBoxAndPostalCodeAndCityIgnoreCase(
                 a.getStreet(), a.getNumber(), a.getBox(), a.getPostalCode(), a.getCity())) {
-            throw new BuildingAddressAlreadyExistsException(a);
+            throw new BuildingAddressAlreadyExistsException(a.getStreet(), a.getNumber(), a.getPostalCode(), a.getCity());
         }
 
         return this.buildingRepository.save(building);
@@ -48,8 +48,7 @@ public class BuildingService {
         this.findById(id);
         long wings = this.wingRepository.countByBuildingId(id);
         if (wings > 0) {
-            throw new BuildingNotEmptyException(
-                    "This building contains " + wings + " wing(s). Delete them first.");
+            throw new BuildingNotEmptyException(wings);
         }
         this.buildingRepository.deleteById(id);
     }
@@ -57,7 +56,7 @@ public class BuildingService {
     public Building update(UUID id, Building building){
         Building existing = this.findById(id);
         if(this.buildingRepository.existsByProjectCodeAndIdNot(building.getProjectCode(), id)){
-            throw new BuildingAlreadyExistsException("Project code already exists : "+ building.getProjectCode());
+            throw new BuildingAlreadyExistsException(building.getProjectCode());
         }
         existing.setName(building.getName());
         existing.setProjectCode(building.getProjectCode());
@@ -70,7 +69,7 @@ public class BuildingService {
         if (this.addressRepository.existsByStreetIgnoreCaseAndNumberAndBoxAndPostalCodeAndCityIgnoreCaseAndIdNot(
                 a.getStreet(), a.getNumber(), a.getBox(), a.getPostalCode(), a.getCity(),
                 existing.getAddress().getId())) {
-            throw new BuildingAddressAlreadyExistsException(a);
+            throw new BuildingAddressAlreadyExistsException(a.getStreet(), a.getNumber(), a.getPostalCode(), a.getCity());
         }
         return this.buildingRepository.save(existing);
     }

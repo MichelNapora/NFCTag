@@ -20,7 +20,7 @@ public class WingMapper {
     }
 
     public Wing toEntity(WingDTO dto){
-        Building building= this.buildingRepository.findById(dto.getBuildingId()).orElseThrow(()-> new BuildingNotFoundException(("Building not found : "+ dto.getBuildingId())));
+        Building building= this.buildingRepository.findById(dto.getBuildingId()).orElseThrow(()-> new BuildingNotFoundException(dto.getBuildingId()));
         return new Wing(dto.getName(),building);
     }
 }
