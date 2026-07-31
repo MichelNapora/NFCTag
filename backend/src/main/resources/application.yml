@@ -26,8 +26,7 @@ server:
       cookie:
         http-only: true
         same-site: strict
-        secure: ${COOKIE_SECURE:false}
-
+        secure: ${COOKIE_SECURE:true}
 
 nfctag:
   estimated-duration-minutes: 60
