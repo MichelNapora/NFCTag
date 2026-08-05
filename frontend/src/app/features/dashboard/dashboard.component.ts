@@ -63,6 +63,8 @@ export class DashboardComponent implements OnInit {
     this.statsService.byBusiness().subscribe({
       next: (list) => { this.businessStats = list; },
       error: () => { /* pas bloquant */ }
+
+      <span class="st alert" *ngIf="p.departureLocationStatus === 'TOO_FAR'">Départ à distance</span>
     });
   }
 

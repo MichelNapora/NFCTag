@@ -129,6 +129,11 @@ export class InterventionsComponent implements OnInit {
     return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : 'Non renseigné';
   }
 
+  /** Position d'où le départ a été scanné. Vide si départ estimé ou intervention en cours. */
+  departureLocationLabel(p: PresenceView): string {
+    return p.departureLocationStatus ? LOCATION_LABEL[p.departureLocationStatus] : '';
+  }
+
   remove(p: PresenceView): void {
     const quand = new Date(p.arrivedAt).toLocaleString('fr-BE');
     this.confirm.ask({
@@ -164,7 +169,7 @@ export class InterventionsComponent implements OnInit {
   private buildCsv(all: PresenceView[]): void {
     const header = ['Technicien', 'Mobile', 'Société', 'Bâtiment', 'Aile',
       'Arrivée', 'Départ', 'Durée (min)', 'Estimé',
-      'Statut localisation', 'Distance (m)'];
+      'Statut localisation', 'Distance (m)','Statut localisation départ', 'Distance départ (m)'];
 
     const rows = all.map(p => [
       p.technicianName,
@@ -177,7 +182,9 @@ export class InterventionsComponent implements OnInit {
       p.durationMinutes != null ? String(p.durationMinutes) : '',
       p.estimated ? 'Oui' : 'Non',
       this.locationLabel(p),
-      p.distanceMeters != null ? String(Math.round(p.distanceMeters)) : ''
+      p.distanceMeters != null ? String(Math.round(p.distanceMeters)) : '',
+      this.departureLocationLabel(p),
+      p.departureDistanceMeters != null ? String(Math.round(p.departureDistanceMeters)) : ''
     ]);
 
     downloadCsv(`interventions-${csvToday()}.csv`, header, rows);

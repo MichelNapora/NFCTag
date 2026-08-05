@@ -58,6 +58,10 @@
             {{ locationLabel(p) }}
           </span>
         <span class="sub" *ngIf="p.distanceMeters != null">à {{ p.distanceMeters | number:'1.0-0' }} m</span>
+        <span class="st alert" *ngIf="p.departureLocationStatus === 'TOO_FAR'">Départ à distance</span>
+        <span class="sub" *ngIf="p.departureLocationStatus === 'TOO_FAR' && p.departureDistanceMeters != null">
+          à {{ p.departureDistanceMeters | number:'1.0-0' }} m au départ
+        </span>
       </td>
       <td class="actions">
         <button class="iconbtn danger" title="Supprimer" *ngIf="auth.isAdmin" (click)="remove(p)">

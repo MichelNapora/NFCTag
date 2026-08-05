@@ -15,6 +15,8 @@ export interface PresenceView {
   locationVerified: boolean;
   locationStatus: LocationStatus | null;
   distanceMeters: number | null;
+  departureLocationStatus: LocationStatus | null;
+  departureDistanceMeters: number | null;
 }
 
 /** Métadonnées de pagination renvoyées par Spring (PagedModel). */
