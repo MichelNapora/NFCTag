@@ -63,6 +63,7 @@
             {{ locationLabel(p) }}
           </span>
           <span class="sub" *ngIf="p.distanceMeters != null">à {{ p.distanceMeters | number:'1.0-0' }} m</span>
+          <span class="st alert" *ngIf="p.departureLocationStatus === 'TOO_FAR'">Départ à distance</span>
         </td>
       </tr>
       <tr *ngIf="!loading && recent.length === 0">
