@@ -13,6 +13,7 @@ import com.nfctag.features.employee.EmployeeNotFoundException;
 import com.nfctag.features.presence.PresenceNotFoundException;
 import com.nfctag.features.scan.InvalidScanException;
 import com.nfctag.features.location.InsufficientAccuracyException;
+import com.nfctag.features.scan.ScanIdentityMismatchException;
 import com.nfctag.features.tag.TagAlreadyExistsException;
 import com.nfctag.features.tag.TagNotEmptyException;
 import com.nfctag.features.tag.TagNotFoundException;
@@ -95,7 +96,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             InvalidCredentialsException.class,
             SessionInvalidException.class,
-            AccountLockedException.class
+            AccountLockedException.class,
+            ScanIdentityMismatchException.class
     })
     public ResponseEntity<String> handleInvalidCredentials(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());

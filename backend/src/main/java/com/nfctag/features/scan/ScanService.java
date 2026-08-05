@@ -78,7 +78,11 @@ public class ScanService {
         if (command.mobile() != null) {
             Optional<Technician> existing = technicianRepository.findByMobile(command.mobile());
             if (existing.isPresent()) {
-                return existing.get();
+                Technician technician = existing.get();
+                if (!sameIdentity(technician, command)) {
+                    throw new ScanIdentityMismatchException();
+                }
+                return technician;
             }
         }
 
@@ -102,7 +106,16 @@ public class ScanService {
     private boolean isBlank(String value){
         return value == null || value.isBlank();
     }
+    
+    private boolean sameIdentity(Technician technician, ScanCommand command){
+        return trimmed(technician.getFirstname()).equalsIgnoreCase(trimmed(command.firstname()))
+                && trimmed(technician.getLastname()).equalsIgnoreCase(trimmed(command.lastname()))
+                && technician.getBusiness().getId().equals(command.businessId());
+    }
 
+    private String trimmed(String value){
+        return value == null ? "" : value.trim();
+    }
     private LocationCheck checkLocation(Tag tag, ScanCommand command){
 
         if (tag.getLatitude() == null || tag.getLongitude() == null) {
