@@ -39,7 +39,9 @@ public final class PresenceSpecifications {
                     cb.isNotNull(root.get("departedAt")),
                     cb.isFalse(root.get("estimated")));
             case "estimated" -> (root, query, cb) -> cb.isTrue(root.get("estimated"));
-            case "suspect"   -> (root, query, cb) -> cb.equal(root.get("locationStatus"), LocationStatus.TOO_FAR);
+            case "suspect"   -> (root, query, cb) -> cb.or(
+                    cb.equal(root.get("locationStatus"), LocationStatus.TOO_FAR),
+                    cb.equal(root.get("departureLocationStatus"), LocationStatus.TOO_FAR));
             default          -> null;
         };
     }

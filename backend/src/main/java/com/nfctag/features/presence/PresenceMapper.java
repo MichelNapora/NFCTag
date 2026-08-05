@@ -22,7 +22,9 @@ public class PresenceMapper {
               presence.isEstimated(),
               presence.isLocationVerified(),
               presence.getLocationStatus(),
-              presence.getDistanceMeters()
+              presence.getDistanceMeters(),
+              presence.getDepartureLocationStatus(),
+              presence.getDepartureDistanceMeters()
       );
   }
 

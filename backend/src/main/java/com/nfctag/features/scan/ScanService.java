@@ -57,6 +57,8 @@ public class ScanService {
         if (open.isPresent()) {
             presence = open.get();
             presence.setDepartedAt(OffsetDateTime.now());
+            presence.setDepartureLocationStatus(location.getStatus());
+            presence.setDepartureDistanceMeters(location.getDistanceMeters());
             action = ScanAction.DEPARTURE;
         } else {
             presence = new Presence(technician, tag, OffsetDateTime.now(),
@@ -106,7 +108,7 @@ public class ScanService {
     private boolean isBlank(String value){
         return value == null || value.isBlank();
     }
-    
+
     private boolean sameIdentity(Technician technician, ScanCommand command){
         return trimmed(technician.getFirstname()).equalsIgnoreCase(trimmed(command.firstname()))
                 && trimmed(technician.getLastname()).equalsIgnoreCase(trimmed(command.lastname()))

@@ -41,8 +41,12 @@ public class Presence {
     @Enumerated(EnumType.STRING)
     private LocationStatus locationStatus;
 
-    /** Distance mesurée entre le téléphone et le tag, si calculable. */
     private Double distanceMeters;
+
+    @Enumerated(EnumType.STRING)
+    private LocationStatus departureLocationStatus;
+
+    private Double departureDistanceMeters;
 
     public Presence(Technician technician, Tag tag, OffsetDateTime arrivedAt,
                     LocationStatus locationStatus, Double distanceMeters){
@@ -92,6 +96,14 @@ public class Presence {
         return this.distanceMeters;
     }
 
+    public LocationStatus getDepartureLocationStatus(){
+        return this.departureLocationStatus;
+    }
+
+    public Double getDepartureDistanceMeters(){
+        return this.departureDistanceMeters;
+    }
+
     public void setDepartedAt(OffsetDateTime departedAt){
         this.departedAt=departedAt;
     }
@@ -103,4 +115,13 @@ public class Presence {
     public void setLocationVerified(boolean locationVerified){
         this.locationVerified=locationVerified;
     }
+
+    public void setDepartureLocationStatus(LocationStatus departureLocationStatus){
+        this.departureLocationStatus=departureLocationStatus;
+    }
+
+    public void setDepartureDistanceMeters(Double departureDistanceMeters){
+        this.departureDistanceMeters=departureDistanceMeters;
+    }
+}
 }
