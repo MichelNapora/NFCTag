@@ -23,4 +23,9 @@ export class BusinessService {
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`/api/businesses/${id}`);
   }
+
+  idsInUse(): Observable<string[]> {
+    return this.http.get<string[]>('/api/businesses/ids-in-use');
+  }
 }
+
