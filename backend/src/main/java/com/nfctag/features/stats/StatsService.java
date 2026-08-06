@@ -2,16 +2,14 @@ package com.nfctag.features.stats;
 
 import com.nfctag.features.business.Business;
 import com.nfctag.features.location.LocationStatus;
+import com.nfctag.features.presence.PresenceDurationCalculator;
 import com.nfctag.features.presence.Presence;
 import com.nfctag.features.presence.PresenceRepository;
 import com.nfctag.features.technician.Technician;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +17,9 @@ public class StatsService {
 
     @Autowired
     private PresenceRepository presenceRepository;
+
+    @Autowired
+    private PresenceDurationCalculator durationCalculator;
 
     /** Fiabilité de localisation par technicien : détecte ceux qui coupent leur GPS. */
     public List<TechnicianStats> byTechnician(){
@@ -103,11 +104,24 @@ public class StatsService {
         return new LocationCounters(located, tooFar, rate);
     }
 
+    /**
+     * Somme des durées de toutes les interventions terminées.
+     * On réutilise le calculateur de l'affichage : une seule règle, un seul endroit.
+     */
+    private long sumDurationMinutes(){
+        return this.presenceRepository.findAll().stream()
+                .map(this.durationCalculator::compute)
+                .filter(Objects::nonNull)
+                .mapToLong(Long::longValue)
+                .sum();
+    }
+
+
     /** Indicateurs du tableau de bord : 5 compteurs et 8 lignes, rien de plus. */
     public DashboardStats dashboard(){
         return new DashboardStats(
                 this.presenceRepository.count(),
-                this.presenceRepository.sumDurationMinutes(),
+                this.sumDurationMinutes(),
                 this.presenceRepository.countByDepartedAtIsNull(),
                 this.presenceRepository.countByEstimatedTrue(),
                 this.presenceRepository.countByLocationStatus(LocationStatus.TOO_FAR),
