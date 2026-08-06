@@ -66,7 +66,7 @@ export class TagsComponent implements OnInit {
     this.tagService.idsInUse().subscribe({ next: (d) => this.idsInUse = d });
 
     this.tagService.findAll().subscribe({
-      next: (d) => { this.tags = d; this.loading = false; },
+      next: (d) => { this.tags = d; this.loading = false; this.generateQrCodes(); },
       error: (e) => this.fail(e)
     });
     this.wingService.findAll().subscribe({ next: (d) => this.wings = d });
