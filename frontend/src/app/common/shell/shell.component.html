@@ -85,6 +85,8 @@
   [message]="confirm.message"
   [confirmLabel]="confirm.confirmLabel"
   [danger]="confirm.danger"
+  [error]="confirm.error"
+  [running]="confirm.running"
   (confirmed)="confirm.accept()"
   (cancelled)="confirm.reject()">
 </app-confirm>

@@ -122,13 +122,9 @@ export class EmployeesComponent implements OnInit {
     this.confirm.ask({
       title: 'Déverrouiller le compte',
       message: `Voulez-vous déverrouiller le compte de « ${e.firstname} ${e.lastname} » ?`,
-      confirmLabel: 'Déverrouiller'
-    }).subscribe(() => {
-      this.employeeService.unlock(e.id).subscribe({
-        next: () => this.reload(),
-        error: (err) => this.fail(err)
-      });
-    });
+      confirmLabel: 'Déverrouiller',
+      action: () => this.employeeService.unlock(e.id)
+    }).subscribe(() => this.reload());
   }
 
   remove(e: Employee): void {
@@ -137,13 +133,9 @@ export class EmployeesComponent implements OnInit {
       title: 'Supprimer le compte',
       message: `Voulez-vous supprimer le compte de « ${e.firstname} ${e.lastname} » ?`,
       confirmLabel: 'Supprimer',
-      danger: true
-    }).subscribe(() => {
-      this.employeeService.delete(e.id).subscribe({
-        next: () => this.reload(),
-        error: (err) => this.fail(err)
-      });
-    });
+      danger: true,
+      action: () => this.employeeService.delete(e.id)
+    }).subscribe(() => this.reload());
   }
 
   private fail(e: any): void {

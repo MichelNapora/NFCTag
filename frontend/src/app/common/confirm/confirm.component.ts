@@ -25,6 +25,12 @@ export class ConfirmComponent {
   /** true = bouton rouge, pour les actions destructrices. */
   @Input() danger = false;
 
+  /** Pourquoi l'action a échoué. La boîte reste ouverte tant qu'il est là. */
+  @Input() error: string | null = null;
+
+  /** L'action est en cours : on grise le bouton de validation. */
+  @Input() running = false;
+
   @Output() confirmed = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
 }

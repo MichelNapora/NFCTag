@@ -8,10 +8,11 @@
     </div>
     <div class="mbody">
       <p>{{ message }}</p>
+      <p class="merr" *ngIf="error">{{ error }}</p>
     </div>
     <div class="mfoot">
-      <button class="btn ghost" (click)="cancelled.emit()">Annuler</button>
-      <button class="btn" [class.danger]="danger" (click)="confirmed.emit()">{{ confirmLabel }}</button>
+      <button class="btn ghost" [disabled]="running" (click)="cancelled.emit()">Annuler</button>
+      <button class="btn" [class.danger]="danger" [disabled]="running" (click)="confirmed.emit()">{{ confirmLabel }}</button>
     </div>
   </div>
 </div>

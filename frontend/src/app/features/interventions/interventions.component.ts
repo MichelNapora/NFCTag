@@ -140,13 +140,9 @@ export class InterventionsComponent implements OnInit {
       title: "Supprimer l'intervention",
       message: `Intervention de ${p.technicianName} du ${quand}. Cette suppression est définitive.`,
       confirmLabel: 'Supprimer',
-      danger: true
-    }).subscribe(() => {
-      this.presenceService.delete(p.id).subscribe({
-        next: () => { this.reload(); this.counts.refresh(); },
-        error: (e) => { this.error = errorMessage(e, 'Suppression impossible.'); }
-      });
-    });
+      danger: true,
+      action: () => this.presenceService.delete(p.id)
+    }).subscribe(() => { this.reload(); this.counts.refresh(); });
   }
 
   /** Exporte TOUTES les lignes correspondant aux filtres, pas seulement la page. */

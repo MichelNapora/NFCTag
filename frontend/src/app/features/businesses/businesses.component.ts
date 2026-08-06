@@ -96,13 +96,9 @@ export class BusinessesComponent implements OnInit {
       title: 'Supprimer la société',
       message: `Voulez-vous supprimer « ${b.name} » ?`,
       confirmLabel: 'Supprimer',
-      danger: true
-    }).subscribe(() => {
-      this.businessService.delete(b.id).subscribe({
-        next: () => { this.reload(); this.counts.refresh(); },
-        error: (e) => this.fail(e)
-      });
-    });
+      danger: true,
+      action: () => this.businessService.delete(b.id)
+    }).subscribe(() => { this.reload(); this.counts.refresh(); });
   }
 
   private fail(e: any): void {

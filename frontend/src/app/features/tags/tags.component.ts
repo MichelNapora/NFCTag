@@ -145,26 +145,18 @@ export class TagsComponent implements OnInit {
       title: 'Supprimer le tag',
       message: `Voulez-vous supprimer le tag « ${this.wingLabel(t.wingId)} » ?`,
       confirmLabel: 'Supprimer',
-      danger: true
-    }).subscribe(() => {
-      this.tagService.delete(t.id).subscribe({
-        next: () => { this.reload(); this.counts.refresh(); },
-        error: (e) => this.fail(e)
-      });
-    });
+      danger: true,
+      action: () => this.tagService.delete(t.id)
+    }).subscribe(() => { this.reload(); this.counts.refresh(); });
   }
 
   recalibrate(t: Tag): void {
     this.confirm.ask({
       title: 'Recalibrer le tag',
       message: `La position du tag « ${this.wingLabel(t.wingId)} » sera effacée, puis réenregistrée en scannant le tag sur place avec un téléphone connecté.`,
-      confirmLabel: 'Recalibrer'
-    }).subscribe(() => {
-      this.tagService.update(t.id, t.wingId, null, null).subscribe({
-        next: () => this.reload(),
-        error: (e) => this.fail(e)
-      });
-    });
+      confirmLabel: 'Recalibrer',
+      action: () => this.tagService.update(t.id, t.wingId, null, null)
+    }).subscribe(() => this.reload());
   }
 
   copyUrl(t: Tag): void {

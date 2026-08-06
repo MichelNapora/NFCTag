@@ -115,13 +115,9 @@ export class TechniciansComponent implements OnInit {
       title: 'Supprimer le technicien',
       message: `Voulez-vous supprimer « ${t.firstname} ${t.lastname} » ? Ses interventions seront perdues.`,
       confirmLabel: 'Supprimer',
-      danger: true
-    }).subscribe(() => {
-      this.technicianService.delete(t.id).subscribe({
-        next: () => { this.reload(); this.counts.refresh(); },
-        error: (e) => this.fail(e)
-      });
-    });
+      danger: true,
+      action: () => this.technicianService.delete(t.id)
+    }).subscribe(() => { this.reload(); this.counts.refresh(); });
   }
 
   private fail(e: any): void {

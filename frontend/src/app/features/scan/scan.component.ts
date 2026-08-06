@@ -9,7 +9,6 @@ import {CurrentEmployee} from '../../common/auth/auth.models';
 
 const DEVICE_TOKEN_KEY = 'nfctag.deviceToken';
 
-/** Position GPS relevée par le navigateur (null si refusée). */
 interface GeoPosition {
   latitude: number | null;
   longitude: number | null;
@@ -29,8 +28,6 @@ export class ScanComponent implements OnInit {
   loading = true;
   error: string | null = null;
   result: ScanResponse | null = null;
-
-  // 1er passage : formulaire d'identification
   needForm = false;
   businesses: Business[] = [];
   firstname = '';
@@ -39,7 +36,6 @@ export class ScanComponent implements OnInit {
   businessId: string | null = null;
   submitting = false;
 
-  // Mode calibration (employé Spi connecté)
   employee: CurrentEmployee | null = null;
   calibrating = false;
   calibratedAt: string | null = null;
@@ -47,7 +43,6 @@ export class ScanComponent implements OnInit {
 
   private position: GeoPosition = { latitude: null, longitude: null, accuracy: null };
 
-  /** Précision GPS actuelle, pour l'affichage en mode calibration. */
   get accuracy(): number | null {
     return this.position.accuracy;
   }
@@ -61,11 +56,9 @@ export class ScanComponent implements OnInit {
   ngOnInit(): void {
     this.scanToken = this.route.snapshot.paramMap.get('token') ?? '';
 
-    // On relève d'abord la position (obligatoire pour vérifier la proximité du tag)
     this.getPosition().then((pos) => {
       this.position = pos;
 
-      // Employé Spi connecté ? → mode calibration, aucune présence enregistrée.
       this.auth.isLoggedIn().subscribe((loggedIn) => {
         if (loggedIn) {
           this.employee = this.auth.employee;
@@ -73,19 +66,11 @@ export class ScanComponent implements OnInit {
           return;
         }
 
-        // On tente toujours le scan : le cookie posé par le serveur peut nous
-        // reconnaître même si le stockage du navigateur a été vidé (iPhone, nettoyage).
-        // Si personne ne nous identifie, le back répond et on affiche le formulaire.
         this.sendScan(localStorage.getItem(DEVICE_TOKEN_KEY), true);
       });
     });
   }
 
-  /**
-   * Envoie le scan au back (arrivée ou départ, décidé côté serveur).
-   * `auto` = tentative de reconnaissance automatique : un refus veut alors dire
-   * « je ne sais pas qui tu es » et on bascule sur le formulaire.
-   */
   private sendScan(deviceToken: string | null, auto = false): void {
     const request: ScanRequest = {
       deviceToken: deviceToken,
@@ -101,8 +86,6 @@ export class ScanComponent implements OnInit {
     this.api.scan(this.scanToken, request).subscribe({
       next: (r) => this.handle(r),
       error: (e) => {
-        // Personne ne nous a reconnus (aucun jeton, ou jeton devenu inconnu)
-        // → on oublie ce qu'on avait et on demande son identité.
         if (auto && (e?.status === 400 || e?.status === 404)) {
           localStorage.removeItem(DEVICE_TOKEN_KEY);
           this.showForm();

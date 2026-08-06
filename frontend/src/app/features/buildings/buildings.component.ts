@@ -141,14 +141,9 @@ export class BuildingsComponent implements OnInit {
     this.confirm.ask({
       title: 'Supprimer le bâtiment',
       message: `Voulez-vous supprimer « ${b.name} » ?`,
-      confirmLabel: 'Supprimer',
-      danger: true
-    }).subscribe(() => {
-      this.buildingService.delete(b.id).subscribe({
-        next: () => { this.reload(); this.counts.refresh(); },
-        error: (e) => this.fail(e)
-      });
-    });
+      danger: true,
+      action: () => this.buildingService.delete(b.id)
+    }).subscribe(() => { this.reload(); this.counts.refresh(); });
   }
 
   private fail(e: any): void {

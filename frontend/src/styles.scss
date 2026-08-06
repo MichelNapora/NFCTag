@@ -323,6 +323,11 @@ html, body {
     h3 { margin: 0; font-size: 16px; font-weight: 700; }
   }
   .mbody { padding: 6px 20px 4px; }
+  .merr {
+    color: var(--danger);
+    font-weight: 600;
+    margin: 10px 0 0;
+  }
   .msec {
     font-size: 10.5px;
     letter-spacing: .12em;

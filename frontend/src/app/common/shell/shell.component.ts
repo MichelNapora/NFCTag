@@ -6,6 +6,8 @@ import { Counts, CountsService } from './counts.service';
 import { AuthService } from '../auth/auth.service';
 import {ConfirmComponent} from '../confirm/confirm.component';
 import {ConfirmService} from '../confirm/confirm.service';
+import {catchError} from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -38,12 +40,7 @@ export class ShellComponent implements OnInit {
     this.confirm.ask({
       title: 'Se déconnecter',
       message: 'Voulez-vous continuer ?',
-      confirmLabel: 'Se déconnecter'
-    }).subscribe(() => {
-      this.auth.logout().subscribe({
-        next: () => this.router.navigate(['/login']),
-        error: () => { this.auth.clear(); this.router.navigate(['/login']); }
-      });
-    });
-  }
-}
+      confirmLabel: 'Se déconnecter',
+      // Même si le serveur ne répond pas, on veut sortir : l'échec est absorbé ici.
+      action: () => this.auth.logout().pipe(catchError(() => of(null)))
+    }).subscribe(() => { this.auth.clear(); this.router.navigate(['/login']); });

@@ -116,13 +116,9 @@ export class WingsComponent implements OnInit {
       title: "Supprimer l'aile",
       message: `Voulez-vous supprimer « ${w.name} » ?`,
       confirmLabel: 'Supprimer',
-      danger: true
-    }).subscribe(() => {
-      this.wingService.delete(w.id).subscribe({
-        next: () => { this.reload(); this.counts.refresh(); },
-        error: (e) => this.fail(e)
-      });
-    });
+      danger: true,
+      action: () => this.wingService.delete(w.id)
+    }).subscribe(() => { this.reload(); this.counts.refresh(); });
   }
 
   private fail(e: any): void {
