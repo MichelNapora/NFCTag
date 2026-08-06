@@ -33,6 +33,7 @@ export class TagsComponent implements OnInit {
   wings: Wing[] = [];
   buildings: Building[] = [];
   loading = true;
+  idsInUse: string[] = [];
   error: string | null = null;
   private errorTimer: ReturnType<typeof setTimeout> | null = null;
   query = '';
@@ -62,8 +63,10 @@ export class TagsComponent implements OnInit {
 
   reload(): void {
     this.loading = true;
+    this.tagService.idsInUse().subscribe({ next: (d) => this.idsInUse = d });
+
     this.tagService.findAll().subscribe({
-      next: (d) => { this.tags = d; this.loading = false; this.generateQrCodes(); },
+      next: (d) => { this.tags = d; this.loading = false; },
       error: (e) => this.fail(e)
     });
     this.wingService.findAll().subscribe({ next: (d) => this.wings = d });
@@ -139,6 +142,11 @@ export class TagsComponent implements OnInit {
       error: (e) => { this.saving = false; this.fail(e); }
     });
   }
+
+  canDelete(id: string): boolean {
+    return !this.idsInUse.includes(id);
+  }
+
 
   remove(t: Tag): void {
     this.confirm.ask({

@@ -23,4 +23,8 @@ export class TagService {
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`/api/tags/${id}`);
   }
+
+  idsInUse(): Observable<string[]> {
+    return this.http.get<string[]>('/api/tags/ids-in-use');
+  }
 }

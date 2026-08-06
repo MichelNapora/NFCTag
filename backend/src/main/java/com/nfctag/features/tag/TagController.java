@@ -30,6 +30,11 @@ public class TagController {
         Tag tag = this.tagService.findById(id);
         return this.tagMapper.toDto(tag);
     }
+    
+    @GetMapping("/tags/ids-in-use")
+    public List<UUID> idsInUse(){
+        return this.tagService.findIdsInUse();
+    }
 
     @GetMapping("/tags/count")
     public long count() {

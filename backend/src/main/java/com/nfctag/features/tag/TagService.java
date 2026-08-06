@@ -27,6 +27,17 @@ public class TagService {
         return this.tagRepository.findAll();
     }
 
+    public List<UUID> findIdsInUse(){
+        return this.tagRepository.findAll().stream()
+                .map(Tag::getId)
+                .filter(this::isInUse)
+                .toList();
+    }
+
+    private boolean isInUse(UUID id){
+        return this.presenceRepository.existsByTagId(id);
+    }
+
     public List<Tag>findByBuildingId(UUID buildingId){
         return this.tagRepository.findByWingBuildingId(buildingId);
     }

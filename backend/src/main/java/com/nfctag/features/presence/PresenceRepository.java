@@ -38,4 +38,7 @@ public interface PresenceRepository extends JpaRepository<Presence, UUID>, JpaSp
 
     long countByTagId(UUID tagId);
     long countByTechnicianId(UUID technicianId);
+
+    boolean existsByTagId(UUID tagId);
+    boolean existsByTechnicianId(UUID technicianId);
 }
