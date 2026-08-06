@@ -31,6 +31,11 @@ public class TechnicianController {
         return this.technicianMapper.toDto(worker);
     }
 
+    @GetMapping("/technicians/ids-in-use")
+    public List<UUID> idsInUse(){
+        return this.technicianService.findIdsInUse();
+    }
+
     @GetMapping("/technicians/count")
     public long count() {
         return this.technicianService.count();

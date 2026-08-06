@@ -26,6 +26,17 @@ public class TechnicianService {
         return this.technicianRepository.findAll();
     }
 
+    public List<UUID> findIdsInUse(){
+        return this.technicianRepository.findAll().stream()
+                .map(Technician::getId)
+                .filter(this::isInUse)
+                .toList();
+    }
+
+    private boolean isInUse(UUID id){
+        return this.presenceRepository.existsByTechnicianId(id);
+    }
+
     public Technician findById(UUID id){
         return this.technicianRepository.findById(id).orElseThrow(()-> new TechnicianNotFoundException(id));
     }

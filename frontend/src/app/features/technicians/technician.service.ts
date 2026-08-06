@@ -19,4 +19,8 @@ export class TechnicianService {
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`/api/technicians/${id}`);
   }
+
+  idsInUse(): Observable<string[]> {
+    return this.http.get<string[]>('/api/technicians/ids-in-use');
+  }
 }

@@ -30,6 +30,7 @@ export class TechniciansComponent implements OnInit {
   technicians: Technician[] = [];
   businesses: Business[] = [];
   loading = true;
+  idsInUse: string[] = [];
   error: string | null = null;
   private errorTimer: ReturnType<typeof setTimeout> | null = null;
   query = '';
@@ -56,13 +57,14 @@ export class TechniciansComponent implements OnInit {
 
   reload(): void {
     this.loading = true;
+    this.technicianService.idsInUse().subscribe({ next: (d) => this.idsInUse = d });
+
     this.technicianService.findAll().subscribe({
       next: (d) => { this.technicians = d; this.loading = false; },
       error: (e) => this.fail(e)
     });
   }
 
-  /** Nom de la société d'un technicien, pour l'affichage. */
   businessName(businessId: string): string {
     return this.businesses.find(b => b.id === businessId)?.name ?? '—';
   }
@@ -108,6 +110,10 @@ export class TechniciansComponent implements OnInit {
         next: () => { this.saving = false; this.modalOpen = false; this.reload(); },
         error: (e) => { this.saving = false; this.fail(e); }
       });
+  }
+
+  canDelete(id: string): boolean {
+    return !this.idsInUse.includes(id);
   }
 
   remove(t: Technician): void {
