@@ -30,6 +30,12 @@ public class BuildingController {
         return this.buildingService.count();
     }
 
+    @GetMapping("/buildings/ids-in-use")
+    public List<UUID> idsInUse(){
+        return this.buildingService.findIdsInUse();
+    }
+
+
     @PostMapping("/buildings")
     public BuildingDTO create(@Valid @RequestBody BuildingDTO dto){
         Building b = this.buildingMapper.toEntity(dto);

@@ -38,6 +38,7 @@ export class BuildingsComponent implements OnInit {
   wings: Wing[] = [];
   tags: Tag[] = [];
   loading = true;
+  idsInUse: string[] = [];
   error: string | null = null;
   private errorTimer: ReturnType<typeof setTimeout> | null = null;
   query = '';
@@ -61,7 +62,8 @@ export class BuildingsComponent implements OnInit {
 
   reload(): void {
     this.loading = true;
-    this.buildingService.findAll().subscribe({
+    this.buildingService.idsInUse().subscribe({ next: (d) => this.idsInUse = d });
+
       next: (d) => { this.buildings = d; this.loading = false; },
       error: (e) => this.fail(e)
     });
@@ -135,6 +137,10 @@ export class BuildingsComponent implements OnInit {
       next: () => { this.saving = false; this.modalOpen = false; this.reload(); this.counts.refresh(); },
       error: (e) => { this.saving = false; this.fail(e); }
     });
+  }
+
+  canDelete(id: string): boolean {
+    return !this.idsInUse.includes(id);
   }
 
   remove(b: Building): void {

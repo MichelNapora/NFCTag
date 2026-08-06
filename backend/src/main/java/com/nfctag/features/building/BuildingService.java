@@ -26,6 +26,17 @@ public class BuildingService {
         return this.buildingRepository.findAll();
     }
 
+    public List<UUID> findIdsInUse(){
+        return this.buildingRepository.findAll().stream()
+                .map(Building::getId)
+                .filter(this::isInUse)
+                .toList();
+    }
+
+    private boolean isInUse(UUID id){
+        return this.wingRepository.existsByBuildingId(id);
+    }
+
     public Building findById(UUID id){
         return this.buildingRepository.findById(id).orElseThrow(()-> new BuildingNotFoundException(id));
     }

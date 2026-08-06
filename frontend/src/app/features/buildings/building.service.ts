@@ -23,4 +23,9 @@ export class BuildingService {
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`/api/buildings/${id}`);
   }
+
+
+  idsInUse(): Observable<string[]> {
+    return this.http.get<string[]>('/api/buildings/ids-in-use');
+  }
 }
