@@ -85,9 +85,12 @@ html, body {
   color: var(--g-700);
   vertical-align: middle;
 }
-.iconbtn:hover { color: var(--ink); }
-.iconbtn.danger { color: var(--danger); }
-.iconbtn svg { width: 16px; height: 16px; display: block; }
+88 .iconbtn:hover { color: var(--ink); }
+89 .iconbtn.danger { color: var(--danger); }
+90 /* Après .danger, sinon le rouge l'emporte à spécificité égale. */
+91 .iconbtn:disabled { color: var(--g-300); cursor: not-allowed; }
+92 .iconbtn:disabled:hover { color: var(--g-300); }
+93 .iconbtn svg { width: 16px; height: 16px; display: block; }
 
 /* ---------- Recherche & filtres ---------- */
 .search {
