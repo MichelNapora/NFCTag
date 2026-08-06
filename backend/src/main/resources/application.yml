@@ -36,6 +36,8 @@ nfctag:
   proximity-meters: 200
   max-accuracy-meters: 50
   job-interval-ms: 600000
+  device-cookie-days: 365
+  device-cookie-secure: ${COOKIE_SECURE:true}
   admin-email: ${ADMIN_EMAIL}
   admin-password: ${ADMIN_PASSWORD}
 

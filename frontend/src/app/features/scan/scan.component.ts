@@ -73,20 +73,20 @@ export class ScanComponent implements OnInit {
           return;
         }
 
-        const deviceToken = localStorage.getItem(DEVICE_TOKEN_KEY);
-        if (deviceToken) {
-          // Technicien déjà connu sur ce navigateur → scan direct
-          this.sendScan(deviceToken);
-        } else {
-          // 1er passage → formulaire (nom, prénom, mobile, société)
-          this.showForm();
-        }
+        // On tente toujours le scan : le cookie posé par le serveur peut nous
+        // reconnaître même si le stockage du navigateur a été vidé (iPhone, nettoyage).
+        // Si personne ne nous identifie, le back répond et on affiche le formulaire.
+        this.sendScan(localStorage.getItem(DEVICE_TOKEN_KEY), true);
       });
     });
   }
 
-  /** Envoie le scan au back (arrivée ou départ, décidé côté serveur). */
-  private sendScan(deviceToken: string | null): void {
+  /**
+   * Envoie le scan au back (arrivée ou départ, décidé côté serveur).
+   * `auto` = tentative de reconnaissance automatique : un refus veut alors dire
+   * « je ne sais pas qui tu es » et on bascule sur le formulaire.
+   */
+  private sendScan(deviceToken: string | null, auto = false): void {
     const request: ScanRequest = {
       deviceToken: deviceToken,
       latitude: this.position.latitude,
@@ -101,8 +101,9 @@ export class ScanComponent implements OnInit {
     this.api.scan(this.scanToken, request).subscribe({
       next: (r) => this.handle(r),
       error: (e) => {
-        // Jeton inconnu (base réinitialisée ?) → on oublie le jeton et on repasse par le formulaire
-        if (deviceToken && e?.status === 404) {
+        // Personne ne nous a reconnus (aucun jeton, ou jeton devenu inconnu)
+        // → on oublie ce qu'on avait et on demande son identité.
+        if (auto && (e?.status === 400 || e?.status === 404)) {
           localStorage.removeItem(DEVICE_TOKEN_KEY);
           this.showForm();
         } else {

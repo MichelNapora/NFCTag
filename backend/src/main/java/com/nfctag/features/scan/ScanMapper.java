@@ -2,12 +2,14 @@ package com.nfctag.features.scan;
 
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class ScanMapper {
 
-    public ScanCommand toCommand(ScanRequestDTO dto){
+    public ScanCommand toCommand(ScanRequestDTO dto, UUID deviceCookie){
         return new ScanCommand(
-                dto.getDeviceToken(),
+                dto.getDeviceToken() != null ? dto.getDeviceToken() : deviceCookie,
                 dto.getLatitude(),
                 dto.getLongitude(),
                 dto.getAccuracy(),
