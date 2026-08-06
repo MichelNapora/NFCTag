@@ -36,6 +36,8 @@ public class ScanService {
     private PresenceRepository presenceRepository;
     @Autowired
     private GeoDistanceCalculator geoDistanceCalculator;
+    @Autowired
+    private ScanRateLimiter scanRateLimiter;
 
     @Value("${nfctag.proximity-meters}") private double proximityMeters;
     @Value("${nfctag.max-accuracy-meters}") private double maxAccuracyMeters;
@@ -44,6 +46,8 @@ public class ScanService {
     public ScanResult scan(UUID scanToken, ScanCommand command){
 
         Tag tag = tagRepository.findByScanToken(scanToken).orElseThrow(() -> new TagNotFoundException(scanToken));
+
+        scanRateLimiter.check(tag.getId());
 
         Technician technician = resolveTechnician(command);
 

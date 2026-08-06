@@ -14,6 +14,7 @@ import com.nfctag.features.presence.PresenceNotFoundException;
 import com.nfctag.features.scan.InvalidScanException;
 import com.nfctag.features.location.InsufficientAccuracyException;
 import com.nfctag.features.scan.ScanIdentityMismatchException;
+import com.nfctag.features.scan.TooManyScansException;
 import com.nfctag.features.tag.TagAlreadyExistsException;
 import com.nfctag.features.tag.TagNotEmptyException;
 import com.nfctag.features.tag.TagNotFoundException;
@@ -99,9 +100,16 @@ public class GlobalExceptionHandler {
             AccountLockedException.class,
             ScanIdentityMismatchException.class
     })
+
     public ResponseEntity<String> handleInvalidCredentials(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
+
+    @ExceptionHandler(TooManyScansException.class)
+    public ResponseEntity<String> handleTooManyScans(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(ex.getMessage());
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException ex) {
