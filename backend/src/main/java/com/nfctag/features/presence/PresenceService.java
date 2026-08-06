@@ -20,6 +20,9 @@ public class PresenceService {
     @Autowired
     private PresenceRepository presenceRepository;
 
+    @Autowired
+    private PresenceYearsCalculator yearsCalculator;
+
     @Value("${nfctag.timezone}")
     private String timezone;
 
@@ -79,7 +82,7 @@ public class PresenceService {
                 .and(PresenceSpecifications.matching(query));
 
         return new SearchMetaDTO(
-                this.presenceRepository.findDistinctYears(),
+                this.availableYears(),
                 this.presenceRepository.count(base),
                 this.presenceRepository.count(base.and(PresenceSpecifications.withState("ongoing"))),
                 this.presenceRepository.count(base.and(PresenceSpecifications.withState("done"))),
@@ -87,6 +90,16 @@ public class PresenceService {
                 this.presenceRepository.count(base.and(PresenceSpecifications.withState("suspect")))
         );
     }
+
+    /** Les années proposées dans le filtre, calculées dans le fuseau de l'application. */
+    private List<Integer> availableYears(){
+        return this.yearsCalculator.compute(
+                this.presenceRepository.findFirstByOrderByArrivedAtAsc()
+                        .map(Presence::getArrivedAt).orElse(null),
+                this.presenceRepository.findFirstByOrderByArrivedAtDesc()
+                        .map(Presence::getArrivedAt).orElse(null));
+    }
+
 
     /** Toutes les lignes correspondant aux filtres, sans pagination — pour l'export. */
     public List<Presence> searchAll(Integer year, String state, String query){

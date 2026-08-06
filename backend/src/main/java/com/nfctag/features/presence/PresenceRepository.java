@@ -17,10 +17,9 @@ public interface PresenceRepository extends JpaRepository<Presence, UUID>, JpaSp
     List<Presence> findByTagId(UUID tagId);
     Optional<Presence> findByTechnicianIdAndTagIdAndDepartedAtIsNull(UUID technicianId, UUID tagId);
     List<Presence> findByDepartedAtIsNull();
-    /** Années où au moins une intervention a été enregistrée, les plus récentes d'abord. */
-    @Query(value = "select distinct extract(year from arrived_at)::int from presence order by 1 desc",
-            nativeQuery = true)
-    List<Integer> findDistinctYears();
+    /** Bornes de l'historique, pour construire la liste des années. */
+    Optional<Presence> findFirstByOrderByArrivedAtAsc();
+    Optional<Presence> findFirstByOrderByArrivedAtDesc();
 
     /** Les 8 dernières interventions, pour le tableau de bord. */
     List<Presence> findTop8ByOrderByArrivedAtDesc();
