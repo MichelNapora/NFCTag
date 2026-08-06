@@ -25,6 +25,7 @@ export class BusinessesComponent implements OnInit {
 
   businesses: Business[] = [];
   loading = true;
+  idsInUse: string[] = [];
   error: string | null = null;
   private errorTimer: ReturnType<typeof setTimeout> | null = null;
   query = '';
@@ -46,6 +47,8 @@ export class BusinessesComponent implements OnInit {
 
   reload(): void {
     this.loading = true;
+    this.businessService.idsInUse().subscribe({ next: (d) => this.idsInUse = d });
+
     this.businessService.findAll().subscribe({
       next: (d) => { this.businesses = d; this.loading = false; },
       error: (e) => this.fail(e)
@@ -89,6 +92,10 @@ export class BusinessesComponent implements OnInit {
       next: () => { this.saving = false; this.modalOpen = false; this.reload(); this.counts.refresh(); },
       error: (e) => { this.saving = false; this.fail(e); }
     });
+  }
+
+  canDelete(id: string): boolean {
+    return !this.idsInUse.includes(id);
   }
 
   remove(b: Business): void {

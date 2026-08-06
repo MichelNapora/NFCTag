@@ -13,4 +13,5 @@ public interface TechnicianRepository extends JpaRepository<Technician, UUID> {
     Optional<Technician> findByMobile(String mobile);
     Optional<Technician> findByDeviceToken(UUID deviceToken);
     long countByBusinessId(UUID businessId);
+    boolean existsByBusinessId(UUID businessId);
 }

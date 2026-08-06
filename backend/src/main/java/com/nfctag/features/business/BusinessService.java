@@ -19,6 +19,17 @@ public class BusinessService {
         return this.businessRepository.findAll();
     }
 
+    public List<UUID> findIdsInUse(){
+        return this.businessRepository.findAll().stream()
+                .map(Business::getId)
+                .filter(this::isInUse)
+                .toList();
+    }
+
+    private boolean isInUse(UUID id){
+        return this.technicianRepository.existsByBusinessId(id);
+    }
+
     public Business findById(UUID id){
         return this.businessRepository.findById(id).orElseThrow(()-> new BusinessNotFoundException(id));
     }

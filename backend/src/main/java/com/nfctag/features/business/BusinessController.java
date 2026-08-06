@@ -25,6 +25,11 @@ public class BusinessController {
         return this.businessMapper.toDto(business);
     }
 
+    @GetMapping("/businesses/ids-in-use")
+    public List<UUID> idsInUse(){
+        return this.businessService.findIdsInUse();
+    }
+
     @GetMapping("/businesses/count")
     public long count() {
         return this.businessService.count();
