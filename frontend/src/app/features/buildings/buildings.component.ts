@@ -64,6 +64,7 @@ export class BuildingsComponent implements OnInit {
     this.loading = true;
     this.buildingService.idsInUse().subscribe({ next: (d) => this.idsInUse = d });
 
+    this.buildingService.findAll().subscribe({
       next: (d) => { this.buildings = d; this.loading = false; },
       error: (e) => this.fail(e)
     });
