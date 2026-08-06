@@ -20,6 +20,17 @@ public class WingService {
         return this.wingRepository.findAll();
     }
 
+    public List<UUID> findIdsInUse(){
+        return this.wingRepository.findAll().stream()
+                .map(Wing::getId)
+                .filter(this::isInUse)
+                .toList();
+    }
+
+    private boolean isInUse(UUID id){
+        return this.tagRepository.existsByWingId(id);
+    }
+
     public Wing findById(UUID id){
         return this.wingRepository.findById(id).orElseThrow(()-> new WingNotFoundException(id));
     }

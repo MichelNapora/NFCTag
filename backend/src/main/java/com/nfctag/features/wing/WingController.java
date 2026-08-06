@@ -32,6 +32,11 @@ public class WingController {
         return this.wingMapper.toDto(wing);
     }
 
+    @GetMapping("/wings/ids-in-use")
+    public List<UUID> idsInUse(){
+        return this.wingService.findIdsInUse();
+    }
+
     @GetMapping("/wings/count")
     public long count() {
         return this.wingService.count();

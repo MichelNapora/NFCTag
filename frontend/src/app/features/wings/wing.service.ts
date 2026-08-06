@@ -23,4 +23,8 @@ export class WingService {
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`/api/wings/${id}`);
   }
+
+  idsInUse(): Observable<string[]> {
+    return this.http.get<string[]>('/api/wings/ids-in-use');
+  }
 }

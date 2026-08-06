@@ -11,6 +11,7 @@ import { CountsService } from '../../common/shell/counts.service';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import { ConfirmService } from '../../common/confirm/confirm.service';
+import {Observable} from 'rxjs';
 
 interface WingForm {
   id: string | null;
@@ -31,6 +32,7 @@ export class WingsComponent implements OnInit {
   buildings: Building[] = [];
   tags: Tag[] = [];
   loading = true;
+  idsInUse: string []=[];
   error: string | null = null;
   private errorTimer: ReturnType<typeof setTimeout> | null = null;
   query = '';
@@ -54,6 +56,8 @@ export class WingsComponent implements OnInit {
 
   reload(): void {
     this.loading = true;
+    this.wingService.idsInUse().subscribe({ next: (d) => this.idsInUse = d });
+
     this.wingService.findAll().subscribe({
       next: (d) => { this.wings = d; this.loading = false; },
       error: (e) => this.fail(e)
@@ -110,6 +114,11 @@ export class WingsComponent implements OnInit {
       error: (e) => { this.saving = false; this.fail(e); }
     });
   }
+
+  canDelete(id: string): boolean {
+    return !this.idsInUse.includes(id);
+  }
+
 
   remove(w: Wing): void {
     this.confirm.ask({
