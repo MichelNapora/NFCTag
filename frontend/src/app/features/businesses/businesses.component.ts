@@ -7,6 +7,9 @@ import { CountsService } from '../../common/shell/counts.service';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import { ConfirmService } from '../../common/confirm/confirm.service';
+import { CONFIRM_DELETE, GENERIC_ERROR, BUTTON_DELETE, TITLE_DELETE_BUSINESS } from '../../common/messages';
+import { format } from '../../common/utils/format';
+
 
 interface BusinessForm {
   id: string | null;
@@ -100,9 +103,9 @@ export class BusinessesComponent implements OnInit {
 
   remove(b: Business): void {
     this.confirm.ask({
-      title: 'Supprimer la société',
-      message: `Voulez-vous supprimer « ${b.name} » ?`,
-      confirmLabel: 'Supprimer',
+      title: TITLE_DELETE_BUSINESS,
+      message: format(CONFIRM_DELETE, b.name),
+      confirmLabel: BUTTON_DELETE,
       danger: true,
       action: () => this.businessService.delete(b.id)
     }).subscribe(() => { this.reload(); this.counts.refresh(); });
@@ -110,7 +113,7 @@ export class BusinessesComponent implements OnInit {
 
   private fail(e: any): void {
     this.loading = false;
-    this.error = errorMessage(e, 'Une erreur est survenue.');
+    this.error = errorMessage(e, GENERIC_ERROR);
     if (this.errorTimer) { clearTimeout(this.errorTimer); }
     this.errorTimer = setTimeout(() => this.error = null, 5000);
   }

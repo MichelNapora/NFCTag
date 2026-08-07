@@ -11,6 +11,8 @@ import { CountsService } from '../../common/shell/counts.service';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import {ConfirmService} from '../../common/confirm/confirm.service';
+import {BUTTON_DELETE, CONFIRM_DELETE, GENERIC_ERROR, TITLE_DELETE_BUILDING} from '../../common/messages';
+import { format } from '../../common/utils/format';
 
 interface BuildingForm {
   id: string | null;
@@ -146,8 +148,9 @@ export class BuildingsComponent implements OnInit {
 
   remove(b: Building): void {
     this.confirm.ask({
-      title: 'Supprimer le bâtiment',
-      message: `Voulez-vous supprimer « ${b.name} » ?`,
+      title: TITLE_DELETE_BUILDING,
+      message: format(CONFIRM_DELETE, b.name),
+      confirmLabel: BUTTON_DELETE,
       danger: true,
       action: () => this.buildingService.delete(b.id)
     }).subscribe(() => { this.reload(); this.counts.refresh(); });
@@ -155,7 +158,7 @@ export class BuildingsComponent implements OnInit {
 
   private fail(e: any): void {
     this.loading = false;
-    this.error = errorMessage(e, 'Une erreur est survenue.');
+    this.error = errorMessage(e, GENERIC_ERROR)
     if (this.errorTimer) { clearTimeout(this.errorTimer); }
     this.errorTimer = setTimeout(() => this.error = null, 5000);
   }

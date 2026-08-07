@@ -1,5 +1,7 @@
 package com.nfctag.features.scan;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.nfctag.common.BlankToNull;
 import com.nfctag.common.validation.ValidMobile;
 import com.nfctag.common.validation.ValidName;
 import jakarta.validation.constraints.DecimalMax;
@@ -26,13 +28,16 @@ public class ScanRequestDTO {
 
     @ValidName
     @Size(min = 2, max = 50)
+    @JsonDeserialize(using = BlankToNull.class)
     private String firstname;
 
     @ValidName
     @Size(min = 2, max = 50)
+    @JsonDeserialize(using = BlankToNull.class)
     private String lastname;
 
     @ValidMobile
+    @JsonDeserialize(using = BlankToNull.class)
     private String mobile;
 
     private UUID businessId;
