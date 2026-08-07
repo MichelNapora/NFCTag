@@ -1,6 +1,7 @@
 package com.nfctag.features.technician;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nfctag.common.validation.ValidMobile;
 import com.nfctag.common.validation.ValidName;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +26,7 @@ public class TechnicianDTO {
     private String lastname;
 
     @NotBlank
+    @ValidMobile
     private String mobile;
 
     @NotNull

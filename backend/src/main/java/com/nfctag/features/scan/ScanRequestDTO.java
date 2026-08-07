@@ -1,5 +1,6 @@
 package com.nfctag.features.scan;
 
+import com.nfctag.common.validation.ValidMobile;
 import com.nfctag.common.validation.ValidName;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -23,17 +24,17 @@ public class ScanRequestDTO {
     @DecimalMin("0.0")
     private Double accuracy;
 
-
     @ValidName
     @Size(min = 2, max = 50)
     private String firstname;
-
 
     @ValidName
     @Size(min = 2, max = 50)
     private String lastname;
 
+    @ValidMobile
     private String mobile;
+
     private UUID businessId;
 
     public ScanRequestDTO(UUID deviceToken, Double latitude, Double longitude, Double accuracy, String firstname, String lastname, String mobile, UUID businessId){

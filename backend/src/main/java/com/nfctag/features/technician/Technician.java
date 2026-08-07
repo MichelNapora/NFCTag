@@ -1,6 +1,8 @@
 package com.nfctag.features.technician;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nfctag.common.validation.ValidMobile;
+import com.nfctag.common.validation.ValidName;
 import com.nfctag.features.business.Business;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -17,14 +19,17 @@ public class Technician {
     private UUID id;
 
     @NotBlank
-    @Size(max = 50)
+    @ValidName
+    @Size(min = 2, max = 50)
     private String firstname;
 
     @NotBlank
-    @Size(max = 50)
+    @ValidName
+    @Size(min = 2, max = 50)
     private String lastname;
 
     @NotBlank
+    @ValidMobile
     @Column(unique = true)
     private String mobile;
 
