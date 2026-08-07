@@ -60,15 +60,18 @@
       <div class="msec">Identité</div>
       <div class="field">
         <label>Prénom</label>
-        <input [(ngModel)]="form.firstname" placeholder="Ex : Marc">
+        <input [(ngModel)]="form.firstname" placeholder="Ex : Marc" [class.wrong]="firstnameMessage">
+        <div class="fielderr" *ngIf="firstnameMessage">{{ firstnameMessage }}</div>
       </div>
       <div class="field">
         <label>Nom</label>
-        <input [(ngModel)]="form.lastname" placeholder="Ex : Dupont">
+        <input [(ngModel)]="form.lastname" placeholder="Ex : Dupont" [class.wrong]="lastnameMessage">
+        <div class="fielderr" *ngIf="lastnameMessage">{{ lastnameMessage }}</div>
       </div>
       <div class="field">
         <label>Mobile</label>
-        <input type="tel" inputmode="tel" [(ngModel)]="form.mobile" placeholder="Ex : 0475 12 34 56">
+        <input type="tel" inputmode="tel" [(ngModel)]="form.mobile" placeholder="Ex : 0475 12 34 56" [class.wrong]="mobileMessage">
+        <div class="fielderr" *ngIf="mobileMessage">{{ mobileMessage }}</div>
       </div>
 
       <div class="msec">Rattachement</div>

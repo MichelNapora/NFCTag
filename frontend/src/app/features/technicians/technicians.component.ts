@@ -11,6 +11,9 @@ import {ConfirmService} from '../../common/confirm/confirm.service';
 import { CountsService } from '../../common/shell/counts.service';
 import { CONFIRM_DELETE_TECHNICIAN, GENERIC_ERROR, BUTTON_DELETE, TITLE_DELETE_TECHNICIAN } from '../../common/messages';
 import { format } from '../../common/utils/format';
+import { nameError } from '../../common/utils/name-error';
+import { mobileError } from '../../common/utils/mobile-error';
+import { mobileDigits } from '../../common/utils/mobile-digits';
 
 interface TechnicianForm {
   id: string | null;
@@ -97,9 +100,17 @@ export class TechniciansComponent implements OnInit {
     this.modalOpen = false;
   }
 
+
+  get firstnameMessage(): string | null { return nameError(this.form.firstname); }
+
+  get lastnameMessage(): string | null { return nameError(this.form.lastname); }
+
+  get mobileMessage(): string | null { return mobileError(this.form.mobile); }
+
   get canSave(): boolean {
     return !!(this.form.firstname.trim() && this.form.lastname.trim()
-      && this.form.mobile.trim() && this.form.businessId);
+        && this.form.mobile.trim() && this.form.businessId)
+      && !this.firstnameMessage && !this.lastnameMessage && !this.mobileMessage;
   }
 
   save(): void {
@@ -107,7 +118,7 @@ export class TechniciansComponent implements OnInit {
     if (!this.canSave || this.saving || !f.id) { return; }
     this.saving = true;
 
-    this.technicianService.update(f.id, f.firstname.trim(), f.lastname.trim(), f.mobile.trim(), f.businessId!)
+    this.technicianService.update(f.id, f.firstname.trim(), f.lastname.trim(), mobileDigits(f.mobile), f.businessId!)
       .subscribe({
         next: () => { this.saving = false; this.modalOpen = false; this.reload(); },
         error: (e) => { this.saving = false; this.fail(e); }
