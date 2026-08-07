@@ -23,12 +23,12 @@ public class ScanRequestDTO {
     @DecimalMin("0.0")
     private Double accuracy;
 
-    @NotBlank
+
     @ValidName
     @Size(min = 2, max = 50)
     private String firstname;
 
-    @NotBlank
+
     @ValidName
     @Size(min = 2, max = 50)
     private String lastname;
