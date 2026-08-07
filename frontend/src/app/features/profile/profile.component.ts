@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
+import { PASSWORD_CHANGE_FAILED } from '../../common/messages';
 
 @Component({
   selector: 'app-profile',
@@ -69,7 +70,7 @@ export class ProfileComponent {
       },
       error: (e) => {
         this.saving = false;
-        this.error = errorMessage(e, 'Changement impossible.');
+        this.error = errorMessage(e, PASSWORD_CHANGE_FAILED)
       }
     });
   }

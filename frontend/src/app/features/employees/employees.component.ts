@@ -6,6 +6,8 @@ import { Employee } from './employee.models';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import {ConfirmService} from '../../common/confirm/confirm.service';
+import { CONFIRM_UNLOCK_EMPLOYEE, CONFIRM_DELETE_EMPLOYEE, GENERIC_ERROR, BUTTON_DELETE, BUTTON_UNLOCK, TITLE_DELETE_EMPLOYEE, TITLE_UNLOCK_EMPLOYEE } from '../../common/messages';
+import { format } from '../../common/utils/format';
 
 interface EmployeeForm {
   id: string | null;
@@ -120,9 +122,9 @@ export class EmployeesComponent implements OnInit {
 
   unlock(e: Employee): void {
     this.confirm.ask({
-      title: 'Déverrouiller le compte',
-      message: `Voulez-vous déverrouiller le compte de « ${e.firstname} ${e.lastname} » ?`,
-      confirmLabel: 'Déverrouiller',
+      title: TITLE_UNLOCK_EMPLOYEE,
+      message: format(CONFIRM_UNLOCK_EMPLOYEE, `${e.firstname} ${e.lastname}`),
+      confirmLabel: BUTTON_UNLOCK,
       action: () => this.employeeService.unlock(e.id)
     }).subscribe(() => this.reload());
   }
@@ -130,9 +132,9 @@ export class EmployeesComponent implements OnInit {
   remove(e: Employee): void {
     if (this.isMe(e)) { return; }
     this.confirm.ask({
-      title: 'Supprimer le compte',
-      message: `Voulez-vous supprimer le compte de « ${e.firstname} ${e.lastname} » ?`,
-      confirmLabel: 'Supprimer',
+      title: TITLE_DELETE_EMPLOYEE,
+      message: format(CONFIRM_DELETE_EMPLOYEE, `${e.firstname} ${e.lastname}`),
+      confirmLabel: BUTTON_DELETE,
       danger: true,
       action: () => this.employeeService.delete(e.id)
     }).subscribe(() => this.reload());
@@ -140,7 +142,7 @@ export class EmployeesComponent implements OnInit {
 
   private fail(e: any): void {
     this.loading = false;
-    this.error = errorMessage(e, 'Une erreur est survenue.');
+    this.error =  errorMessage(e, GENERIC_ERROR)
     if (this.errorTimer) { clearTimeout(this.errorTimer); }
     this.errorTimer = setTimeout(() => this.error = null, 5000);
   }

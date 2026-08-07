@@ -8,6 +8,7 @@ import {ConfirmComponent} from '../confirm/confirm.component';
 import {ConfirmService} from '../confirm/confirm.service';
 import {catchError} from 'rxjs/operators';
 import { of } from 'rxjs';
+import { CONFIRM_LOGOUT, BUTTON_LOGOUT, TITLE_LOGOUT } from '../messages';
 
 
 @Component({
@@ -38,9 +39,9 @@ export class ShellComponent implements OnInit {
   /** Demande confirmation, puis déconnecte. */
   logout(): void {
     this.confirm.ask({
-      title: 'Se déconnecter',
-      message: 'Voulez-vous continuer ?',
-      confirmLabel: 'Se déconnecter',
+      title: TITLE_LOGOUT,
+      message: CONFIRM_LOGOUT,
+      confirmLabel: BUTTON_LOGOUT,
       // Même si le serveur ne répond pas, on veut sortir : l'échec est absorbé ici.
       action: () => this.auth.logout().pipe(catchError(() => of(null)))
           }).subscribe(() => { this.auth.clear(); this.router.navigate(['/login']); });

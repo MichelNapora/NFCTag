@@ -10,6 +10,8 @@ import { errorMessage } from '../../common/utils/http-error';
 import { downloadCsv, csvDate, csvToday } from '../../common/utils/csv-export';
 import {ConfirmService} from '../../common/confirm/confirm.service';
 import { CountsService } from '../../common/shell/counts.service';
+import { CONFIRM_DELETE_PRESENCE, EXPORT_FAILED, BUTTON_DELETE, TITLE_DELETE_PRESENCE } from '../../common/messages';
+import { format } from '../../common/utils/format';
 
 type Filter = 'all' | 'ongoing' | 'done' | 'estimated' | 'suspect';
 
@@ -137,9 +139,9 @@ export class InterventionsComponent implements OnInit {
   remove(p: PresenceView): void {
     const quand = new Date(p.arrivedAt).toLocaleString('fr-BE');
     this.confirm.ask({
-      title: "Supprimer l'intervention",
-      message: `Intervention de ${p.technicianName} du ${quand}. Cette suppression est définitive.`,
-      confirmLabel: 'Supprimer',
+      title: TITLE_DELETE_PRESENCE,
+      message: format(CONFIRM_DELETE_PRESENCE, p.technicianName, quand),
+      confirmLabel: BUTTON_DELETE,
       danger: true,
       action: () => this.presenceService.delete(p.id)
     }).subscribe(() => { this.reload(); this.counts.refresh(); });

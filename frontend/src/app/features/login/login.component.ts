@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
+import { LOGIN_FAILED } from '../../common/messages';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +35,7 @@ export class LoginComponent {
       next: () => this.router.navigate(['/dashboard']),
       error: (e) => {
         this.submitting = false;
-        this.error = errorMessage(e, 'Connexion impossible. Réessayez.');
+        this.error = errorMessage(e, LOGIN_FAILED)
       }
     });
   }

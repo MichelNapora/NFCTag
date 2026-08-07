@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { errorMessage } from '../utils/http-error';
+import { ACTION_FAILED } from '../messages';
 
 /** Ce que l'appelant veut afficher dans la boîte, et ce qu'il veut faire. */
 export interface ConfirmRequest {
@@ -64,7 +65,7 @@ export class ConfirmService {
       },
       error: (e) => {
         this.running = false;
-        this.error = errorMessage(e, 'Action impossible.');
+        this.error = errorMessage(e, ACTION_FAILED)
       }
     });
   }

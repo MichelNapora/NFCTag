@@ -12,6 +12,8 @@ import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import * as QRCode from 'qrcode';
 import {ConfirmService} from '../../common/confirm/confirm.service';
+import { CONFIRM_RECALIBRATE, CONFIRM_DELETE_TAG, GENERIC_ERROR, BUTTON_DELETE, BUTTON_RECALIBRATE, TITLE_DELETE_TAG, TITLE_RECALIBRATE_TAG } from '../../common/messages';
+import { format } from '../../common/utils/format';
 
 interface TagForm {
   id: string | null;
@@ -150,19 +152,18 @@ export class TagsComponent implements OnInit {
 
   remove(t: Tag): void {
     this.confirm.ask({
-      title: 'Supprimer le tag',
-      message: `Voulez-vous supprimer le tag « ${this.wingLabel(t.wingId)} » ?`,
-      confirmLabel: 'Supprimer',
-      danger: true,
+      title: TITLE_DELETE_TAG,
+      message: format(CONFIRM_DELETE_TAG, this.wingLabel(t.wingId)),
+      confirmLabel: BUTTON_DELETE,
       action: () => this.tagService.delete(t.id)
     }).subscribe(() => { this.reload(); this.counts.refresh(); });
   }
 
   recalibrate(t: Tag): void {
     this.confirm.ask({
-      title: 'Recalibrer le tag',
-      message: `La position du tag « ${this.wingLabel(t.wingId)} » sera effacée, puis réenregistrée en scannant le tag sur place avec un téléphone connecté.`,
-      confirmLabel: 'Recalibrer',
+      title: TITLE_RECALIBRATE_TAG,
+      message: format(CONFIRM_RECALIBRATE, this.wingLabel(t.wingId)),
+      confirmLabel: BUTTON_RECALIBRATE,
       action: () => this.tagService.update(t.id, t.wingId, null, null)
     }).subscribe(() => this.reload());
   }
