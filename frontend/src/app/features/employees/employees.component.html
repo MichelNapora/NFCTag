@@ -69,11 +69,13 @@
       <div class="frow">
         <div class="field">
           <label>Prénom</label>
-          <input [(ngModel)]="form.firstname" placeholder="Ex : Marie">
+          <input [(ngModel)]="form.firstname" placeholder="Ex : Marie" [class.wrong]="firstnameMessage">
+          <div class="fielderr" *ngIf="firstnameMessage">{{ firstnameMessage }}</div>
         </div>
         <div class="field">
           <label>Nom</label>
-          <input [(ngModel)]="form.lastname" placeholder="Ex : Dubois">
+          <input [(ngModel)]="form.lastname" placeholder="Ex : Dubois" [class.wrong]="lastnameMessage">
+          <div class="fielderr" *ngIf="lastnameMessage">{{ lastnameMessage }}</div>
         </div>
       </div>
       <div class="field">
@@ -111,6 +113,7 @@
             <svg *ngIf="showConfirm" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 20 20 4" stroke="currentColor" stroke-width="1.6"/></svg>
           </button>
         </div>
+        <div class="fielderr" *ngIf="passwordMessage">{{ passwordMessage }}</div>
         <p class="mismatch" *ngIf="passwordMismatch">Les mots de passe ne correspondent pas.</p>
       </div>
     </div>

@@ -8,6 +8,8 @@ import { errorMessage } from '../../common/utils/http-error';
 import {ConfirmService} from '../../common/confirm/confirm.service';
 import { CONFIRM_UNLOCK_EMPLOYEE, CONFIRM_DELETE_EMPLOYEE, GENERIC_ERROR, BUTTON_DELETE, BUTTON_UNLOCK, TITLE_DELETE_EMPLOYEE, TITLE_UNLOCK_EMPLOYEE } from '../../common/messages';
 import { format } from '../../common/utils/format';
+import { nameError } from '../../common/utils/name-error';
+import { passwordError } from '../../common/utils/password-error';
 
 interface EmployeeForm {
   id: string | null;
@@ -98,10 +100,18 @@ export class EmployeesComponent implements OnInit {
         && this.form.password !== this.form.passwordConfirm;
   }
 
+
+  get firstnameMessage(): string | null { return nameError(this.form.firstname); }
+
+  get lastnameMessage(): string | null { return nameError(this.form.lastname); }
+
+  get passwordMessage(): string | null { return passwordError(this.form.password); }
+
   get canSave(): boolean {
     const f = this.form;
-    const base = !!(f.firstname.trim() && f.lastname.trim() && f.email.trim());
-    if (this.passwordMismatch) { return false; }
+    const base = !!(f.firstname.trim() && f.lastname.trim() && f.email.trim())
+      && !this.firstnameMessage && !this.lastnameMessage;
+    if (this.passwordMismatch || this.passwordMessage) { return false; }
     // à la création, le mot de passe initial est obligatoire
     return f.id ? base : base && f.password.length > 0;
   }
