@@ -80,7 +80,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrity(DataIntegrityViolationException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body("Impossible to delete. Others datas are binded");
+                .body(Messages.DATA_BOUND);
     }
 
     @ExceptionHandler({

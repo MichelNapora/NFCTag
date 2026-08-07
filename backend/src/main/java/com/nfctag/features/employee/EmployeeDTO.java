@@ -1,6 +1,7 @@
 package com.nfctag.features.employee;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nfctag.common.Messages;
 import com.nfctag.common.validation.SpiEmail;
 import com.nfctag.common.validation.ValidName;
 import jakarta.validation.constraints.NotBlank;
@@ -32,6 +33,7 @@ public class EmployeeDTO {
     @NotNull
     private Role role;
 
+    @Size(min = 8, max = 72, message = Messages.PASSWORD_LENGTH)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 

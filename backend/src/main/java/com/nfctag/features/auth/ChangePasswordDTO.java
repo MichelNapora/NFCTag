@@ -1,5 +1,6 @@
 package com.nfctag.features.auth;
 
+import com.nfctag.common.Messages;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -9,7 +10,7 @@ public class ChangePasswordDTO {
     private String currentPassword;
 
     @NotBlank
-    @Size(min = 8, message = "The new password must be at least 8 characters long")
+    @Size(min = 8, message = Messages.PASSWORD_TOO_SHORT)
     private String newPassword;
 
     public ChangePasswordDTO(){}
