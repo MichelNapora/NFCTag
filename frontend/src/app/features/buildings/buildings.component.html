@@ -68,7 +68,8 @@
       </div>
       <div class="field">
         <label>Code projet (4 à 8 caractères)</label>
-        <input [(ngModel)]="form.projectCode" placeholder="Ex : PRJ-001">
+        <input [(ngModel)]="form.projectCode" placeholder="Ex : PRJ-001" [class.wrong]="projectCodeMessage">
+        <div class="fielderr" *ngIf="projectCodeMessage">{{ projectCodeMessage }}</div>
       </div>
       <div class="msec">Adresse</div>
       <div class="field">
@@ -78,7 +79,7 @@
       <div class="frow">
         <div class="field small">
           <label>Numéro</label>
-          <input type="number" [(ngModel)]="form.number" placeholder="Ex : 10">
+          <input type="number" [(ngModel)]="form.number" placeholder="Ex : 10" [class.wrong]="numberMessage">
         </div>
         <div class="field small">
           <label>Boîte (optionnel)</label>
@@ -86,9 +87,11 @@
         </div>
         <div class="field small">
           <label>Code postal</label>
-          <input type="number" [(ngModel)]="form.postalCode" placeholder="Ex : 4000">
+          <input type="number" [(ngModel)]="form.postalCode" placeholder="Ex : 4000" [class.wrong]="postalCodeMessage">
         </div>
       </div>
+      <div class="fielderr" *ngIf="numberMessage">{{ numberMessage }}</div>
+      <div class="fielderr" *ngIf="postalCodeMessage">{{ postalCodeMessage }}</div>
       <div class="field">
         <label>Ville</label>
         <input [(ngModel)]="form.city" placeholder="Ex : Liège">

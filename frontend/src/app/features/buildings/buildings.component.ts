@@ -13,6 +13,9 @@ import { errorMessage } from '../../common/utils/http-error';
 import {ConfirmService} from '../../common/confirm/confirm.service';
 import {BUTTON_DELETE, CONFIRM_DELETE, GENERIC_ERROR, TITLE_DELETE_BUILDING} from '../../common/messages';
 import { format } from '../../common/utils/format';
+import { projectCodeError } from '../../common/utils/project-code-error';
+import { postalCodeError } from '../../common/utils/postal-code-error';
+import { streetNumberError } from '../../common/utils/street-number-error';
 
 interface BuildingForm {
   id: string | null;
@@ -116,9 +119,18 @@ export class BuildingsComponent implements OnInit {
     this.modalOpen = false;
   }
 
+
+  get projectCodeMessage(): string | null { return projectCodeError(this.form.projectCode); }
+
+  get numberMessage(): string | null { return streetNumberError(this.form.number); }
+
+  get postalCodeMessage(): string | null { return postalCodeError(this.form.postalCode); }
+
   get canSave(): boolean {
     const f = this.form;
-    return !!(f.name.trim() && f.projectCode.trim() && f.street.trim() && f.number && f.postalCode && f.city.trim());
+    const rempli = !!(f.name.trim() && f.projectCode.trim() && f.street.trim()
+      && f.number != null && f.postalCode != null && f.city.trim());
+    return rempli && !this.projectCodeMessage && !this.numberMessage && !this.postalCodeMessage;
   }
 
   save(): void {
