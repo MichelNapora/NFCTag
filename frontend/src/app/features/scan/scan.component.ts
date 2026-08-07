@@ -6,6 +6,9 @@ import { ScanService } from './scan.service';
 import { Business, ScanRequest, ScanResponse } from './scan.models';
 import {AuthService} from '../../common/auth/auth.service';
 import {CurrentEmployee} from '../../common/auth/auth.models';
+import { nameError } from '../../common/utils/name-error';
+import { mobileError } from '../../common/utils/mobile-error';
+import { mobileDigits } from '../../common/utils/mobile-digits';
 
 const DEVICE_TOKEN_KEY = 'nfctag.deviceToken';
 
@@ -77,9 +80,9 @@ export class ScanComponent implements OnInit {
       latitude: this.position.latitude,
       longitude: this.position.longitude,
       accuracy: this.position.accuracy,
-      firstname: deviceToken ? null : this.firstname.trim(),
-      lastname: deviceToken ? null : this.lastname.trim(),
-      mobile: deviceToken ? null : this.mobile.trim(),
+      firstname: deviceToken ? null : this.ouNull(this.firstname),
+      lastname: deviceToken ? null : this.ouNull(this.lastname),
+      mobile: deviceToken ? null : this.ouNull(mobileDigits(this.mobile)),
       businessId: deviceToken ? null : this.businessId
     };
 
@@ -111,8 +114,24 @@ export class ScanComponent implements OnInit {
     this.sendScan(null);
   }
 
+  /**
+   * Une chaîne vide n'est pas une valeur : le back doit recevoir null, sinon @Size la refuse.
+   * C'est le cas quand le localStorage a été purgé : le cookie prend le relais, le formulaire est vide.
+   */
+  private ouNull(value: string): string | null {
+    return value.trim() || null;
+  }
+
+  /** Messages de format, affichés sous le champ. null = rien à signaler. */
+  get firstnameMessage(): string | null { return nameError(this.firstname); }
+
+  get lastnameMessage(): string | null { return nameError(this.lastname); }
+
+  get mobileMessage(): string | null { return mobileError(this.mobile); }
+
   get canSubmit(): boolean {
-    return !!(this.firstname.trim() && this.lastname.trim() && this.mobile.trim() && this.businessId);
+    return !!(this.firstname.trim() && this.lastname.trim() && this.mobile.trim() && this.businessId)
+      && !this.firstnameMessage && !this.lastnameMessage && !this.mobileMessage;
   }
 
   private handle(r: ScanResponse): void {

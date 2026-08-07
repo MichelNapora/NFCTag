@@ -44,9 +44,12 @@
   <div *ngIf="!loading && needForm" class="card">
     <h2>Premier passage</h2>
     <p class="lead">Identifiez-vous une seule fois : vous serez reconnu automatiquement lors des prochains passages.</p>
-    <div class="field"><input type="text" [(ngModel)]="firstname" placeholder="Prénom"></div>
-    <div class="field"><input type="text" [(ngModel)]="lastname" placeholder="Nom"></div>
-    <div class="field"><input type="tel" inputmode="tel" [(ngModel)]="mobile" placeholder="Mobile — 04xx xx xx xx"></div>
+    <div class="field"><input type="text" [(ngModel)]="firstname" placeholder="Prénom" [class.wrong]="firstnameMessage">
+      <div class="fielderr" *ngIf="firstnameMessage">{{ firstnameMessage }}</div></div>
+    <div class="field"><input type="text" [(ngModel)]="lastname" placeholder="Nom" [class.wrong]="lastnameMessage">
+      <div class="fielderr" *ngIf="lastnameMessage">{{ lastnameMessage }}</div></div>
+    <div class="field"><input type="tel" inputmode="tel" [(ngModel)]="mobile" placeholder="Mobile — 04xx xx xx xx" [class.wrong]="mobileMessage">
+      <div class="fielderr" *ngIf="mobileMessage">{{ mobileMessage }}</div></div>
     <div class="field">
       <select [(ngModel)]="businessId">
         <option [ngValue]="null" disabled selected>Choisissez votre société</option>
