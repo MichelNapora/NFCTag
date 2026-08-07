@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nfctag.features.building.Building;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.UuidGenerator;
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ public class Wing {
     private UUID id;
 
     @NotBlank
+    @Size(max = 255)
     private String name;
 
     @ManyToOne(optional = false)

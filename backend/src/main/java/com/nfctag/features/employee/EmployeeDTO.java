@@ -1,9 +1,10 @@
 package com.nfctag.features.employee;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nfctag.features.employee.validation.SpiEmail;
+import com.nfctag.common.validation.SpiEmail;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ public class EmployeeDTO {
 
     @NotBlank
     @SpiEmail
+    @Size(max=255)
     private String email;
 
     @NotNull

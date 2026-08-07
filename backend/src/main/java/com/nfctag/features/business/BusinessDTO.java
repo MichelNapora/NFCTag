@@ -1,8 +1,9 @@
 package com.nfctag.features.business;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nfctag.features.business.validation.ValidBce;
+import com.nfctag.common.validation.ValidBce;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ public class BusinessDTO {
     private UUID id;
 
     @NotBlank
+    @Size(max = 255)
     private String name;
 
     @NotBlank

@@ -15,19 +15,21 @@ public class Address {
     private UUID id;
 
     @NotBlank
+    @Size(max = 255)
     private String street;
 
     @Positive
     private int number;
 
+    @Size(max = 10)
     private String box;
-
 
     @Min(4000)
     @Max(4999)
     private int postalCode;
 
     @NotBlank
+    @Size(max = 80)
     private String city;
 
     public Address(String street, int number, String box, int postalCode, String city){

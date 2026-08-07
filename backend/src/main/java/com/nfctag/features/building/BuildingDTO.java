@@ -15,6 +15,7 @@ public class BuildingDTO {
     private UUID id;
 
     @NotBlank
+    @Size(max = 255)
     private String name;
 
     @NotBlank

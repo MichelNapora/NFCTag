@@ -1,10 +1,11 @@
 package com.nfctag.features.employee;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nfctag.features.employee.validation.SpiEmail;
+import com.nfctag.common.validation.SpiEmail;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
@@ -25,6 +26,7 @@ public class Employee {
 
     @NotBlank
     @SpiEmail
+    @Size(max=255)
     @Column(unique = true)
     private String email;
 

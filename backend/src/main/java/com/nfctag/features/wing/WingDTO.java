@@ -3,6 +3,7 @@ package com.nfctag.features.wing;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ public class WingDTO {
     private UUID id;
 
     @NotBlank
+    @Size(max = 255)
     private String name;
 
     @NotNull

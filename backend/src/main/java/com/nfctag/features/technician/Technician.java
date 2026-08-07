@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nfctag.features.business.Business;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
@@ -16,9 +17,11 @@ public class Technician {
     private UUID id;
 
     @NotBlank
+    @Size(max = 50)
     private String firstname;
 
     @NotBlank
+    @Size(max = 50)
     private String lastname;
 
     @NotBlank

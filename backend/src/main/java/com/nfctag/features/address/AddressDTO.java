@@ -1,10 +1,7 @@
 package com.nfctag.features.address;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 
 import java.util.UUID;
 
@@ -14,11 +11,13 @@ public class AddressDTO {
     private UUID id;
 
     @NotBlank
+    @Size(max = 255)
     private String street;
 
     @Positive
     private int number;
 
+    @Size(max = 10)
     private String box;
 
 
@@ -27,6 +26,7 @@ public class AddressDTO {
     private int postalCode;
 
     @NotBlank
+    @Size(max = 80)
     private String city;
 
     public AddressDTO(UUID id, String street, int number, String box, int postalCode, String city){

@@ -1,4 +1,4 @@
-package com.nfctag.features.business.validation;
+package com.nfctag.common.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
