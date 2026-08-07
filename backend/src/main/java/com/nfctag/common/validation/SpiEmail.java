@@ -1,5 +1,6 @@
 package com.nfctag.common.validation;
 
+import com.nfctag.common.Messages;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -10,7 +11,7 @@ import java.lang.annotation.*;
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SpiEmail {
-    String message() default "The mail must be formatted as firstname.lastname@spi.be";
+    String message() default Messages.INVALID_EMAIL;
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

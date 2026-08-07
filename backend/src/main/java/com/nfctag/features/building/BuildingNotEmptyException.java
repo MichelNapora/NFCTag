@@ -1,7 +1,9 @@
 package com.nfctag.features.building;
 
+import com.nfctag.common.Messages;
+
 public class BuildingNotEmptyException extends RuntimeException {
     public BuildingNotEmptyException(long wings) {
-        super("This building contains " + wings + " wing(s). Delete them first.");
+        super(String.format(Messages.BUILDING_NOT_EMPTY, wings));
     }
 }

@@ -1,7 +1,9 @@
 package com.nfctag.features.auth;
 
+import com.nfctag.common.Messages;
+
 public class SessionInvalidException extends RuntimeException {
     public SessionInvalidException() {
-        super("Session invalid");
+        super(Messages.SESSION_INVALID);
     }
 }

@@ -1,7 +1,9 @@
 package com.nfctag.features.wing;
 
+import com.nfctag.common.Messages;
+
 public class WingNotEmptyException extends RuntimeException {
     public WingNotEmptyException() {
-        super("This wing has a tag. Delete it first.");
+        super(Messages.WING_NOT_EMPTY);
     }
 }

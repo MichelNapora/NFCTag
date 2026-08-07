@@ -1,7 +1,9 @@
 package com.nfctag.features.employee;
 
+import com.nfctag.common.Messages;
+
 public class EmployeePasswordRequiredException extends RuntimeException {
     public EmployeePasswordRequiredException() {
-        super("A password is required to create an employee");
+        super(Messages.PASSWORD_REQUIRED);
     }
 }

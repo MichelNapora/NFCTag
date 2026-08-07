@@ -1,7 +1,9 @@
 package com.nfctag.features.technician;
 
+import com.nfctag.common.Messages;
+
 public class TechnicianNotEmptyException extends RuntimeException {
     public TechnicianNotEmptyException(long presences) {
-        super("This technician has " + presences + " intervention(s) recorded.");
+        super(String.format(Messages.TECHNICIAN_NOT_EMPTY, presences));
     }
 }

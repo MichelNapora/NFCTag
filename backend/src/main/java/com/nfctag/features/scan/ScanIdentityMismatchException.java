@@ -1,7 +1,9 @@
 package com.nfctag.features.scan;
 
+import com.nfctag.common.Messages;
+
 public class ScanIdentityMismatchException extends RuntimeException {
     public ScanIdentityMismatchException() {
-        super("Identity does not match. Check your firstname, lastname and business.");
+        super(Messages.SCAN_IDENTITY);
     }
 }

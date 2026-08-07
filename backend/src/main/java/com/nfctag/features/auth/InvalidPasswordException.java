@@ -1,7 +1,9 @@
 package com.nfctag.features.auth;
 
+import com.nfctag.common.Messages;
+
 public class InvalidPasswordException extends RuntimeException {
     public InvalidPasswordException() {
-        super("This password is invalid");
+        super(Messages.INVALID_PASSWORD);
     }
 }

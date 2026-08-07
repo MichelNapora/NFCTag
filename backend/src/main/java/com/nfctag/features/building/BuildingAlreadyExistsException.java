@@ -1,7 +1,9 @@
 package com.nfctag.features.building;
 
+import com.nfctag.common.Messages;
+
 public class BuildingAlreadyExistsException extends RuntimeException {
     public BuildingAlreadyExistsException(String projectCode) {
-        super("Project code already exists : " + projectCode);
+        super(String.format(Messages.BUILDING_EXISTS, projectCode));
     }
 }

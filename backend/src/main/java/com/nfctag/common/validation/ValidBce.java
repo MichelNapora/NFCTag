@@ -1,5 +1,6 @@
 package com.nfctag.common.validation;
 
+import com.nfctag.common.Messages;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -10,7 +11,7 @@ import java.lang.annotation.*;
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidBce {
-    String message() default "Invalid BCE number : 10 digits, starting with 0 or 1, wrong check digits";
+    String message() default Messages.INVALID_BCE;
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

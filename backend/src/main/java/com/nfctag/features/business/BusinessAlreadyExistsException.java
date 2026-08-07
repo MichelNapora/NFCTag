@@ -1,7 +1,9 @@
 package com.nfctag.features.business;
 
+import com.nfctag.common.Messages;
+
 public class BusinessAlreadyExistsException extends RuntimeException {
     public BusinessAlreadyExistsException(String bce) {
-        super("BCE already exists : " + bce);
+        super(String.format(Messages.BUSINESS_EXISTS, bce));
     }
 }

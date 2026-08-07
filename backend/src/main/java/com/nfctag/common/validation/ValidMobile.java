@@ -1,5 +1,6 @@
 package com.nfctag.common.validation;
 
+import com.nfctag.common.Messages;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -10,7 +11,7 @@ import java.lang.annotation.*;
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidMobile {
-    String message() default "Invalid mobile number : 10 digits starting with 04, no spaces";
+    String message() default Messages.INVALID_MOBILE;
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

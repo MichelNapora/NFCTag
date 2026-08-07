@@ -1,7 +1,9 @@
 package com.nfctag.features.auth;
 
+import com.nfctag.common.Messages;
+
 public class InvalidCredentialsException extends RuntimeException {
     public InvalidCredentialsException() {
-        super("Email or password not correct");
+        super(Messages.INVALID_CREDENTIALS);
     }
 }
