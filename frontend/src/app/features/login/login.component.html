@@ -4,23 +4,23 @@
       <img src="spi-glyph.svg" alt="Spi" width="34" height="34">
       <span class="word">spi</span>
     </div>
-    <h1>Suivi des interventions</h1>
-    <p class="lead">Connectez-vous avec votre compte Spi.</p>
+    <h1>{{ msg.LOGIN_TITLE }}</h1>
+    <p class="lead">{{ msg.LOGIN_LEAD }}</p>
 
     <div *ngIf="error" class="banner error">{{ error }}</div>
 
     <div class="field">
-      <label>Email</label>
-      <input type="email" [(ngModel)]="email" placeholder="prenom.nom@spi.be"
+      <label>{{ msg.LOGIN_EMAIL }}</label>
+      placeholder="prenom.nom@spi.be" devient [placeholder]="msg.LOGIN_EMAIL_HINT"
              (keyup.enter)="submit()" autocomplete="username">
     </div>
     <div class="field">
-      <label>Mot de passe</label>
+      <label>{{ msg.LOGIN_PASSWORD }}</label>
       <div class="pwd">
         <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" placeholder="••••••••"
                (keyup.enter)="submit()" autocomplete="current-password">
         <button type="button" class="eye" (click)="showPassword = !showPassword"
-                [title]="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'">
+                [title]="showPassword ? msg.PASSWORD_HIDE : msg.PASSWORD_SHOW">
           <svg *ngIf="!showPassword" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
           <svg *ngIf="showPassword" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 20 20 4" stroke="currentColor" stroke-width="1.6"/></svg>
         </button>
@@ -28,9 +28,9 @@
     </div>
 
     <button class="btn full" [disabled]="!canSubmit || submitting" (click)="submit()">
-      {{ submitting ? 'Connexion…' : 'Se connecter' }}
+      {{ submitting ? msg.LOGIN_SUBMITTING : msg.LOGIN_SUBMIT }}
     </button>
 
-    <p class="note">Pas de compte ? Adressez-vous à un administrateur de l'application.</p>
+    <p class="note">{{ msg.LOGIN_NO_ACCOUNT }}</p>
   </div>
 </div>

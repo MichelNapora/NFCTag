@@ -47,3 +47,26 @@ export const BUTTON_DELETE      = 'Supprimer';
 export const BUTTON_UNLOCK      = 'Déverrouiller';
 export const BUTTON_RECALIBRATE = 'Recalibrer';
 export const BUTTON_LOGOUT      = 'Se déconnecter';
+
+
+// ---------- textes des gabarits ----------
+export const CANCEL          = 'Annuler';
+export const CLOSE           = 'Fermer';
+export const PASSWORD_SHOW   = 'Afficher le mot de passe';
+export const PASSWORD_HIDE   = 'Masquer le mot de passe';
+
+export const LOGIN_TITLE      = 'Suivi des interventions';
+export const LOGIN_LEAD       = 'Connectez-vous avec votre compte Spi.';
+export const LOGIN_EMAIL      = 'Email';
+export const LOGIN_EMAIL_HINT = 'prenom.nom@spi.be';
+export const LOGIN_PASSWORD   = 'Mot de passe';
+export const LOGIN_SUBMIT     = 'Se connecter';
+export const LOGIN_SUBMITTING = 'Connexion…';
+export const LOGIN_NO_ACCOUNT = 'Pas de compte ? Adressez-vous à un administrateur de l\'application.';
+
+/** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
+export const MSG = {
+  CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
+  LOGIN_TITLE, LOGIN_LEAD, LOGIN_EMAIL, LOGIN_EMAIL_HINT,
+  LOGIN_PASSWORD, LOGIN_SUBMIT, LOGIN_SUBMITTING, LOGIN_NO_ACCOUNT,
+};

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
-import { LOGIN_FAILED } from '../../common/messages';
+import { LOGIN_FAILED, MSG } from '../../common/messages';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +15,7 @@ import { LOGIN_FAILED } from '../../common/messages';
 })
 export class LoginComponent {
 
+  readonly msg = MSG;
   email = '';
   password = '';
   showPassword = false;

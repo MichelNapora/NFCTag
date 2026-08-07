@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MSG } from '../messages';
 
 /**
  * Boîte de confirmation réutilisable, aux couleurs de l'application.
@@ -13,6 +14,8 @@ import { CommonModule } from '@angular/common';
 })
 export class ConfirmComponent {
 
+
+  readonly msg = MSG;
   /** Affiche ou masque la boîte. */
   @Input() open = false;
 
@@ -34,3 +37,6 @@ export class ConfirmComponent {
   @Output() confirmed = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
 }
+
+
+

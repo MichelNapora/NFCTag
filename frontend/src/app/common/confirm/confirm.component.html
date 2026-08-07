@@ -2,7 +2,7 @@
   <div class="modal" role="dialog" (click)="$event.stopPropagation()">
     <div class="mhead">
       <h3>{{ title }}</h3>
-      <button class="iconbtn" title="Fermer" (click)="cancelled.emit()">
+      <button class="iconbtn" [title]="msg.CLOSE" (click)="cancelled.emit()">
         <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19" stroke="currentColor" stroke-width="1.7"/></svg>
       </button>
     </div>
@@ -11,7 +11,7 @@
       <p class="merr" *ngIf="error">{{ error }}</p>
     </div>
     <div class="mfoot">
-      <button class="btn ghost" [disabled]="running" (click)="cancelled.emit()">Annuler</button>
+      <button class="btn ghost" [disabled]="running" (click)="cancelled.emit()">{{ msg.CANCEL }}</button>
       <button class="btn" [class.danger]="danger" [disabled]="running" (click)="confirmed.emit()">{{ confirmLabel }}</button>
     </div>
   </div>
