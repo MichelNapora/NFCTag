@@ -2,6 +2,7 @@ package com.nfctag.features.employee;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nfctag.common.validation.SpiEmail;
+import com.nfctag.common.validation.ValidName;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,9 +20,13 @@ public class Employee {
     private UUID id;
 
     @NotBlank
+    @ValidName
+    @Size(min = 2, max = 50)
     private String firstname;
 
     @NotBlank
+    @ValidName
+    @Size(min = 2, max = 50)
     private String lastname;
 
     @NotBlank

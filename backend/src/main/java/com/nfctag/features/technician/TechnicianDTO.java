@@ -1,6 +1,7 @@
 package com.nfctag.features.technician;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nfctag.common.validation.ValidName;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,11 +15,13 @@ public class TechnicianDTO {
     private UUID id;
 
     @NotBlank
-    @Size(max = 50)
+    @ValidName
+    @Size(min = 2, max = 50)
     private String firstname;
 
     @NotBlank
-    @Size(max = 50)
+    @ValidName
+    @Size(min = 2, max = 50)
     private String lastname;
 
     @NotBlank
