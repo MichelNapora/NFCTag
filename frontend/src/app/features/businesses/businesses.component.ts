@@ -9,7 +9,7 @@ import { errorMessage } from '../../common/utils/http-error';
 import { ConfirmService } from '../../common/confirm/confirm.service';
 import { CONFIRM_DELETE, GENERIC_ERROR, BUTTON_DELETE, TITLE_DELETE_BUSINESS } from '../../common/messages';
 import { format } from '../../common/utils/format';
-
+import { bceError } from '../../common/utils/bce-error';
 
 interface BusinessForm {
   id: string | null;
@@ -79,8 +79,11 @@ export class BusinessesComponent implements OnInit {
     this.modalOpen = false;
   }
 
+
+  get bceMessage(): string | null { return bceError(this.form.bce); }
+
   get canSave(): boolean {
-    return !!(this.form.name.trim() && this.form.bce.trim());
+    return !!(this.form.name.trim() && this.form.bce.trim()) && !this.bceMessage;
   }
 
   save(): void {

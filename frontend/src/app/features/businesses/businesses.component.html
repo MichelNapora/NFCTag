@@ -62,7 +62,8 @@
       </div>
       <div class="field">
         <label>N° BCE (10 chiffres, commence par 0 ou 1)</label>
-        <input [(ngModel)]="form.bce" placeholder="Ex : 0123456749">
+        <input [(ngModel)]="form.bce" placeholder="Ex : 0123456749" [class.wrong]="bceMessage">
+        <div class="fielderr" *ngIf="bceMessage">{{ bceMessage }}</div>
       </div>
     </div>
     <div class="mfoot">
