@@ -159,7 +159,7 @@ export class InterventionsComponent implements OnInit {
       },
       error: (e) => {
         this.exporting = false;
-        this.error = errorMessage(e, 'Export impossible.');
+        this.error = errorMessage(e, EXPORT_FAILED);
       }
     });
   }

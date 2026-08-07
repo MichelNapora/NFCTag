@@ -176,7 +176,7 @@ export class TagsComponent implements OnInit {
 
   private fail(e: any): void {
     this.loading = false;
-    this.error = errorMessage(e, 'Une erreur est survenue.');
+    this.error = errorMessage(e, GENERIC_ERROR);
     if (this.errorTimer) { clearTimeout(this.errorTimer); }
     this.errorTimer = setTimeout(() => this.error = null, 5000);
   }
