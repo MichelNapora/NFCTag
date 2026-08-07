@@ -265,6 +265,13 @@ html, body {
   }
   input::placeholder { color: #b5b5b5; }
   input:focus, select:focus { outline: none; border-color: var(--ink); }
+  /* Après :focus, sinon le champ redevient noir dès qu'on le corrige. */
+  input.wrong, select.wrong { border-color: var(--danger); }
+}
+.fielderr {
+  font-size: 12px;
+  color: var(--danger);
+  margin: -6px 0 10px;
 }
 .frow {
   display: flex;
