@@ -11,7 +11,7 @@
 
     <div class="field">
       <label>{{ msg.LOGIN_EMAIL }}</label>
-      placeholder="prenom.nom@spi.be" devient [placeholder]="msg.LOGIN_EMAIL_HINT"
+      <input type="email" [(ngModel)]="email" [placeholder]="msg.LOGIN_EMAIL_HINT"
              (keyup.enter)="submit()" autocomplete="username">
     </div>
     <div class="field">

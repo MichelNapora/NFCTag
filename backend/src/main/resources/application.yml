@@ -34,7 +34,7 @@ nfctag:
   max-login-attempts: ${MAX_LOGIN_ATTEMPTS}
   public-base-url: ${PUBLIC_BASE_URL:http://localhost:4200}
   proximity-meters: 200
-  max-accuracy-meters: 50
+  max-accuracy-meters: 250
   scan-per-minute: 20
   job-interval-ms: 600000
   device-cookie-days: 365
