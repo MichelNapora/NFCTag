@@ -5,6 +5,8 @@ import com.nfctag.features.location.LocationStatus;
 import com.nfctag.features.presence.PresenceDurationCalculator;
 import com.nfctag.features.presence.Presence;
 import com.nfctag.features.presence.PresenceRepository;
+import com.nfctag.features.presence.PresenceState;
+import com.nfctag.features.presence.PresenceSpecifications;
 import com.nfctag.features.technician.Technician;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,16 +87,20 @@ public class StatsService {
         // Les tags non calibrés ne sont pas de la faute du technicien : hors calcul.
         List<Presence> measurable = presences.stream()
                 .filter(p -> p.getLocationStatus() != null
-                        && p.getLocationStatus() != LocationStatus.TAG_NOT_CALIBRATED)
+                        && p.getLocationStatus() != LocationStatus.TAG_NOT_CALIBRATED
+                        && p.getDepartureLocationStatus() != LocationStatus.TAG_NOT_CALIBRATED)
                 .toList();
 
+        // Une intervention n'est localisée que si ses deux bouts le sont.
+        // Une intervention encore en cours n'a pas de départ : on ne la pénalise pas.
         long located = measurable.stream()
-                .filter(p -> p.getLocationStatus() == LocationStatus.VERIFIED
-                        || p.getLocationStatus() == LocationStatus.TOO_FAR)
+                .filter(p -> positioned(p.getLocationStatus())
+                        && (p.getDepartedAt() == null || positioned(p.getDepartureLocationStatus())))
                 .count();
 
         long tooFar = measurable.stream()
-                .filter(p -> p.getLocationStatus() == LocationStatus.TOO_FAR)
+                .filter(p -> p.getLocationStatus() == LocationStatus.TOO_FAR
+                        || p.getDepartureLocationStatus() == LocationStatus.TOO_FAR)
                 .count();
 
         Integer rate = measurable.isEmpty()
@@ -102,6 +108,11 @@ public class StatsService {
                 : (int) Math.round(100.0 * located / measurable.size());
 
         return new LocationCounters(located, tooFar, rate);
+    }
+
+    /** Une position a été obtenue, qu'elle soit proche ou lointaine. */
+    private boolean positioned(LocationStatus status){
+        return status == LocationStatus.VERIFIED || status == LocationStatus.TOO_FAR;
     }
 
     /**
@@ -124,7 +135,7 @@ public class StatsService {
                 this.sumDurationMinutes(),
                 this.presenceRepository.countByDepartedAtIsNull(),
                 this.presenceRepository.countByEstimatedTrue(),
-                this.presenceRepository.countByLocationStatus(LocationStatus.TOO_FAR),
+                this.presenceRepository.count(PresenceSpecifications.withState(PresenceState.SUSPECT)),
                 this.presenceRepository.findTop8ByOrderByArrivedAtDesc()
         );
     }

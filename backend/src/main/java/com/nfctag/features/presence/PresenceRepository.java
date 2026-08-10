@@ -24,7 +24,6 @@ public interface PresenceRepository extends JpaRepository<Presence, UUID>, JpaSp
     List<Presence> findTop8ByOrderByArrivedAtDesc();
     long countByDepartedAtIsNull();
     long countByEstimatedTrue();
-    long countByLocationStatus(LocationStatus status);
     long countByTagId(UUID tagId);
     long countByTechnicianId(UUID technicianId);
     boolean existsByTagId(UUID tagId);

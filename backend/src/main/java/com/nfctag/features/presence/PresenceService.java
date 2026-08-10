@@ -84,10 +84,10 @@ public class PresenceService {
         return new SearchMetaDTO(
                 this.availableYears(),
                 this.presenceRepository.count(base),
-                this.presenceRepository.count(base.and(PresenceSpecifications.withState("ongoing"))),
-                this.presenceRepository.count(base.and(PresenceSpecifications.withState("done"))),
-                this.presenceRepository.count(base.and(PresenceSpecifications.withState("estimated"))),
-                this.presenceRepository.count(base.and(PresenceSpecifications.withState("suspect")))
+                this.presenceRepository.count(base.and(PresenceSpecifications.withState(PresenceState.ONGOING))),
+                this.presenceRepository.count(base.and(PresenceSpecifications.withState(PresenceState.DONE))),
+                this.presenceRepository.count(base.and(PresenceSpecifications.withState(PresenceState.ESTIMATED))),
+                this.presenceRepository.count(base.and(PresenceSpecifications.withState(PresenceState.SUSPECT)))
         );
     }
 
