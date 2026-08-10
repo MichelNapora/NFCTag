@@ -12,7 +12,16 @@ import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import * as QRCode from 'qrcode';
 import {ConfirmService} from '../../common/confirm/confirm.service';
-import { CONFIRM_RECALIBRATE, CONFIRM_DELETE_TAG, GENERIC_ERROR, BUTTON_DELETE, BUTTON_RECALIBRATE, TITLE_DELETE_TAG, TITLE_RECALIBRATE_TAG } from '../../common/messages';
+import {
+  CONFIRM_RECALIBRATE,
+  CONFIRM_DELETE_TAG,
+  GENERIC_ERROR,
+  BUTTON_DELETE,
+  BUTTON_RECALIBRATE,
+  TITLE_DELETE_TAG,
+  TITLE_RECALIBRATE_TAG,
+  ALREADY_EXISTS
+} from '../../common/messages';
 import { format } from '../../common/utils/format';
 
 interface TagForm {
@@ -176,7 +185,7 @@ export class TagsComponent implements OnInit {
 
   private fail(e: any): void {
     this.loading = false;
-    this.error = errorMessage(e, GENERIC_ERROR);
+    this.error = errorMessage(e, GENERIC_ERROR,ALREADY_EXISTS);
     if (this.errorTimer) { clearTimeout(this.errorTimer); }
     this.errorTimer = setTimeout(() => this.error = null, 5000);
   }

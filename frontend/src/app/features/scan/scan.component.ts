@@ -9,6 +9,14 @@ import {CurrentEmployee} from '../../common/auth/auth.models';
 import { nameError } from '../../common/utils/name-error';
 import { mobileError } from '../../common/utils/mobile-error';
 import { mobileDigits } from '../../common/utils/mobile-digits';
+import {errorMessage} from '../../common/utils/http-error';
+import {
+  CALIBRATION_FAILED,
+  CALIBRATION_TOO_IMPRECISE, POSITION_UNAVAILABLE,
+  SCAN_FAILED,
+  SCAN_IDENTITY_MISMATCH,
+  SCAN_TAG_UNKNOWN
+} from '../../common/messages';
 
 const DEVICE_TOKEN_KEY = 'nfctag.deviceToken';
 
@@ -148,10 +156,9 @@ export class ScanComponent implements OnInit {
   private fail(e: any): void {
     this.loading = false;
     this.submitting = false;
-    const body = e?.error;
-    this.error = typeof body === 'string' && body
-      ? body
-      : body?.message ?? 'Tag inconnu ou erreur réseau.';
+    if (e?.status === 404) { this.error = SCAN_TAG_UNKNOWN; return; }
+    if (e?.status === 401) { this.error = SCAN_IDENTITY_MISMATCH; return; }
+    this.error = errorMessage(e, SCAN_FAILED);
   }
 
   get isArrival(): boolean {
@@ -162,7 +169,7 @@ export class ScanComponent implements OnInit {
   calibrate(): void {
     if (this.position.latitude == null || this.position.longitude == null
       || this.position.accuracy == null) {
-      this.calibrationError = 'Position indisponible. Autorisez la géolocalisation puis rechargez.';
+      this.calibrationError = POSITION_UNAVAILABLE;
       return;
     }
 
@@ -180,10 +187,9 @@ export class ScanComponent implements OnInit {
       },
       error: (e) => {
         this.calibrating = false;
-        const body = e?.error;
-        this.calibrationError = typeof body === 'string' && body
-          ? body
-          : 'Calibration impossible.';
+        this.calibrationError = e?.status === 400
+          ? CALIBRATION_TOO_IMPRECISE
+          : errorMessage(e, CALIBRATION_FAILED);
       }
     });
   }

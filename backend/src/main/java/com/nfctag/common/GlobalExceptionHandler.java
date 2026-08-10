@@ -80,7 +80,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrity(DataIntegrityViolationException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(Messages.DATA_BOUND);
+                .body(Messages.DATA_INTEGRITY);
     }
 
     @ExceptionHandler({

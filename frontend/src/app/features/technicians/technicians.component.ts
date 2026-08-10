@@ -9,7 +9,13 @@ import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import {ConfirmService} from '../../common/confirm/confirm.service';
 import { CountsService } from '../../common/shell/counts.service';
-import { CONFIRM_DELETE_TECHNICIAN, GENERIC_ERROR, BUTTON_DELETE, TITLE_DELETE_TECHNICIAN } from '../../common/messages';
+import {
+  CONFIRM_DELETE_TECHNICIAN,
+  GENERIC_ERROR,
+  BUTTON_DELETE,
+  TITLE_DELETE_TECHNICIAN,
+  ALREADY_EXISTS
+} from '../../common/messages';
 import { format } from '../../common/utils/format';
 import { nameError } from '../../common/utils/name-error';
 import { mobileError } from '../../common/utils/mobile-error';
@@ -141,7 +147,7 @@ export class TechniciansComponent implements OnInit {
 
   private fail(e: any): void {
     this.loading = false;
-    this.error = errorMessage(e, GENERIC_ERROR)
+    this.error = errorMessage(e, GENERIC_ERROR,ALREADY_EXISTS)
     if (this.errorTimer) { clearTimeout(this.errorTimer); }
     this.errorTimer = setTimeout(() => this.error = null, 5000);
   }

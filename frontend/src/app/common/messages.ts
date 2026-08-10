@@ -19,6 +19,12 @@ export const ACTION_FAILED          = 'Action impossible.';
 export const EXPORT_FAILED          = 'Export impossible.';
 export const PASSWORD_CHANGE_FAILED = 'Changement impossible.';
 export const LOGIN_FAILED           = 'Connexion impossible. Réessayez.';
+export const NETWORK_ERROR      = 'Serveur injoignable. Vérifiez votre connexion.';
+export const INVALID_DATA       = 'Données invalides. Vérifiez votre saisie.';
+export const NOT_FOUND_ERROR    = 'Élément introuvable. Il a peut-être été supprimé.';
+export const ALREADY_EXISTS     = 'Cette donnée existe déjà.';
+export const DELETE_BLOCKED     = 'Suppression impossible : cet élément est utilisé ailleurs.';
+export const TOO_MANY_REQUESTS  = 'Trop de tentatives. Patientez un instant.';
 
 // ---------- confirmations : titres ----------
 export const TITLE_DELETE_BUILDING   = 'Supprimer le bâtiment';
@@ -64,9 +70,18 @@ export const LOGIN_SUBMIT     = 'Se connecter';
 export const LOGIN_SUBMITTING = 'Connexion…';
 export const LOGIN_NO_ACCOUNT = 'Pas de compte ? Adressez-vous à un administrateur de l\'application.';
 
+export const SCAN_TAG_UNKNOWN          = 'Ce tag est inconnu.';
+export const SCAN_IDENTITY_MISMATCH    = 'Ce numéro de mobile est déjà utilisé par une autre personne.';
+export const SCAN_FAILED               = 'Scan impossible. Réessayez.';
+export const CALIBRATION_TOO_IMPRECISE = 'Précision GPS insuffisante. Rapprochez-vous d\'une fenêtre ou sortez, puis réessayez.';
+export const CALIBRATION_FAILED        = 'Calibration impossible.';
+export const POSITION_UNAVAILABLE      = 'Position indisponible. Autorisez la géolocalisation puis rechargez.';
+
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
   LOGIN_TITLE, LOGIN_LEAD, LOGIN_EMAIL, LOGIN_EMAIL_HINT,
   LOGIN_PASSWORD, LOGIN_SUBMIT, LOGIN_SUBMITTING, LOGIN_NO_ACCOUNT,
+
+
 };

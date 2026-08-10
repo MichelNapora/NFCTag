@@ -6,7 +6,16 @@ import { Employee } from './employee.models';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import {ConfirmService} from '../../common/confirm/confirm.service';
-import { CONFIRM_UNLOCK_EMPLOYEE, CONFIRM_DELETE_EMPLOYEE, GENERIC_ERROR, BUTTON_DELETE, BUTTON_UNLOCK, TITLE_DELETE_EMPLOYEE, TITLE_UNLOCK_EMPLOYEE } from '../../common/messages';
+import {
+  CONFIRM_UNLOCK_EMPLOYEE,
+  CONFIRM_DELETE_EMPLOYEE,
+  GENERIC_ERROR,
+  BUTTON_DELETE,
+  BUTTON_UNLOCK,
+  TITLE_DELETE_EMPLOYEE,
+  TITLE_UNLOCK_EMPLOYEE,
+  ALREADY_EXISTS
+} from '../../common/messages';
 import { format } from '../../common/utils/format';
 import { nameError } from '../../common/utils/name-error';
 import { passwordError } from '../../common/utils/password-error';
@@ -152,7 +161,7 @@ export class EmployeesComponent implements OnInit {
 
   private fail(e: any): void {
     this.loading = false;
-    this.error =  errorMessage(e, GENERIC_ERROR)
+    this.error = errorMessage(e, GENERIC_ERROR,ALREADY_EXISTS)
     if (this.errorTimer) { clearTimeout(this.errorTimer); }
     this.errorTimer = setTimeout(() => this.error = null, 5000);
   }

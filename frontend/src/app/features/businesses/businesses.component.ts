@@ -7,7 +7,13 @@ import { CountsService } from '../../common/shell/counts.service';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import { ConfirmService } from '../../common/confirm/confirm.service';
-import { CONFIRM_DELETE, GENERIC_ERROR, BUTTON_DELETE, TITLE_DELETE_BUSINESS } from '../../common/messages';
+import {
+  CONFIRM_DELETE,
+  GENERIC_ERROR,
+  BUTTON_DELETE,
+  TITLE_DELETE_BUSINESS,
+  ALREADY_EXISTS
+} from '../../common/messages';
 import { format } from '../../common/utils/format';
 import { bceError } from '../../common/utils/bce-error';
 
@@ -116,7 +122,7 @@ export class BusinessesComponent implements OnInit {
 
   private fail(e: any): void {
     this.loading = false;
-    this.error = errorMessage(e, GENERIC_ERROR);
+    this.error = errorMessage(e, GENERIC_ERROR,ALREADY_EXISTS);
     if (this.errorTimer) { clearTimeout(this.errorTimer); }
     this.errorTimer = setTimeout(() => this.error = null, 5000);
   }

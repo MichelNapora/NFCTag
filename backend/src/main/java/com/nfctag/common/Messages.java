@@ -44,7 +44,7 @@ public final class Messages {
     public static final String TAG_NOT_EMPTY        = "This tag has %d intervention(s) recorded.";
     public static final String BUSINESS_NOT_EMPTY   = "This company has %d technician(s).";
     public static final String TECHNICIAN_NOT_EMPTY = "This technician has %d intervention(s) recorded.";
-    public static final String DATA_BOUND           = "Impossible to delete. Others datas are binded";
+    public static final String DATA_INTEGRITY       = "Data integrity violation.";
 
     // ---------- scan ----------
     public static final String SCAN_INCOMPLETE     = "The first scan needs firstname, lastname, mobile and business";
