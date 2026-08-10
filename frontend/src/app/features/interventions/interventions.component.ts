@@ -12,6 +12,7 @@ import {ConfirmService} from '../../common/confirm/confirm.service';
 import { CountsService } from '../../common/shell/counts.service';
 import { CONFIRM_DELETE_PRESENCE, EXPORT_FAILED, BUTTON_DELETE, TITLE_DELETE_PRESENCE } from '../../common/messages';
 import { format } from '../../common/utils/format';
+import { mobileDisplay } from '../../common/utils/mobile-display';
 
 type Filter = 'all' | 'ongoing' | 'done' | 'estimated' | 'suspect';
 
@@ -171,7 +172,7 @@ export class InterventionsComponent implements OnInit {
 
     const rows = all.map(p => [
       p.technicianName,
-      p.mobile,
+      mobileDisplay(p.mobile),
       p.businessName,
       p.buildingName,
       p.wingName,
