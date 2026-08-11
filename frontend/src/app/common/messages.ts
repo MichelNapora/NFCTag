@@ -203,6 +203,22 @@ export const WING_NAME               = 'Nom de l\'aile';
 export const WING_NAME_HINT          = 'Ex : Aile Nord, Hall N°1, Bloc A';
 export const CREATE_WING             = 'Créer l\'aile';
 
+// ---------- techniciens ----------
+export const TECHNICIANS_HINT               = 'Les techniciens sont créés automatiquement lors de leur premier scan. Vous pouvez corriger ici leur identité ou leur société.';
+export const SEARCH_TECHNICIAN              = 'Rechercher un technicien, un mobile, une société…';
+export const TECHNICIAN                     = 'Technicien';
+export const MOBILE                         = 'Mobile';
+export const DELETE_BLOCKED_TECHNICIAN_HINT = 'Suppression impossible : ce technicien a des interventions';
+export const NO_TECHNICIAN                  = 'Aucun technicien.';
+export const EDIT_TECHNICIAN                = 'Modifier le technicien';
+export const IDENTITY                       = 'Identité';
+export const FIRSTNAME_HINT                 = 'Ex : Marc';
+export const LASTNAME_HINT                  = 'Ex : Dupont';
+export const MOBILE_EXAMPLE                 = 'Ex : 0475 12 34 56';
+export const ATTACHMENT                     = 'Rattachement';
+export const SELECT_BUSINESS                = 'Sélectionner une société';
+export const MOBILE_IS_IDENTITY             = 'Le téléphone mobile identifie le technicien lors de ses scans : deux techniciens ne peuvent pas avoir le même.';
+
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
@@ -226,4 +242,8 @@ export const MSG = {
   NEW_WING_BUTTON, SEARCH_WING, WING, BUILDING, TAG, TAG_PLACED, NO_TAG,
   DELETE_BLOCKED_WING_HINT, NO_WING, EDIT_WING, NEW_WING,
   SELECT_BUILDING, INFORMATION, WING_NAME, WING_NAME_HINT, CREATE_WING,
+  TECHNICIANS_HINT, SEARCH_TECHNICIAN, TECHNICIAN, MOBILE,
+  DELETE_BLOCKED_TECHNICIAN_HINT, NO_TECHNICIAN, EDIT_TECHNICIAN,
+  IDENTITY, FIRSTNAME_HINT, LASTNAME_HINT, MOBILE_EXAMPLE,
+  ATTACHMENT, SELECT_BUSINESS, MOBILE_IS_IDENTITY,
 };

@@ -14,7 +14,8 @@ import {
   GENERIC_ERROR,
   BUTTON_DELETE,
   TITLE_DELETE_TECHNICIAN,
-  ALREADY_EXISTS
+  ALREADY_EXISTS,
+  MSG
 } from '../../common/messages';
 import { format } from '../../common/utils/format';
 import { nameError } from '../../common/utils/name-error';
@@ -49,6 +50,8 @@ export class TechniciansComponent implements OnInit {
   modalOpen = false;
   form: TechnicianForm = { id: null, firstname: '', lastname: '', mobile: '', businessId: null };
   saving = false;
+
+  readonly msg = MSG;
 
   constructor(
     private technicianService: TechnicianService,
