@@ -13,7 +13,7 @@ public class PresenceMapper {
               presence.getId(),
               presence.getTechnician().getFirstname()+ " " +presence.getTechnician().getLastname(),
               presence.getTechnician().getMobile(),
-              presence.getTechnician().getBusiness().getName(),
+              presence.getBusiness().getName(),
               presence.getTag().getWing().getBuilding().getName(),
               presence.getTag().getWing().getName(),
               presence.getArrivedAt(),

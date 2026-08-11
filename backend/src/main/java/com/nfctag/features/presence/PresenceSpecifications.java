@@ -54,7 +54,7 @@ public final class PresenceSpecifications {
 
         return (root, query, cb) -> {
             Join<Object, Object> technician = root.join("technician");
-            Join<Object, Object> business = technician.join("business");
+            Join<Object, Object> business = root.join("business");
             Join<Object, Object> wing = root.join("tag").join("wing");
             Join<Object, Object> building = wing.join("building");
 

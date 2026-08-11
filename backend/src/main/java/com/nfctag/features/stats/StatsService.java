@@ -53,7 +53,7 @@ public class StatsService {
     /** Même fiabilité, agrégée par société. */
     public List<BusinessStats> byBusiness(){
         Map<UUID, List<Presence>> byBusiness = this.presenceRepository.findAll().stream()
-                .collect(Collectors.groupingBy(p -> p.getTechnician().getBusiness().getId()));
+                .collect(Collectors.groupingBy(p -> p.getBusiness().getId()));
 
         return byBusiness.values().stream()
                 .map(this::buildBusinessStats)
@@ -64,7 +64,7 @@ public class StatsService {
     }
 
     private BusinessStats buildBusinessStats(List<Presence> presences){
-        Business business = presences.get(0).getTechnician().getBusiness();
+        Business business = presences.get(0).getBusiness();
         LocationCounters counters = countLocation(presences);
 
         long technicians = presences.stream()

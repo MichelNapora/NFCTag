@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.nfctag.features.location.LocationStatus;
 import com.nfctag.features.tag.Tag;
+import com.nfctag.features.business.Business;
 import com.nfctag.features.technician.Technician;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -24,6 +25,11 @@ public class Presence {
     @ManyToOne(optional = false)
     @JoinColumn(name="technician_id", nullable = false)
     private Technician technician;
+
+    /** L'employeur du technicien au moment du scan. Figé : il ne suit pas ses changements de société. */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "business_id", nullable = false)
+    private Business business;
 
     @ManyToOne(optional = false)
     @JoinColumn(name= "tag_id",nullable = false)
@@ -51,6 +57,7 @@ public class Presence {
     public Presence(Technician technician, Tag tag, OffsetDateTime arrivedAt,
                     LocationStatus locationStatus, Double distanceMeters){
         this.technician=technician;
+        this.business=technician.getBusiness();
         this.tag=tag;
         this.arrivedAt=arrivedAt;
         this.locationStatus=locationStatus;
@@ -66,6 +73,10 @@ public class Presence {
 
     public Technician getTechnician(){
         return this.technician;
+    }
+
+    public Business getBusiness(){
+        return this.business;
     }
 
     public Tag getTag(){
