@@ -219,6 +219,28 @@ export const ATTACHMENT                     = 'Rattachement';
 export const SELECT_BUSINESS                = 'Sélectionner une société';
 export const MOBILE_IS_IDENTITY             = 'Le téléphone mobile identifie le technicien lors de ses scans : deux techniciens ne peuvent pas avoir le même.';
 
+// ---------- tags ----------
+export const NEW_TAG_BUTTON          = '+ Nouveau tag';
+export const TAGS_HINT               = 'Un tag par aile. L\'URL générée est celle à encoder sur le tag physique. La position s\'enregistre en scannant le tag sur place avec un téléphone connecté à l\'application ; « Recalibrer » la vide si le tag est déplacé.';
+export const SEARCH_TAG              = 'Rechercher par bâtiment ou aile…';
+export const GPS_COORDINATES         = 'Coordonnées GPS';
+export const TAG_URL                 = 'URL du tag';
+export const QR                      = 'QR';
+export const QR_ALT                  = 'QR code du tag';
+export const ENLARGE_QR              = 'Agrandir le QR code';
+export const COPIED                  = 'Copié';
+export const COPY_URL                = 'Copier l\'URL';
+export const RECALIBRATE_HINT        = 'Recalibrer (scannez le tag sur place avec un téléphone connecté)';
+export const DELETE_BLOCKED_TAG_HINT = 'Suppression impossible : ce tag a des interventions';
+export const NO_TAG_ROW              = 'Aucun tag.';
+export const EDIT_TAG                = 'Modifier le tag';
+export const NEW_TAG                 = 'Nouveau tag';
+export const WING_LABEL              = 'Aile (une aile ne peut avoir qu\'un seul tag)';
+export const SELECT_WING             = 'Sélectionner une aile';
+export const TAG_POSITION_NOTE       = 'La position GPS n\'est pas à encoder ici : scannez le tag sur place avec un téléphone connecté à l\'application.';
+export const CREATE_TAG              = 'Créer le tag';
+export const QR_HINT                 = 'Scannez ce QR avec l\'appareil photo du téléphone : la page de scan s\'ouvre. Pour écrire un tag NFC : ouvrez la page, copiez l\'URL depuis la barre d\'adresse, puis collez-la dans NFC Tools (Écrire → URL).';
+
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
@@ -246,4 +268,8 @@ export const MSG = {
   DELETE_BLOCKED_TECHNICIAN_HINT, NO_TECHNICIAN, EDIT_TECHNICIAN,
   IDENTITY, FIRSTNAME_HINT, LASTNAME_HINT, MOBILE_EXAMPLE,
   ATTACHMENT, SELECT_BUSINESS, MOBILE_IS_IDENTITY,
+  NEW_TAG_BUTTON, TAGS_HINT, SEARCH_TAG, GPS_COORDINATES, TAG_URL, QR,
+  QR_ALT, ENLARGE_QR, COPIED, COPY_URL, RECALIBRATE_HINT,
+  DELETE_BLOCKED_TAG_HINT, NO_TAG_ROW, EDIT_TAG, NEW_TAG,
+  WING_LABEL, SELECT_WING, TAG_POSITION_NOTE, CREATE_TAG, QR_HINT,
 };

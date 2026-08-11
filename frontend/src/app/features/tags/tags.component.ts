@@ -20,7 +20,8 @@ import {
   BUTTON_RECALIBRATE,
   TITLE_DELETE_TAG,
   TITLE_RECALIBRATE_TAG,
-  ALREADY_EXISTS
+  ALREADY_EXISTS,
+  MSG
 } from '../../common/messages';
 import { format } from '../../common/utils/format';
 
@@ -53,6 +54,8 @@ export class TagsComponent implements OnInit {
   modalOpen = false;
   form: TagForm = { id: null, wingId: null, latitude: null, longitude: null };
   saving = false;
+
+  readonly msg = MSG;
 
   /** QR codes générés localement : id du tag → image (data URL). */
   qrCodes: Record<string, string> = {};
