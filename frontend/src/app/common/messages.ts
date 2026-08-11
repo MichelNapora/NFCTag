@@ -82,6 +82,25 @@ export const CHOOSE_BUSINESS        = 'Choisissez votre société';
 export const CONFIRM_BUSINESS       = 'Confirmer ma société';
 export const SAVING                 = 'Enregistrement…';
 export const BUSINESS_CHANGE_FAILED = 'Changement de société impossible.';
+// ---------- erreurs precises renvoyees par le back ----------
+export const BCE_ALREADY_USED          = 'Ce numéro BCE est déjà utilisé par une autre société.';
+export const PROJECT_CODE_ALREADY_USED = 'Ce code projet est déjà utilisé par un autre bâtiment.';
+export const ADDRESS_ALREADY_USED      = 'Cette adresse est déjà utilisée par un autre bâtiment.';
+export const WING_NAME_ALREADY_USED    = 'Ce bâtiment a déjà une aile portant ce nom.';
+export const WING_ALREADY_TAGGED       = 'Cette aile a déjà un tag.';
+export const MOBILE_ALREADY_USED       = 'Ce numéro de mobile est déjà utilisé par un autre technicien.';
+export const EMAIL_ALREADY_USED        = 'Cette adresse email est déjà utilisée par un autre compte.';
+
+export const BUILDING_NOT_EMPTY   = 'Suppression impossible : ce bâtiment contient encore des ailes.';
+export const WING_NOT_EMPTY       = 'Suppression impossible : cette aile a encore un tag.';
+export const TAG_NOT_EMPTY        = 'Suppression impossible : ce tag a des interventions enregistrées.';
+export const BUSINESS_NOT_EMPTY   = 'Suppression impossible : cette société a encore des techniciens.';
+export const TECHNICIAN_NOT_EMPTY = 'Suppression impossible : ce technicien a des interventions enregistrées.';
+
+export const WRONG_CREDENTIALS = 'Email ou mot de passe incorrect.';
+export const ACCOUNT_LOCKED    = 'Compte verrouillé. Adressez-vous à un administrateur.';
+export const WRONG_PASSWORD    = 'Mot de passe actuel incorrect.';
+export const SAME_PASSWORD     = 'Le nouveau mot de passe doit être différent de l\'ancien.';
 
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {

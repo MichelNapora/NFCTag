@@ -10,9 +10,10 @@ import com.nfctag.features.business.BusinessNotEmptyException;
 import com.nfctag.features.business.BusinessNotFoundException;
 import com.nfctag.features.employee.EmployeeAlreadyExistsException;
 import com.nfctag.features.employee.EmployeeNotFoundException;
+import com.nfctag.features.employee.EmployeePasswordRequiredException;
+import com.nfctag.features.location.InsufficientAccuracyException;
 import com.nfctag.features.presence.PresenceNotFoundException;
 import com.nfctag.features.scan.InvalidScanException;
-import com.nfctag.features.location.InsufficientAccuracyException;
 import com.nfctag.features.scan.ScanIdentityMismatchException;
 import com.nfctag.features.scan.TooManyScansException;
 import com.nfctag.features.tag.TagAlreadyExistsException;
@@ -26,17 +27,26 @@ import com.nfctag.features.wing.WingNotEmptyException;
 import com.nfctag.features.wing.WingNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import com.nfctag.features.employee.EmployeePasswordRequiredException;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    /**
+     * Reponse standard : le statut HTTP, le message anglais pour les journaux,
+     * et le nom de l'exception comme code, que le front traduit en francais.
+     */
+    private ProblemDetail problem(HttpStatus status, RuntimeException ex){
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(status, ex.getMessage());
+        problem.setProperty("code", ex.getClass().getSimpleName());
+        return problem;
+    }
 
     @ExceptionHandler({
             BuildingNotFoundException.class,
@@ -47,8 +57,8 @@ public class GlobalExceptionHandler {
             EmployeeNotFoundException.class,
             PresenceNotFoundException.class
     })
-    public ResponseEntity<String> handleNotFound(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    public ProblemDetail handleNotFound(RuntimeException ex) {
+        return problem(HttpStatus.NOT_FOUND, ex);
     }
 
     @ExceptionHandler({
@@ -60,9 +70,8 @@ public class GlobalExceptionHandler {
             EmployeeAlreadyExistsException.class,
             BuildingAddressAlreadyExistsException.class
     })
-
-    public ResponseEntity<String> handleAlreadyExists(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    public ProblemDetail handleAlreadyExists(RuntimeException ex) {
+        return problem(HttpStatus.CONFLICT, ex);
     }
 
     @ExceptionHandler({
@@ -72,15 +81,15 @@ public class GlobalExceptionHandler {
             BusinessNotEmptyException.class,
             TechnicianNotEmptyException.class
     })
-
-    public ResponseEntity<String> handleNotEmpty(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    public ProblemDetail handleNotEmpty(RuntimeException ex) {
+        return problem(HttpStatus.CONFLICT, ex);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> handleDataIntegrity(DataIntegrityViolationException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(Messages.DATA_INTEGRITY);
+    public ProblemDetail handleDataIntegrity(DataIntegrityViolationException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, Messages.DATA_INTEGRITY);
+        problem.setProperty("code", ex.getClass().getSimpleName());
+        return problem;
     }
 
     @ExceptionHandler({
@@ -90,8 +99,8 @@ public class GlobalExceptionHandler {
             InvalidPasswordException.class,
             SamePasswordException.class
     })
-    public ResponseEntity<String> handleBadRequest(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    public ProblemDetail handleBadRequest(RuntimeException ex) {
+        return problem(HttpStatus.BAD_REQUEST, ex);
     }
 
     @ExceptionHandler({
@@ -100,22 +109,24 @@ public class GlobalExceptionHandler {
             AccountLockedException.class,
             ScanIdentityMismatchException.class
     })
-
-    public ResponseEntity<String> handleInvalidCredentials(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    public ProblemDetail handleInvalidCredentials(RuntimeException ex) {
+        return problem(HttpStatus.UNAUTHORIZED, ex);
     }
 
     @ExceptionHandler(TooManyScansException.class)
-    public ResponseEntity<String> handleTooManyScans(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(ex.getMessage());
+    public ProblemDetail handleTooManyScans(RuntimeException ex) {
+        return problem(HttpStatus.TOO_MANY_REQUESTS, ex);
     }
 
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
+    public ProblemDetail handleValidationErrors(MethodArgumentNotValidException ex) {
+        Map<String, String> fields = new HashMap<>();
         ex.getBindingResult().getFieldErrors()
-                .forEach(e -> errors.put(e.getField(), e.getDefaultMessage()));
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+                .forEach(e -> fields.put(e.getField(), e.getDefaultMessage()));
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problem.setProperty("code", "ValidationException");
+        problem.setProperty("fields", fields);
+        return problem;
     }
 }

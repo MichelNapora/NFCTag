@@ -1,11 +1,10 @@
 import { INVALID_DATA, NETWORK_ERROR, NOT_FOUND_ERROR, TOO_MANY_REQUESTS } from '../messages';
+import { errorText } from './error-text';
 
-/**
- * Message français à afficher. Le back répond en anglais : son texte sert aux journaux, jamais à l'écran.
- * `conflict` dépend de l'action en cours : « existe déjà » à la création, « utilisé ailleurs » à la suppression.
- * Le reste (401, 403, 500…) retombe sur `fallback`, propre à l'écran appelant.
- */
 export function errorMessage(e: any, fallback: string, conflict: string = fallback): string {
+  const precis = errorText(e?.error?.code);
+  if (precis) { return precis; }
+
   switch (e?.status) {
     case 0:   return NETWORK_ERROR;
     case 400: return INVALID_DATA;
