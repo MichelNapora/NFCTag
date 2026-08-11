@@ -1,50 +1,50 @@
 <div class="pagehead">
   <div>
-    <div class="eyebrow">Gestion</div>
-    <h2>Ailes</h2>
+    <div class="eyebrow">{{ msg.MANAGEMENT }}</div>
+    <h2>{{ msg.WINGS }}</h2>
   </div>
-  <button class="btn" (click)="openCreate()">+ Nouvelle aile</button>
+  <button class="btn" (click)="openCreate()">{{ msg.NEW_WING_BUTTON }}</button>
 </div>
 
 <div *ngIf="error" class="banner error">{{ error }}</div>
 
 <div class="search">
   <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.7"/></svg>
-  <input [(ngModel)]="query" placeholder="Rechercher une aile…">
+  <input [(ngModel)]="query" [placeholder]="msg.SEARCH_WING">
 </div>
 
 <div class="tablewrap">
   <table>
     <thead>
-      <tr>
-        <th>Aile</th><th>Bâtiment</th><th>Tag</th><th></th>
-      </tr>
+    <tr>
+      <th>{{ msg.WING }}</th><th>{{ msg.BUILDING }}</th><th>{{ msg.TAG }}</th><th></th>
+    </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let w of filtered">
-        <td><strong>{{ w.name }}</strong></td>
-        <td>{{ buildingName(w.buildingId) }}</td>
-        <td>
-          <span class="st" *ngIf="hasTag(w.id)">Tag posé</span>
-          <span class="st gray" *ngIf="!hasTag(w.id)">Sans tag</span>
-        </td>
-        <td class="actions">
-          <button class="iconbtn" title="Modifier" (click)="openEdit(w)">
-            <svg viewBox="0 0 24 24"><path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19l-4 1z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-          </button>
-          <button class="iconbtn danger" *ngIf="auth.isAdmin"
-                  [title]="canDelete(w.id) ? 'Supprimer' : 'Suppression impossible : cette aile a un tag'"
-                  [disabled]="!canDelete(w.id)" (click)="remove(w)">
-            <svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6M14 11v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-          </button>
-        </td>
-      </tr>
-      <tr *ngIf="!loading && filtered.length === 0">
-        <td colspan="4" class="muted">Aucune aile.</td>
-      </tr>
-      <tr *ngIf="loading">
-        <td colspan="4" class="muted">Chargement…</td>
-      </tr>
+    <tr *ngFor="let w of filtered">
+      <td><strong>{{ w.name }}</strong></td>
+      <td>{{ buildingName(w.buildingId) }}</td>
+      <td>
+        <span class="st" *ngIf="hasTag(w.id)">{{ msg.TAG_PLACED }}</span>
+        <span class="st gray" *ngIf="!hasTag(w.id)">{{ msg.NO_TAG }}</span>
+      </td>
+      <td class="actions">
+        <button class="iconbtn" [title]="msg.EDIT" (click)="openEdit(w)">
+          <svg viewBox="0 0 24 24"><path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19l-4 1z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+        <button class="iconbtn danger" *ngIf="auth.isAdmin"
+                [title]="canDelete(w.id) ? msg.BUTTON_DELETE : msg.DELETE_BLOCKED_WING_HINT"
+                [disabled]="!canDelete(w.id)" (click)="remove(w)">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6M14 11v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="!loading && filtered.length === 0">
+      <td colspan="4" class="muted">{{ msg.NO_WING }}</td>
+    </tr>
+    <tr *ngIf="loading">
+      <td colspan="4" class="muted">{{ msg.LOADING }}</td>
+    </tr>
     </tbody>
   </table>
 </div>
@@ -53,30 +53,30 @@
 <div class="modal-back" *ngIf="modalOpen" (click)="close()">
   <div class="modal" role="dialog" (click)="$event.stopPropagation()">
     <div class="mhead">
-      <h3>{{ form.id ? 'Modifier l\'aile' : 'Nouvelle aile' }}</h3>
-      <button class="iconbtn" title="Fermer" (click)="close()">
+      <h3>{{ form.id ? msg.EDIT_WING : msg.NEW_WING }}</h3>
+      <button class="iconbtn" [title]="msg.CLOSE" (click)="close()">
         <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19" stroke="currentColor" stroke-width="1.7"/></svg>
       </button>
     </div>
     <div class="mbody">
-      <div class="msec">Bâtiment</div>
+      <div class="msec">{{ msg.BUILDING }}</div>
       <div class="field">
-        <label>Bâtiment</label>
+        <label>{{ msg.BUILDING }}</label>
         <select [(ngModel)]="form.buildingId">
-          <option [ngValue]="null" disabled>Sélectionner un bâtiment</option>
+          <option [ngValue]="null" disabled>{{ msg.SELECT_BUILDING }}</option>
           <option *ngFor="let b of buildings" [ngValue]="b.id">{{ b.name }}</option>
         </select>
       </div>
-      <div class="msec">Informations</div>
+      <div class="msec">{{ msg.INFORMATION }}</div>
       <div class="field">
-        <label>Nom de l'aile</label>
-        <input [(ngModel)]="form.name" placeholder="Ex : Aile Nord, Hall N°1, Bloc A">
+        <label>{{ msg.WING_NAME }}</label>
+        <input [(ngModel)]="form.name" [placeholder]="msg.WING_NAME_HINT">
       </div>
     </div>
     <div class="mfoot">
-      <button class="btn ghost" (click)="close()">Annuler</button>
+      <button class="btn ghost" (click)="close()">{{ msg.CANCEL }}</button>
       <button class="btn" [disabled]="!canSave || saving" (click)="save()">
-        {{ form.id ? 'Enregistrer' : 'Créer l\'aile' }}
+        {{ form.id ? msg.SAVE : msg.CREATE_WING }}
       </button>
     </div>
   </div>

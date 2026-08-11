@@ -11,7 +11,7 @@ import { CountsService } from '../../common/shell/counts.service';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import { ConfirmService } from '../../common/confirm/confirm.service';
-import {CONFIRM_DELETE, GENERIC_ERROR, BUTTON_DELETE, TITLE_DELETE_WING, ALREADY_EXISTS} from '../../common/messages';
+import {CONFIRM_DELETE, GENERIC_ERROR, BUTTON_DELETE, TITLE_DELETE_WING, ALREADY_EXISTS, MSG} from '../../common/messages';
 import { format } from '../../common/utils/format';
 
 interface WingForm {
@@ -41,6 +41,8 @@ export class WingsComponent implements OnInit {
   modalOpen = false;
   form: WingForm = { id: null, name: '', buildingId: null };
   saving = false;
+
+  readonly msg = MSG;
 
   constructor(
     private wingService: WingService,

@@ -185,6 +185,24 @@ export const NO_GPS_HINT             = 'Position non relevée (localisation refu
 export const IMPRECISE_HINT          = 'Position trop imprécise pour être confirmée — fréquent en intérieur.';
 export const TAG_NOT_CALIBRATED_HINT = 'Ce tag n\'a pas encore de position enregistrée.';
 
+// ---------- ailes ----------
+export const NEW_WING_BUTTON         = '+ Nouvelle aile';
+export const SEARCH_WING             = 'Rechercher une aile…';
+export const WING                    = 'Aile';
+export const BUILDING                = 'Bâtiment';
+export const TAG                     = 'Tag';
+export const TAG_PLACED              = 'Tag posé';
+export const NO_TAG                  = 'Sans tag';
+export const DELETE_BLOCKED_WING_HINT = 'Suppression impossible : cette aile a un tag';
+export const NO_WING                 = 'Aucune aile.';
+export const EDIT_WING               = 'Modifier l\'aile';
+export const NEW_WING                = 'Nouvelle aile';
+export const SELECT_BUILDING         = 'Sélectionner un bâtiment';
+export const INFORMATION             = 'Informations';
+export const WING_NAME               = 'Nom de l\'aile';
+export const WING_NAME_HINT          = 'Ex : Aile Nord, Hall N°1, Bloc A';
+export const CREATE_WING             = 'Créer l\'aile';
+
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
@@ -205,4 +223,7 @@ export const MSG = {
   FIRST_VISIT, FIRST_VISIT_LEAD, FIRSTNAME, MOBILE_HINT, RECORD_ARRIVAL,
   ARRIVAL_RECORDED, DEPARTURE_RECORDED, RESCAN_HINT,
   NO_GPS_HINT, IMPRECISE_HINT, TAG_NOT_CALIBRATED_HINT,
+  NEW_WING_BUTTON, SEARCH_WING, WING, BUILDING, TAG, TAG_PLACED, NO_TAG,
+  DELETE_BLOCKED_WING_HINT, NO_WING, EDIT_WING, NEW_WING,
+  SELECT_BUILDING, INFORMATION, WING_NAME, WING_NAME_HINT, CREATE_WING,
 };
