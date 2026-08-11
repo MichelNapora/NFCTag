@@ -1,5 +1,9 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
+import { format } from '../../common/utils/format';
+import {
+  MAP_LOAD_FAILED, MAP_NO_ONGOING, MAP_REFRESHED_AT, MAP_TECHNICIANS_COUNT, MSG
+} from '../../common/messages';
 import { forkJoin } from 'rxjs';
 import * as L from 'leaflet';
 import { TagService } from '../tags/tag.service';
@@ -29,6 +33,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   ongoingTotal = 0;
   lastRefresh: Date | null = null;
 
+  readonly msg = MSG;
   private map: L.Map | null = null;
   private markers: L.LayerGroup | null = null;
   private wings: Wing[] = [];
@@ -43,6 +48,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     private presenceService: PresenceService
   ) {}
 
+  /** Ligne d'actualisation de la légende. Vide tant qu'aucun rafraîchissement n'a eu lieu. */
+  get refreshLabel(): string {
+    return this.lastRefresh
+      ? format(MAP_REFRESHED_AT, formatDate(this.lastRefresh, 'HH:mm:ss', 'fr'))
+      : '';
+  }
   ngAfterViewInit(): void {
     this.map = L.map('tags-map', { scrollWheelZoom: true });
     // Fond de carte OpenStreetMap — gratuit, sans clé
@@ -78,7 +89,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.lastRefresh = new Date();
         this.error = null;
       },
-      error: () => this.error = 'Impossible de charger la carte.'
+      error: () => this.error = MAP_LOAD_FAILED
     });
   }
 
@@ -118,7 +129,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       });
       marker.bindPopup(
         `<strong>${this.wingLabel(tag.wingId)}</strong><br>` +
-        (ongoing > 0 ? `${ongoing} technicien(s) sur place` : 'Aucune intervention en cours')
+        (ongoing > 0 ? format(MAP_TECHNICIANS_COUNT, String(ongoing)) : MAP_NO_ONGOING)
       );
       marker.addTo(this.markers);
     }

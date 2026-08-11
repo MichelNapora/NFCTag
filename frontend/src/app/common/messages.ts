@@ -102,11 +102,26 @@ export const ACCOUNT_LOCKED    = 'Compte verrouillé. Adressez-vous à un admini
 export const WRONG_PASSWORD    = 'Mot de passe actuel incorrect.';
 export const SAME_PASSWORD     = 'Le nouveau mot de passe doit être différent de l\'ancien.';
 
+// ---------- carte ----------
+export const MAP_EYEBROW           = 'Vue d\'ensemble';
+export const MAP_TITLE             = 'Carte';
+export const REFRESH               = 'Actualiser';
+export const MAP_TECHNICIANS_HERE  = 'Techniciens sur place';
+export const MAP_QUIET_SITE        = 'Site calme';
+export const MAP_UNCALIBRATED      = 'En attente de calibration';
+export const MAP_UNCALIBRATED_HINT = 'Ces tags n\'ont pas encore de position : elle sera enregistrée automatiquement au premier scan précis effectué sur place.';
+export const LOCATION              = 'Emplacement';
+export const STATE                 = 'État';
+export const MAP_REFRESHED_AT      = 'Actualisé à %s — rafraîchissement automatique chaque minute';
+export const MAP_LOAD_FAILED       = 'Impossible de charger la carte.';
+export const MAP_TECHNICIANS_COUNT = '%s technicien(s) sur place';
+export const MAP_NO_ONGOING        = 'Aucune intervention en cours';
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
   LOGIN_TITLE, LOGIN_LEAD, LOGIN_EMAIL, LOGIN_EMAIL_HINT,
   LOGIN_PASSWORD, LOGIN_SUBMIT, LOGIN_SUBMITTING, LOGIN_NO_ACCOUNT,
   SCAN_BUSINESS, BUSINESS_CHANGED, CHOOSE_BUSINESS, CONFIRM_BUSINESS, SAVING,
-
+  MAP_EYEBROW, MAP_TITLE, REFRESH, MAP_TECHNICIANS_HERE, MAP_QUIET_SITE,
+  MAP_UNCALIBRATED, MAP_UNCALIBRATED_HINT, LOCATION, STATE,
 };
