@@ -24,6 +24,7 @@ public class ScanMapper {
         return new ScanResponseDTO(
                 r.technician().getDeviceToken(),
                 r.technician().getFirstname() + " " + r.technician().getLastname(),
+                r.presence().getBusiness().getName(),
                 r.tag().getWing().getBuilding().getName(),
                 r.tag().getWing().getName(),
                 r.presence().getArrivedAt(),
