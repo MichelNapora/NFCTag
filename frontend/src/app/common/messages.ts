@@ -76,12 +76,18 @@ export const SCAN_FAILED               = 'Scan impossible. Réessayez.';
 export const CALIBRATION_TOO_IMPRECISE = 'Précision GPS insuffisante. Rapprochez-vous d\'une fenêtre ou sortez, puis réessayez.';
 export const CALIBRATION_FAILED        = 'Calibration impossible.';
 export const POSITION_UNAVAILABLE      = 'Position indisponible. Autorisez la géolocalisation puis rechargez.';
+export const SCAN_BUSINESS          = 'Société :';
+export const BUSINESS_CHANGED       = 'J\'ai changé de société';
+export const CHOOSE_BUSINESS        = 'Choisissez votre société';
+export const CONFIRM_BUSINESS       = 'Confirmer ma société';
+export const SAVING                 = 'Enregistrement…';
+export const BUSINESS_CHANGE_FAILED = 'Changement de société impossible.';
 
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
   LOGIN_TITLE, LOGIN_LEAD, LOGIN_EMAIL, LOGIN_EMAIL_HINT,
   LOGIN_PASSWORD, LOGIN_SUBMIT, LOGIN_SUBMITTING, LOGIN_NO_ACCOUNT,
-
+  SCAN_BUSINESS, BUSINESS_CHANGED, CHOOSE_BUSINESS, CONFIRM_BUSINESS, SAVING,
 
 };

@@ -74,6 +74,22 @@
       </div>
       <h1>{{ isArrival ? 'Arrivée enregistrée' : 'Départ enregistré' }}</h1>
       <p class="who">{{ r.technicianName }}</p>
+      <p class="hint">{{ msg.SCAN_BUSINESS }} {{ r.businessName }}</p>
+
+      <button *ngIf="!changingBusiness" class="btn ghost full" (click)="openBusinessChange()">
+        {{ msg.BUSINESS_CHANGED }}
+      </button>
+
+      <div class="field" *ngIf="changingBusiness">
+        <select [(ngModel)]="newBusinessId">
+          <option [ngValue]="null" disabled selected>{{ msg.CHOOSE_BUSINESS }}</option>
+          <option *ngFor="let b of businesses" [ngValue]="b.id">{{ b.name }}</option>
+        </select>
+        <div class="fielderr" *ngIf="businessChangeError">{{ businessChangeError }}</div>
+        <button class="btn full" [disabled]="!newBusinessId || savingBusiness" (click)="confirmBusinessChange()">
+          {{ savingBusiness ? msg.SAVING : msg.CONFIRM_BUSINESS }}
+        </button>
+      </div>
       <div class="time">{{ (isArrival ? r.arrivedAt : r.departedAt) | date:'HH:mm' }}</div>
       <div class="date">{{ (isArrival ? r.arrivedAt : r.departedAt) | date:'EEEE d MMMM' }}</div>
       <p class="hint" *ngIf="isArrival">Rescannez le tag en partant pour enregistrer votre départ.</p>

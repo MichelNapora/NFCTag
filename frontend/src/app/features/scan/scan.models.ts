@@ -17,6 +17,7 @@ export interface ScanRequest {
 export interface ScanResponse {
   deviceToken: string;          // à stocker dans le navigateur
   technicianName: string;
+  businessName: string;
   buildingName: string;
   wingName: string;
   arrivedAt: string;

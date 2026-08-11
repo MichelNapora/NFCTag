@@ -17,6 +17,11 @@ export class ScanService {
     return this.http.get<Business[]>('/api/businesses');
   }
 
+
+  changeBusiness(deviceToken: string, businessId: string): Observable<void> {
+    return this.http.post<void>('/api/scan/technician/business', { deviceToken, businessId });
+  }
+
   calibrate(scanToken: string, position: TagPosition): Observable<CalibratedTag> {
     return this.http.post<CalibratedTag>(`/api/tags/calibrate/${scanToken}`, position);
   }

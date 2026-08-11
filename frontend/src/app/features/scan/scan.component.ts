@@ -12,7 +12,8 @@ import { mobileDigits } from '../../common/utils/mobile-digits';
 import {errorMessage} from '../../common/utils/http-error';
 import {
   CALIBRATION_FAILED,
-  CALIBRATION_TOO_IMPRECISE, POSITION_UNAVAILABLE,
+  BUSINESS_CHANGE_FAILED,
+  CALIBRATION_TOO_IMPRECISE, MSG, POSITION_UNAVAILABLE,
   SCAN_FAILED,
   SCAN_IDENTITY_MISMATCH,
   SCAN_TAG_UNKNOWN
@@ -47,6 +48,11 @@ export class ScanComponent implements OnInit {
   businessId: string | null = null;
   submitting = false;
 
+  readonly msg = MSG;
+  changingBusiness = false;
+  newBusinessId: string | null = null;
+  savingBusiness = false;
+  businessChangeError: string | null = null;
   employee: CurrentEmployee | null = null;
   calibrating = false;
   calibratedAt: string | null = null;
@@ -120,6 +126,41 @@ export class ScanComponent implements OnInit {
     if (!this.canSubmit) { return; }
     this.submitting = true;
     this.sendScan(null);
+  }
+
+
+  /** Ouvre la liste des sociétés. Elle n'est chargée que si le formulaire du 1er passage ne l'a pas déjà fait. */
+  openBusinessChange(): void {
+    this.changingBusiness = true;
+    this.businessChangeError = null;
+    if (!this.businesses.length) {
+      this.api.businesses().subscribe({
+        next: (list) => this.businesses = list,
+        error: (e) => this.businessChangeError = errorMessage(e, BUSINESS_CHANGE_FAILED)
+      });
+    }
+  }
+
+  /** Le technicien déclare son nouvel employeur. L'intervention en cours suit. */
+  confirmBusinessChange(): void {
+    const deviceToken = localStorage.getItem(DEVICE_TOKEN_KEY);
+    if (!this.newBusinessId || !deviceToken || this.savingBusiness) { return; }
+    this.savingBusiness = true;
+    this.businessChangeError = null;
+
+    this.api.changeBusiness(deviceToken, this.newBusinessId).subscribe({
+      next: () => {
+        const choisie = this.businesses.find(b => b.id === this.newBusinessId);
+        if (this.result && choisie) { this.result.businessName = choisie.name; }
+        this.savingBusiness = false;
+        this.changingBusiness = false;
+        this.newBusinessId = null;
+      },
+      error: (e) => {
+        this.savingBusiness = false;
+        this.businessChangeError = errorMessage(e, BUSINESS_CHANGE_FAILED);
+      }
+    });
   }
 
   /**
