@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
-import { PASSWORD_CHANGE_FAILED } from '../../common/messages';
+import {
+  MSG, NEW_PASSWORD_TOO_SHORT, PASSWORD_CHANGE_FAILED, PASSWORDS_DO_NOT_MATCH
+} from '../../common/messages';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +17,8 @@ import { PASSWORD_CHANGE_FAILED } from '../../common/messages';
 export class ProfileComponent {
 
   modalOpen = false;
+
+  readonly msg = MSG;
 
   currentPassword = '';
   newPassword = '';
@@ -49,10 +53,10 @@ export class ProfileComponent {
   /** Message d'aide sous le formulaire, selon ce qui manque. */
   get hint(): string | null {
     if (this.newPassword && this.newPassword.length < 8) {
-      return 'Le nouveau mot de passe doit faire au moins 8 caractères.';
+      return NEW_PASSWORD_TOO_SHORT;
     }
     if (this.confirmPassword && this.newPassword !== this.confirmPassword) {
-      return 'Les deux mots de passe ne correspondent pas.';
+      return PASSWORDS_DO_NOT_MATCH;
     }
     return null;
   }

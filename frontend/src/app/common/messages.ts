@@ -116,6 +116,22 @@ export const MAP_REFRESHED_AT      = 'Actualisé à %s — rafraîchissement aut
 export const MAP_LOAD_FAILED       = 'Impossible de charger la carte.';
 export const MAP_TECHNICIANS_COUNT = '%s technicien(s) sur place';
 export const MAP_NO_ONGOING        = 'Aucune intervention en cours';
+
+// ---------- profil ----------
+export const ACCOUNT                = 'Compte';
+export const MY_PROFILE             = 'Mon profil';
+export const CHANGE_PASSWORD        = 'Changer mon mot de passe';
+export const PASSWORD_CHANGED       = 'Mot de passe modifié.';
+export const ROLE_ADMIN             = 'Admin';
+export const ROLE_EMPLOYEE          = 'Employé';
+export const SECURITY               = 'Sécurité';
+export const CURRENT_PASSWORD       = 'Mot de passe actuel';
+export const NEW_PASSWORD           = 'Nouveau mot de passe (8 caractères minimum)';
+export const CONFIRM_PASSWORD       = 'Confirmer le nouveau mot de passe';
+export const SAVE                   = 'Enregistrer';
+export const NEW_PASSWORD_TOO_SHORT = 'Le nouveau mot de passe doit faire au moins 8 caractères.';
+export const PASSWORDS_DO_NOT_MATCH = 'Les deux mots de passe ne correspondent pas.';
+
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
@@ -124,4 +140,6 @@ export const MSG = {
   SCAN_BUSINESS, BUSINESS_CHANGED, CHOOSE_BUSINESS, CONFIRM_BUSINESS, SAVING,
   MAP_EYEBROW, MAP_TITLE, REFRESH, MAP_TECHNICIANS_HERE, MAP_QUIET_SITE,
   MAP_UNCALIBRATED, MAP_UNCALIBRATED_HINT, LOCATION, STATE,
+  ACCOUNT, MY_PROFILE, CHANGE_PASSWORD, PASSWORD_CHANGED, ROLE_ADMIN, ROLE_EMPLOYEE,
+  SECURITY, CURRENT_PASSWORD, NEW_PASSWORD, CONFIRM_PASSWORD, SAVE,
 };
