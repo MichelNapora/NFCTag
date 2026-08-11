@@ -132,6 +132,27 @@ export const SAVE                   = 'Enregistrer';
 export const NEW_PASSWORD_TOO_SHORT = 'Le nouveau mot de passe doit faire au moins 8 caractères.';
 export const PASSWORDS_DO_NOT_MATCH = 'Les deux mots de passe ne correspondent pas.';
 
+// ---------- communs aux pages de gestion ----------
+export const MANAGEMENT = 'Gestion';
+export const EDIT       = 'Modifier';
+export const LOADING    = 'Chargement…';
+export const NAME       = 'Nom';
+
+// ---------- societes ----------
+export const BUSINESSES_TITLE             = 'Sociétés';
+export const NEW_BUSINESS_BUTTON          = '+ Nouvelle société';
+export const SEARCH_BUSINESS              = 'Rechercher une société…';
+export const BUSINESS                     = 'Société';
+export const BCE                          = 'N° BCE';
+export const DELETE_BLOCKED_BUSINESS_HINT = 'Suppression impossible : cette société a des techniciens';
+export const NO_BUSINESS                  = 'Aucune société.';
+export const EDIT_BUSINESS                = 'Modifier la société';
+export const NEW_BUSINESS                 = 'Nouvelle société';
+export const BUSINESS_NAME_HINT           = 'Ex : Électricité Dupont SPRL';
+export const BCE_LABEL                    = 'N° BCE (10 chiffres, commence par 0 ou 1)';
+export const BCE_HINT                     = 'Ex : 0123456749';
+export const CREATE_BUSINESS              = 'Créer la société';
+
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
@@ -142,4 +163,8 @@ export const MSG = {
   MAP_UNCALIBRATED, MAP_UNCALIBRATED_HINT, LOCATION, STATE,
   ACCOUNT, MY_PROFILE, CHANGE_PASSWORD, PASSWORD_CHANGED, ROLE_ADMIN, ROLE_EMPLOYEE,
   SECURITY, CURRENT_PASSWORD, NEW_PASSWORD, CONFIRM_PASSWORD, SAVE,
+  MANAGEMENT, BUSINESSES_TITLE, NEW_BUSINESS_BUTTON, SEARCH_BUSINESS,
+  BUSINESS, BCE, EDIT, DELETE_BLOCKED_BUSINESS_HINT, NO_BUSINESS, LOADING,
+  EDIT_BUSINESS, NEW_BUSINESS, NAME, BUSINESS_NAME_HINT, BCE_LABEL, BCE_HINT, CREATE_BUSINESS,
+  BUTTON_DELETE,
 };

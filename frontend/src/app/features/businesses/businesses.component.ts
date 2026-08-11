@@ -12,7 +12,8 @@ import {
   GENERIC_ERROR,
   BUTTON_DELETE,
   TITLE_DELETE_BUSINESS,
-  ALREADY_EXISTS
+  ALREADY_EXISTS,
+  MSG
 } from '../../common/messages';
 import { format } from '../../common/utils/format';
 import { bceError } from '../../common/utils/bce-error';
@@ -42,6 +43,8 @@ export class BusinessesComponent implements OnInit {
   modalOpen = false;
   form: BusinessForm = { id: null, name: '', bce: '' };
   saving = false;
+
+  readonly msg = MSG;
 
   constructor(
     private businessService: BusinessService,
