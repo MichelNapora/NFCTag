@@ -11,13 +11,18 @@ import { mobileError } from '../../common/utils/mobile-error';
 import { mobileDigits } from '../../common/utils/mobile-digits';
 import {errorMessage} from '../../common/utils/http-error';
 import {
-  CALIBRATION_FAILED,
   BUSINESS_CHANGE_FAILED,
-  CALIBRATION_TOO_IMPRECISE, MSG, POSITION_UNAVAILABLE,
+  CALIBRATION_FAILED,
+  CALIBRATION_TOO_IMPRECISE,
+  GPS_ACCURACY,
+  MSG,
+  POSITION_UNAVAILABLE,
   SCAN_FAILED,
   SCAN_IDENTITY_MISMATCH,
-  SCAN_TAG_UNKNOWN
+  SCAN_TAG_UNKNOWN,
+  TOO_FAR_WARNING
 } from '../../common/messages';
+import { format } from '../../common/utils/format';
 
 const DEVICE_TOKEN_KEY = 'nfctag.deviceToken';
 
