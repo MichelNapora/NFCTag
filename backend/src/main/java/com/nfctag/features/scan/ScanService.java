@@ -144,4 +144,19 @@ public class ScanService {
                 distance
         );
     }
+
+    @Transactional
+    public void changeBusiness(UUID deviceToken, UUID businessId){
+        Technician technician = technicianRepository.findByDeviceToken(deviceToken)
+                .orElseThrow(() -> new TechnicianNotFoundException(deviceToken));
+
+        Business business = businessRepository.findById(businessId)
+                .orElseThrow(() -> new BusinessNotFoundException(businessId));
+
+        technician.setBusiness(business);
+        technicianRepository.save(technician);
+
+        presenceRepository.findByTechnicianIdAndDepartedAtIsNull(technician.getId())
+                .forEach(presence -> presence.setBusiness(business));
+    }
 }

@@ -134,4 +134,8 @@ public class Presence {
     public void setDepartureDistanceMeters(Double departureDistanceMeters){
         this.departureDistanceMeters=departureDistanceMeters;
     }
+
+    public void setBusiness(Business business){
+        this.business=business;
+    }
 }

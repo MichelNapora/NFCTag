@@ -33,4 +33,13 @@ public class ScanController {
         deviceCookie.write(httpResponse, result.technician().getDeviceToken());
         return scanMapper.toDto(result);
     }
+
+    @PostMapping("/scan/technician/business")
+    public void changeBusiness(@Valid @RequestBody ChangeBusinessDTO request,
+                               HttpServletRequest httpRequest){
+        UUID deviceToken = request.getDeviceToken() != null
+                ? request.getDeviceToken()
+                : deviceCookie.read(httpRequest);
+        scanService.changeBusiness(deviceToken, request.getBusinessId());
+    }
 }

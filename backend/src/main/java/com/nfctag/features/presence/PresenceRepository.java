@@ -16,11 +16,8 @@ public interface PresenceRepository extends JpaRepository<Presence, UUID>, JpaSp
     List<Presence> findByTagId(UUID tagId);
     Optional<Presence> findByTechnicianIdAndTagIdAndDepartedAtIsNull(UUID technicianId, UUID tagId);
     List<Presence> findByDepartedAtIsNull();
-    /** Bornes de l'historique, pour construire la liste des années. */
     Optional<Presence> findFirstByOrderByArrivedAtAsc();
     Optional<Presence> findFirstByOrderByArrivedAtDesc();
-
-    /** Les 8 dernières interventions, pour le tableau de bord. */
     List<Presence> findTop8ByOrderByArrivedAtDesc();
     long countByDepartedAtIsNull();
     long countByEstimatedTrue();
@@ -28,4 +25,5 @@ public interface PresenceRepository extends JpaRepository<Presence, UUID>, JpaSp
     long countByTechnicianId(UUID technicianId);
     boolean existsByTagId(UUID tagId);
     boolean existsByTechnicianId(UUID technicianId);
+    List<Presence> findByTechnicianIdAndDepartedAtIsNull(UUID technicianId);
 }
