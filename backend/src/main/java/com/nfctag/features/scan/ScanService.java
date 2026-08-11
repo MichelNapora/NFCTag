@@ -77,8 +77,15 @@ public class ScanService {
 
     private Technician resolveTechnician(ScanCommand command){
         if (command.deviceToken() != null) {
-            return technicianRepository.findByDeviceToken(command.deviceToken())
-                    .orElseThrow(() -> new TechnicianNotFoundException(command.deviceToken()));
+            Optional<Technician> connu = technicianRepository.findByDeviceToken(command.deviceToken());
+            if (connu.isPresent()) {
+                return connu.get();
+            }
+            // Jeton périmé : on ne bloque que si le formulaire n'a rien à proposer.
+            // Sinon on laisse l'identification par mobile reprendre la main, et le cookie sera réécrit.
+            if (isBlank(command.mobile())) {
+                throw new TechnicianNotFoundException(command.deviceToken());
+            }
         }
 
         if (command.mobile() != null) {
