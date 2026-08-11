@@ -8,7 +8,7 @@ import {ConfirmComponent} from '../confirm/confirm.component';
 import {ConfirmService} from '../confirm/confirm.service';
 import {catchError} from 'rxjs/operators';
 import { of } from 'rxjs';
-import { CONFIRM_LOGOUT, BUTTON_LOGOUT, TITLE_LOGOUT } from '../messages';
+import { CONFIRM_LOGOUT, BUTTON_LOGOUT, TITLE_LOGOUT, MSG } from '../messages';
 
 
 @Component({
@@ -21,6 +21,8 @@ import { CONFIRM_LOGOUT, BUTTON_LOGOUT, TITLE_LOGOUT } from '../messages';
 export class ShellComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   counts: Counts = { presences: 0, buildings: 0, wings: 0, tags: 0, businesses: 0, technicians:0 };
+
+  readonly msg = MSG;
 
   constructor(
     private countsService: CountsService,

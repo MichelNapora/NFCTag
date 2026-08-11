@@ -103,8 +103,8 @@ export const WRONG_PASSWORD    = 'Mot de passe actuel incorrect.';
 export const SAME_PASSWORD     = 'Le nouveau mot de passe doit être différent de l\'ancien.';
 
 // ---------- carte ----------
-export const MAP_EYEBROW           = 'Vue d\'ensemble';
-export const MAP_TITLE             = 'Carte';
+export const OVERVIEW              = 'Vue d\'ensemble';
+export const MAP                   = 'Carte';
 export const REFRESH               = 'Actualiser';
 export const MAP_TECHNICIANS_HERE  = 'Techniciens sur place';
 export const MAP_QUIET_SITE        = 'Site calme';
@@ -139,7 +139,7 @@ export const LOADING    = 'Chargement…';
 export const NAME       = 'Nom';
 
 // ---------- societes ----------
-export const BUSINESSES_TITLE             = 'Sociétés';
+export const BUSINESSES                   = 'Sociétés';
 export const NEW_BUSINESS_BUTTON          = '+ Nouvelle société';
 export const SEARCH_BUSINESS              = 'Rechercher une société…';
 export const BUSINESS                     = 'Société';
@@ -153,17 +153,30 @@ export const BCE_LABEL                    = 'N° BCE (10 chiffres, commence par 
 export const BCE_HINT                     = 'Ex : 0123456749';
 export const CREATE_BUSINESS              = 'Créer la société';
 
+// ---------- navigation ----------
+export const DASHBOARD      = 'Tableau de bord';
+export const INTERVENTIONS  = 'Interventions';
+export const BUILDINGS      = 'Bâtiments';
+export const WINGS          = 'Ailes';
+export const TAGS           = 'Tags NFC';
+export const TECHNICIANS    = 'Techniciens';
+export const ADMINISTRATION = 'Administration';
+export const USERS          = 'Utilisateurs';
+export const LOGOUT         = 'Déconnexion';
+
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
   LOGIN_TITLE, LOGIN_LEAD, LOGIN_EMAIL, LOGIN_EMAIL_HINT,
   LOGIN_PASSWORD, LOGIN_SUBMIT, LOGIN_SUBMITTING, LOGIN_NO_ACCOUNT,
   SCAN_BUSINESS, BUSINESS_CHANGED, CHOOSE_BUSINESS, CONFIRM_BUSINESS, SAVING,
-  MAP_EYEBROW, MAP_TITLE, REFRESH, MAP_TECHNICIANS_HERE, MAP_QUIET_SITE,
+  MAP, REFRESH, MAP_TECHNICIANS_HERE, MAP_QUIET_SITE,
   MAP_UNCALIBRATED, MAP_UNCALIBRATED_HINT, LOCATION, STATE,
   ACCOUNT, MY_PROFILE, CHANGE_PASSWORD, PASSWORD_CHANGED, ROLE_ADMIN, ROLE_EMPLOYEE,
   SECURITY, CURRENT_PASSWORD, NEW_PASSWORD, CONFIRM_PASSWORD, SAVE,
-  MANAGEMENT, BUSINESSES_TITLE, NEW_BUSINESS_BUTTON, SEARCH_BUSINESS,
+  MANAGEMENT, BUSINESSES, NEW_BUSINESS_BUTTON, SEARCH_BUSINESS,
+  OVERVIEW, DASHBOARD, INTERVENTIONS, BUILDINGS, WINGS, TAGS, TECHNICIANS,
+  ADMINISTRATION, USERS, LOGOUT,
   BUSINESS, BCE, EDIT, DELETE_BLOCKED_BUSINESS_HINT, NO_BUSINESS, LOADING,
   EDIT_BUSINESS, NEW_BUSINESS, NAME, BUSINESS_NAME_HINT, BCE_LABEL, BCE_HINT, CREATE_BUSINESS,
   BUTTON_DELETE,
