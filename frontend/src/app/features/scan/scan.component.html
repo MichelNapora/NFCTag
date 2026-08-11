@@ -7,7 +7,7 @@
   <!-- Chargement -->
   <div *ngIf="loading" class="card center">
     <div class="spinner"></div>
-    <p>Lecture du tag…</p>
+    <p>{{ msg.SCAN_READING }}</p>
   </div>
 
   <!-- Erreur -->
@@ -20,44 +20,44 @@
 
   <!-- Mode calibration : employé Spi connecté -->
   <div *ngIf="!loading && employee" class="card">
-    <p class="who">Connecté : {{ employee.firstname }} {{ employee.lastname }}</p>
+    <p class="who">{{ msg.CONNECTED_AS }} {{ employee.firstname }} {{ employee.lastname }}</p>
 
-    <h2>Calibration du tag</h2>
+    <h2>{{ msg.CALIBRATION_TITLE }}</h2>
 
     <div *ngIf="calibratedAt" class="place">
-      Position enregistrée le {{ calibratedAt | date:'dd/MM/yyyy HH:mm' }}
+      {{ msg.CALIBRATED_ON }} {{ calibratedAt | date:'dd/MM/yyyy HH:mm' }}
     </div>
 
     <p *ngIf="calibrationError" class="errmsg">{{ calibrationError }}</p>
 
     <p class="hint" *ngIf="accuracy != null">
-      Précision GPS actuelle : {{ accuracy | number:'1.0-0' }} m
+      {{ accuracyLabel }}
     </p>
 
     <button class="btn full" [disabled]="calibrating" (click)="calibrate()">
-      {{ calibrating ? 'Enregistrement…' : 'Calibrer ce tag ici' }}
+      {{ calibrating ? msg.SAVING : msg.CALIBRATE_HERE }}
     </button>
 
-    <p class="hint">Appuyez uniquement lorsque vous êtes devant le tag.</p>
+    <p class="hint">{{ msg.CALIBRATE_HINT }}</p>
   </div>
   <!-- 1er passage : identification -->
   <div *ngIf="!loading && needForm" class="card">
-    <h2>Premier passage</h2>
-    <p class="lead">Identifiez-vous une seule fois : vous serez reconnu automatiquement lors des prochains passages.</p>
-    <div class="field"><input type="text" [(ngModel)]="firstname" placeholder="Prénom" [class.wrong]="firstnameMessage">
+    <h2>{{ msg.FIRST_VISIT }}</h2>
+    <p class="lead">{{ msg.FIRST_VISIT_LEAD }}</p>
+    <div class="field"><input type="text" [(ngModel)]="firstname" [placeholder]="msg.FIRSTNAME" [class.wrong]="firstnameMessage">
       <div class="fielderr" *ngIf="firstnameMessage">{{ firstnameMessage }}</div></div>
-    <div class="field"><input type="text" [(ngModel)]="lastname" placeholder="Nom" [class.wrong]="lastnameMessage">
+    <div class="field"><input type="text" [(ngModel)]="lastname" [placeholder]="msg.NAME" [class.wrong]="lastnameMessage">
       <div class="fielderr" *ngIf="lastnameMessage">{{ lastnameMessage }}</div></div>
-    <div class="field"><input type="tel" inputmode="tel" [(ngModel)]="mobile" placeholder="Mobile — 04xx xx xx xx" [class.wrong]="mobileMessage">
+    <div class="field"><input type="tel" inputmode="tel" [(ngModel)]="mobile" [placeholder]="msg.MOBILE_HINT" [class.wrong]="mobileMessage">
       <div class="fielderr" *ngIf="mobileMessage">{{ mobileMessage }}</div></div>
     <div class="field">
       <select [(ngModel)]="businessId">
-        <option [ngValue]="null" disabled selected>Choisissez votre société</option>
+        <option [ngValue]="null" disabled selected>{{ msg.CHOOSE_BUSINESS }}</option>
         <option *ngFor="let b of businesses" [ngValue]="b.id">{{ b.name }}</option>
       </select>
     </div>
     <button class="btn full" [disabled]="submitting || !canSubmit" (click)="submitForm()">
-      Enregistrer mon arrivée
+      {{ msg.RECORD_ARRIVAL }}
     </button>
   </div>
 
@@ -72,8 +72,25 @@
       <div class="bigicon">
         <svg width="56" height="56" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 12.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
       </div>
-      <h1>{{ isArrival ? 'Arrivée enregistrée' : 'Départ enregistré' }}</h1>
+      <h1>{{ isArrival ? msg.ARRIVAL_RECORDED : msg.DEPARTURE_RECORDED }}</h1>
       <p class="who">{{ r.technicianName }}</p>
+      <div class="time">{{ (isArrival ? r.arrivedAt : r.departedAt) | date:'HH:mm' }}</div>
+      <div class="date">{{ (isArrival ? r.arrivedAt : r.departedAt) | date:'EEEE d MMMM' }}</div>
+      <p class="hint" *ngIf="isArrival">{{ msg.RESCAN_HINT }}</p>
+      <div class="warn" *ngIf="r.locationStatus === 'TOO_FAR'">
+        <svg viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3zM12 10v5M12 17.5v.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        {{ distanceWarning }}
+      </div>
+      <p class="hint" *ngIf="r.locationStatus === 'NO_GPS'">
+        {{ msg.NO_GPS_HINT }}
+      </p>
+      <p class="hint" *ngIf="r.locationStatus === 'IMPRECISE'">
+        {{ msg.IMPRECISE_HINT }}
+      </p>
+      <p class="hint" *ngIf="r.locationStatus === 'TAG_NOT_CALIBRATED'">
+        {{ msg.TAG_NOT_CALIBRATED_HINT }}
+      </p>
+
       <p class="hint">{{ msg.SCAN_BUSINESS }} {{ r.businessName }}</p>
 
       <button *ngIf="!changingBusiness" class="btn ghost full" (click)="openBusinessChange()">
@@ -90,22 +107,6 @@
           {{ savingBusiness ? msg.SAVING : msg.CONFIRM_BUSINESS }}
         </button>
       </div>
-      <div class="time">{{ (isArrival ? r.arrivedAt : r.departedAt) | date:'HH:mm' }}</div>
-      <div class="date">{{ (isArrival ? r.arrivedAt : r.departedAt) | date:'EEEE d MMMM' }}</div>
-      <p class="hint" *ngIf="isArrival">Rescannez le tag en partant pour enregistrer votre départ.</p>
-      <div class="warn" *ngIf="r.locationStatus === 'TOO_FAR'">
-        <svg viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3zM12 10v5M12 17.5v.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
-        Vous êtes à {{ r.distanceMeters | number:'1.0-0' }} m du tag — ce passage sera signalé.
-      </div>
-      <p class="hint" *ngIf="r.locationStatus === 'NO_GPS'">
-        Position non relevée (localisation refusée ou indisponible).
-      </p>
-      <p class="hint" *ngIf="r.locationStatus === 'IMPRECISE'">
-        Position trop imprécise pour être confirmée — fréquent en intérieur.
-      </p>
-      <p class="hint" *ngIf="r.locationStatus === 'TAG_NOT_CALIBRATED'">
-        Ce tag n'a pas encore de position enregistrée.
-      </p>
     </div>
   </ng-container>
 </div>

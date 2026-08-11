@@ -164,6 +164,27 @@ export const ADMINISTRATION = 'Administration';
 export const USERS          = 'Utilisateurs';
 export const LOGOUT         = 'Déconnexion';
 
+// ---------- page de scan ----------
+export const SCAN_READING            = 'Lecture du tag…';
+export const CONNECTED_AS            = 'Connecté :';
+export const CALIBRATION_TITLE       = 'Calibration du tag';
+export const CALIBRATED_ON           = 'Position enregistrée le';
+export const GPS_ACCURACY            = 'Précision GPS actuelle : %s m';
+export const CALIBRATE_HERE          = 'Calibrer ce tag ici';
+export const CALIBRATE_HINT          = 'Appuyez uniquement lorsque vous êtes devant le tag.';
+export const FIRST_VISIT             = 'Premier passage';
+export const FIRST_VISIT_LEAD        = 'Identifiez-vous une seule fois : vous serez reconnu automatiquement lors des prochains passages.';
+export const FIRSTNAME               = 'Prénom';
+export const MOBILE_HINT             = 'Mobile — 04xx xx xx xx';
+export const RECORD_ARRIVAL          = 'Enregistrer mon arrivée';
+export const ARRIVAL_RECORDED        = 'Arrivée enregistrée';
+export const DEPARTURE_RECORDED      = 'Départ enregistré';
+export const RESCAN_HINT             = 'Rescannez le tag en partant pour enregistrer votre départ.';
+export const TOO_FAR_WARNING         = 'Vous êtes à %s m du tag — ce passage sera signalé.';
+export const NO_GPS_HINT             = 'Position non relevée (localisation refusée ou indisponible).';
+export const IMPRECISE_HINT          = 'Position trop imprécise pour être confirmée — fréquent en intérieur.';
+export const TAG_NOT_CALIBRATED_HINT = 'Ce tag n\'a pas encore de position enregistrée.';
+
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
@@ -180,4 +201,8 @@ export const MSG = {
   BUSINESS, BCE, EDIT, DELETE_BLOCKED_BUSINESS_HINT, NO_BUSINESS, LOADING,
   EDIT_BUSINESS, NEW_BUSINESS, NAME, BUSINESS_NAME_HINT, BCE_LABEL, BCE_HINT, CREATE_BUSINESS,
   BUTTON_DELETE,
+  SCAN_READING, CONNECTED_AS, CALIBRATION_TITLE, CALIBRATED_ON, CALIBRATE_HERE, CALIBRATE_HINT,
+  FIRST_VISIT, FIRST_VISIT_LEAD, FIRSTNAME, MOBILE_HINT, RECORD_ARRIVAL,
+  ARRIVAL_RECORDED, DEPARTURE_RECORDED, RESCAN_HINT,
+  NO_GPS_HINT, IMPRECISE_HINT, TAG_NOT_CALIBRATED_HINT,
 };

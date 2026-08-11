@@ -64,6 +64,18 @@ export class ScanComponent implements OnInit {
     return this.position.accuracy;
   }
 
+
+  /** Précision GPS affichée sous le titre, arrondie au mètre. */
+  get accuracyLabel(): string {
+    return this.accuracy == null ? '' : format(GPS_ACCURACY, String(Math.round(this.accuracy)));
+  }
+
+  /** Avertissement affiché quand le scan a eu lieu trop loin du tag. */
+  get distanceWarning(): string {
+    const metres = this.result?.distanceMeters;
+    return metres == null ? '' : format(TOO_FAR_WARNING, String(Math.round(metres)));
+  }
+
   constructor(
     private route: ActivatedRoute,
     private api: ScanService,
