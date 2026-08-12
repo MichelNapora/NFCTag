@@ -241,6 +241,31 @@ export const TAG_POSITION_NOTE       = 'La position GPS n\'est pas à encoder ic
 export const CREATE_TAG              = 'Créer le tag';
 export const QR_HINT                 = 'Scannez ce QR avec l\'appareil photo du téléphone : la page de scan s\'ouvre. Pour écrire un tag NFC : ouvrez la page, copiez l\'URL depuis la barre d\'adresse, puis collez-la dans NFC Tools (Écrire → URL).';
 
+// ---------- interventions ----------
+export const EXPORT                    = 'Exporter';
+export const EXPORTING                 = 'Export…';
+export const SEARCH_INTERVENTION       = 'Rechercher par technicien, société, bâtiment…';
+export const ALL_YEARS                 = 'Toutes les années';
+export const ALL                       = 'Tout';
+export const ONGOING                   = 'En cours';
+export const DONE_FILTER               = 'Terminées';
+export const ESTIMATED_FILTER          = 'Estimées';
+export const ANOMALIES                 = 'Anomalies';
+export const BUILDING_WING             = 'Bâtiment / Aile';
+export const ARRIVAL                   = 'Arrivée';
+export const DEPARTURE                 = 'Départ';
+export const DURATION                  = 'Durée';
+export const ESTIMATED                 = 'Estimé';
+export const DONE                      = 'Terminé';
+export const REMOTE_DEPARTURE          = 'Départ à distance';
+export const NO_INTERVENTION           = 'Aucune intervention ne correspond.';
+export const PREVIOUS                  = '‹ Précédente';
+export const NEXT                      = 'Suivante ›';
+export const DISTANCE_LABEL            = 'à %s m';
+export const DEPARTURE_DISTANCE_LABEL  = 'à %s m au départ';
+export const PAGE_LABEL                = 'Page %s sur %s — %s intervention(s)';
+export const INTERVENTIONS_COUNT       = '%s intervention(s)';
+
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
@@ -272,4 +297,7 @@ export const MSG = {
   QR_ALT, ENLARGE_QR, COPIED, COPY_URL, RECALIBRATE_HINT,
   DELETE_BLOCKED_TAG_HINT, NO_TAG_ROW, EDIT_TAG, NEW_TAG,
   WING_LABEL, SELECT_WING, TAG_POSITION_NOTE, CREATE_TAG, QR_HINT,
+  EXPORT, EXPORTING, SEARCH_INTERVENTION, ALL_YEARS, ALL, ONGOING,
+  DONE_FILTER, ESTIMATED_FILTER, ANOMALIES, BUILDING_WING, ARRIVAL, DEPARTURE,
+  DURATION, ESTIMATED, DONE, REMOTE_DEPARTURE, NO_INTERVENTION, PREVIOUS, NEXT,
 };

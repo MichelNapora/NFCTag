@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatNumber } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PresenceService } from '../presences/presence.service';
 import { PresenceView, SearchMeta } from '../presences/presence.models';
@@ -10,7 +10,10 @@ import { errorMessage } from '../../common/utils/http-error';
 import { downloadCsv, csvDate, csvToday } from '../../common/utils/csv-export';
 import {ConfirmService} from '../../common/confirm/confirm.service';
 import { CountsService } from '../../common/shell/counts.service';
-import { CONFIRM_DELETE_PRESENCE, EXPORT_FAILED, BUTTON_DELETE, TITLE_DELETE_PRESENCE } from '../../common/messages';
+import {
+  CONFIRM_DELETE_PRESENCE, EXPORT_FAILED, BUTTON_DELETE, TITLE_DELETE_PRESENCE,
+  DEPARTURE_DISTANCE_LABEL, DISTANCE_LABEL, INTERVENTIONS_COUNT, MSG, PAGE_LABEL
+} from '../../common/messages';
 import { format } from '../../common/utils/format';
 import { mobileDisplay } from '../../common/utils/mobile-display';
 
@@ -46,6 +49,33 @@ export class InterventionsComponent implements OnInit {
 
   exporting = false;
   private queryTimer: ReturnType<typeof setTimeout> | null = null;
+
+
+  readonly msg = MSG;
+
+  /** « à 120 m », sous le statut de localisation. */
+  distanceLabel(p: PresenceView): string {
+    return p.distanceMeters == null
+      ? ''
+      : format(DISTANCE_LABEL, formatNumber(p.distanceMeters, 'fr', '1.0-0'));
+  }
+
+  /** « à 5 271 m au départ », quand le départ a été scanné trop loin. */
+  departureDistanceLabel(p: PresenceView): string {
+    return p.departureDistanceMeters == null
+      ? ''
+      : format(DEPARTURE_DISTANCE_LABEL, formatNumber(p.departureDistanceMeters, 'fr', '1.0-0'));
+  }
+
+  /** Ligne de pagination, affichée seulement s'il y a plusieurs pages. */
+  get pageLabel(): string {
+    return format(PAGE_LABEL, String(this.page + 1), String(this.totalPages), String(this.totalElements));
+  }
+
+  /** Total affiché sous le tableau quand tout tient sur une page. */
+  get totalLabel(): string {
+    return format(INTERVENTIONS_COUNT, String(this.totalElements));
+  }
 
   constructor(
     private presenceService: PresenceService,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatNumber } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ScanService } from './scan.service';
@@ -72,13 +72,13 @@ export class ScanComponent implements OnInit {
 
   /** Précision GPS affichée sous le titre, arrondie au mètre. */
   get accuracyLabel(): string {
-    return this.accuracy == null ? '' : format(GPS_ACCURACY, String(Math.round(this.accuracy)));
+    return this.accuracy == null ? '' : format(GPS_ACCURACY, formatNumber(this.accuracy, 'fr', '1.0-0'));
   }
 
   /** Avertissement affiché quand le scan a eu lieu trop loin du tag. */
   get distanceWarning(): string {
     const metres = this.result?.distanceMeters;
-    return metres == null ? '' : format(TOO_FAR_WARNING, String(Math.round(metres)));
+    return metres == null ? '' : format(TOO_FAR_WARNING, formatNumber(metres, 'fr', '1.0-0'));
   }
 
   constructor(
