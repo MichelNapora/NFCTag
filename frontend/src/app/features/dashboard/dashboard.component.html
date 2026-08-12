@@ -1,94 +1,94 @@
 <div class="pagehead">
   <div>
-    <div class="eyebrow">Vue d'ensemble</div>
-    <h2>Tableau de bord</h2>
+    <div class="eyebrow">{{ msg.OVERVIEW }}</div>
+    <h2>{{ msg.DASHBOARD }}</h2>
   </div>
-  <button class="btn ghost" (click)="reload()">Actualiser</button>
+  <button class="btn ghost" (click)="reload()">{{ msg.REFRESH }}</button>
 </div>
 
 <div *ngIf="error" class="banner error">{{ error }}</div>
 
 <div class="kpis">
   <div class="kpi">
-    <div class="lbl">Passages</div>
+    <div class="lbl">{{ msg.PASSAGES }}</div>
     <div class="val">{{ totalPassages }}</div>
-    <div class="note">toutes interventions</div>
+    <div class="note">{{ msg.ALL_INTERVENTIONS }}</div>
   </div>
   <div class="kpi">
-    <div class="lbl">Temps total</div>
+    <div class="lbl">{{ msg.TOTAL_TIME }}</div>
     <div class="val">{{ duration(totalMinutes) }}</div>
-    <div class="note">toutes sociétés</div>
+    <div class="note">{{ msg.ALL_BUSINESSES }}</div>
   </div>
   <div class="kpi">
-    <div class="lbl">En cours</div>
+    <div class="lbl">{{ msg.ONGOING }}</div>
     <div class="val">{{ ongoing }}</div>
-    <div class="note">techniciens sur site</div>
+    <div class="note">{{ msg.TECHNICIANS_ON_SITE }}</div>
   </div>
   <div class="kpi">
-    <div class="lbl">Départs estimés</div>
+    <div class="lbl">{{ msg.ESTIMATED_DEPARTURES }}</div>
     <div class="val">{{ estimated }}</div>
-    <div class="note">sortie non scannée (+1h)</div>
+    <div class="note">{{ msg.EXIT_NOT_SCANNED }}</div>
   </div>
 </div>
 
 <div class="alertline" *ngIf="unverified > 0">
   <svg viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3zM12 10v5M12 17.5v.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
-  {{ unverified }} intervention(s) scannée(s) loin du tag
+  {{ farScansAlert }}
 </div>
 
-<div class="sectionlbl">Interventions récentes</div>
+<div class="sectionlbl">{{ msg.RECENT_INTERVENTIONS }}</div>
 <div class="tablewrap">
   <table>
     <thead>
-      <tr>
-        <th>Technicien</th><th>Société</th><th>Bâtiment / Aile</th>
-        <th>Arrivée</th><th>Départ</th><th>Durée</th><th>État</th>
-      </tr>
+    <tr>
+      <th>{{ msg.TECHNICIAN }}</th><th>{{ msg.BUSINESS }}</th><th>{{ msg.BUILDING_WING }}</th>
+      <th>{{ msg.ARRIVAL }}</th><th>{{ msg.DEPARTURE }}</th><th>{{ msg.DURATION }}</th><th>{{ msg.STATE }}</th>
+    </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let p of recent">
-        <td>{{ p.technicianName }}<div class="sub">{{ p.mobile }}</div></td>
-        <td>{{ p.businessName }}</td>
-        <td>{{ p.buildingName }}<div class="sub">{{ p.wingName }}</div></td>
-        <td class="num">{{ p.arrivedAt | date:'dd/MM HH:mm' }}</td>
-        <td class="num">{{ p.departedAt ? (p.departedAt | date:'dd/MM HH:mm') : '—' }}</td>
-        <td class="num">{{ duration(p.durationMinutes) }}</td>
-        <td>
-          <span class="st fill" *ngIf="isOngoing(p)">En cours</span>
-          <span class="st gray" *ngIf="p.estimated">Estimé</span>
-          <span class="st" *ngIf="!isOngoing(p) && !p.estimated">Terminé</span>
-          <span class="st"
-                [class.alert]="p.locationStatus === 'TOO_FAR'"
-                [class.gray]="p.locationStatus !== 'TOO_FAR' && p.locationStatus !== 'VERIFIED'">
+    <tr *ngFor="let p of recent">
+      <td>{{ p.technicianName }}<div class="sub">{{ p.mobile }}</div></td>
+      <td>{{ p.businessName }}</td>
+      <td>{{ p.buildingName }}<div class="sub">{{ p.wingName }}</div></td>
+      <td class="num">{{ p.arrivedAt | date:'dd/MM HH:mm' }}</td>
+      <td class="num">{{ p.departedAt ? (p.departedAt | date:'dd/MM HH:mm') : '—' }}</td>
+      <td class="num">{{ duration(p.durationMinutes) }}</td>
+      <td>
+        <span class="st fill" *ngIf="isOngoing(p)">{{ msg.ONGOING }}</span>
+        <span class="st gray" *ngIf="p.estimated">{{ msg.ESTIMATED }}</span>
+        <span class="st" *ngIf="!isOngoing(p) && !p.estimated">{{ msg.DONE }}</span>
+        <span class="st"
+              [class.alert]="p.locationStatus === 'TOO_FAR'"
+              [class.gray]="p.locationStatus !== 'TOO_FAR' && p.locationStatus !== 'VERIFIED'">
             {{ locationLabel(p) }}
           </span>
-          <span class="sub" *ngIf="p.distanceMeters != null">à {{ p.distanceMeters | number:'1.0-0' }} m</span>
-          <span class="st alert" *ngIf="p.departureLocationStatus === 'TOO_FAR'">Départ à distance</span>
-        </td>
-      </tr>
-      <tr *ngIf="!loading && recent.length === 0">
-        <td colspan="7" class="muted">Aucune intervention pour le moment.</td>
-      </tr>
-      <tr *ngIf="loading">
-        <td colspan="7" class="muted">Chargement…</td>
-      </tr>
+        <span class="sub" *ngIf="p.distanceMeters != null">à {{ p.distanceMeters | number:'1.0-0' }} m</span>
+        <span class="st alert" *ngIf="p.departureLocationStatus === 'TOO_FAR'">{{ msg.REMOTE_DEPARTURE }}</span>
+      </td>
+    </tr>
+    <tr *ngIf="!loading && recent.length === 0">
+      <td colspan="7" class="muted">{{ msg.NO_INTERVENTION_YET }}</td>
+    </tr>
+    <tr *ngIf="loading">
+      <td colspan="7" class="muted">{{ msg.LOADING }}</td>
+    </tr>
     </tbody>
   </table>
 </div>
 
-<div class="sectionlbl">Fiabilité de localisation par technicien</div>
+<div class="sectionlbl">{{ msg.RELIABILITY_BY_TECHNICIAN }}</div>
 
 <div class="search">
   <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.7"/></svg>
-  <input [(ngModel)]="technicianQuery" placeholder="Filtrer par technicien">
+  <input [(ngModel)]="technicianQuery" [placeholder]="msg.FILTER_BY_TECHNICIAN">
 </div>
 
 <div class="tablewrap">
   <table>
     <thead>
     <tr>
-      <th>Technicien</th><th>Société</th><th>Scans</th>
-      <th>Localisés</th><th>Anomalies</th><th>Taux</th>
+      <th>{{ msg.TECHNICIAN }}</th><th>{{ msg.BUSINESS }}</th><th>{{ msg.SCANS }}</th>
+      <th>{{ msg.LOCATED }}</th><th>{{ msg.ANOMALIES }}</th><th>{{ msg.RATE }}</th>
     </tr>
     </thead>
     <tbody>
@@ -106,23 +106,23 @@
       </td>
     </tr>
     <tr *ngIf="filteredStats.length === 0">
-      <td colspan="6" class="muted">Aucune donnée.</td>
+      <td colspan="6" class="muted">{{ msg.NO_DATA }}</td>
     </tr>
     </tbody>
   </table>
 </div>
 
-<div class="sectionlbl">Fiabilité de localisation par société</div>
+<div class="sectionlbl">{{ msg.RELIABILITY_BY_BUSINESS }}</div>
 <div class="search">
   <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.7"/></svg>
-  <input [(ngModel)]="businessQuery" placeholder="Filtrer par société…">
+  <input [(ngModel)]="businessQuery" [placeholder]="msg.FILTER_BY_BUSINESS">
 </div>
 <div class="tablewrap">
   <table>
     <thead>
     <tr>
-      <th>Société</th><th>Techniciens</th><th>Scans</th>
-      <th>Localisés</th><th>Anomalies</th><th>Taux</th>
+      <th>{{ msg.BUSINESS }}</th><th>{{ msg.TECHNICIAN_COUNT }}</th><th>{{ msg.SCANS }}</th>
+      <th>{{ msg.LOCATED }}</th><th>{{ msg.ANOMALIES }}</th><th>{{ msg.RATE }}</th>
     </tr>
     </thead>
     <tbody>
@@ -140,7 +140,7 @@
       </td>
     </tr>
     <tr *ngIf="filteredBusinessStats.length === 0">
-      <td colspan="6" class="muted">Aucune donnée.</td>
+      <td colspan="6" class="muted">{{ msg.NO_DATA }}</td>
     </tr>
     </tbody>
   </table>

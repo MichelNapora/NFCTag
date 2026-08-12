@@ -5,7 +5,9 @@ import { StatsService } from '../stats/stats.service';
 import { TechnicianStats, BusinessStats } from '../stats/stats.models';
 import { PresenceView } from '../presences/presence.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
-import { LOCATION_LABEL } from '../location/location.models';
+import { DASHBOARD_LOAD_FAILED, FAR_SCANS_ALERT, MSG } from '../../common/messages';
+import { format } from '../../common/utils/format';
+import {LOCATION_LABEL} from '../location/location.models';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,6 +27,13 @@ export class DashboardComponent implements OnInit {
   ongoing = 0;
   estimated = 0;
   unverified = 0;
+
+  readonly msg = MSG;
+
+  /** Bandeau d'alerte : nombre d'interventions scannées trop loin du tag. */
+  get farScansAlert(): string {
+    return format(FAR_SCANS_ALERT, String(this.unverified));
+  }
   recent: PresenceView[] = [];
 
   stats: TechnicianStats[] = [];
@@ -52,7 +61,7 @@ export class DashboardComponent implements OnInit {
         this.recent = d.recent;
         this.loading = false;
       },
-      error: () => { this.error = 'Impossible de charger le tableau de bord.'; this.loading = false; }
+      error: () => { this.error = DASHBOARD_LOAD_FAILED; this.loading = false; }
     });
 
     this.statsService.byTechnician().subscribe({

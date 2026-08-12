@@ -321,6 +321,28 @@ export const RETYPE_PASSWORD          = 'Retapez le même mot de passe';
 export const PASSWORD_MISMATCH        = 'Les mots de passe ne correspondent pas.';
 export const CREATE_USER              = 'Créer l\'utilisateur';
 
+// ---------- tableau de bord ----------
+export const PASSAGES                  = 'Passages';
+export const ALL_INTERVENTIONS         = 'toutes interventions';
+export const TOTAL_TIME                = 'Temps total';
+export const ALL_BUSINESSES            = 'toutes sociétés';
+export const TECHNICIANS_ON_SITE       = 'techniciens sur site';
+export const ESTIMATED_DEPARTURES      = 'Départs estimés';
+export const EXIT_NOT_SCANNED          = 'sortie non scannée (+1h)';
+export const RECENT_INTERVENTIONS      = 'Interventions récentes';
+export const NO_INTERVENTION_YET       = 'Aucune intervention pour le moment.';
+export const RELIABILITY_BY_TECHNICIAN = 'Fiabilité de localisation par technicien';
+export const FILTER_BY_TECHNICIAN      = 'Filtrer par technicien';
+export const SCANS                     = 'Scans';
+export const LOCATED                   = 'Localisés';
+export const RATE                      = 'Taux';
+export const NO_DATA                   = 'Aucune donnée.';
+export const RELIABILITY_BY_BUSINESS   = 'Fiabilité de localisation par société';
+export const FILTER_BY_BUSINESS        = 'Filtrer par société…';
+export const TECHNICIAN_COUNT          = 'Techniciens';
+export const FAR_SCANS_ALERT           = '%s intervention(s) scannée(s) loin du tag';
+export const DASHBOARD_LOAD_FAILED     = 'Impossible de charger le tableau de bord.';
+
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
@@ -365,4 +387,8 @@ export const MSG = {
   EMAIL_LABEL, EMAIL_HINT, ACCESS, ROLE_EMPLOYEE_OPTION, ROLE_ADMIN_OPTION,
   NEW_PASSWORD_OPTIONAL, INITIAL_PASSWORD, PASSWORD_UNCHANGED_HINT, PASSWORD_TO_SHARE,
   HIDE, SHOW, CONFIRM_THE_PASSWORD, RETYPE_PASSWORD, PASSWORD_MISMATCH, CREATE_USER,
+  PASSAGES, ALL_INTERVENTIONS, TOTAL_TIME, ALL_BUSINESSES, TECHNICIANS_ON_SITE,
+  ESTIMATED_DEPARTURES, EXIT_NOT_SCANNED, RECENT_INTERVENTIONS, NO_INTERVENTION_YET,
+  RELIABILITY_BY_TECHNICIAN, FILTER_BY_TECHNICIAN, SCANS, LOCATED, RATE, NO_DATA,
+  RELIABILITY_BY_BUSINESS, FILTER_BY_BUSINESS, TECHNICIAN_COUNT,
 };
