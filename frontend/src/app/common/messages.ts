@@ -292,6 +292,35 @@ export const CITY_HINT                    = 'Ex : Liège';
 export const CREATE_BUILDING              = 'Créer le bâtiment';
 export const TAGS_COLUMN                  = 'Tags';
 
+// ---------- utilisateurs ----------
+export const NEW_USER_BUTTON          = '+ Nouvel utilisateur';
+export const SEARCH_USER              = 'Rechercher un utilisateur…';
+export const EMAIL                    = 'Email';
+export const ROLE                     = 'Rôle';
+export const YOU                      = 'vous';
+export const LOCKED                   = 'Verrouillé';
+export const UNLOCK_ACCOUNT           = 'Déverrouiller le compte';
+export const NO_USER                  = 'Aucun utilisateur.';
+export const EDIT_USER                = 'Modifier l\'utilisateur';
+export const NEW_USER                 = 'Nouvel utilisateur';
+export const USER_FIRSTNAME_HINT      = 'Ex : Marie';
+export const USER_LASTNAME_HINT       = 'Ex : Dubois';
+export const EMAIL_LABEL              = 'Email (prenom.nom@spi.be)';
+export const EMAIL_HINT               = 'Ex : marie.dubois@spi.be';
+export const ACCESS                   = 'Accès';
+export const ROLE_EMPLOYEE_OPTION     = 'Employé — consulte et gère les données';
+export const ROLE_ADMIN_OPTION        = 'Admin — gère en plus les utilisateurs';
+export const NEW_PASSWORD_OPTIONAL    = 'Nouveau mot de passe (vide = inchangé)';
+export const INITIAL_PASSWORD         = 'Mot de passe initial';
+export const PASSWORD_UNCHANGED_HINT  = 'Laisser vide pour ne pas changer';
+export const PASSWORD_TO_SHARE        = 'Mot de passe à communiquer';
+export const HIDE                     = 'Masquer';
+export const SHOW                     = 'Afficher';
+export const CONFIRM_THE_PASSWORD     = 'Confirmer le mot de passe';
+export const RETYPE_PASSWORD          = 'Retapez le même mot de passe';
+export const PASSWORD_MISMATCH        = 'Les mots de passe ne correspondent pas.';
+export const CREATE_USER              = 'Créer l\'utilisateur';
+
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
@@ -331,4 +360,9 @@ export const MSG = {
   BUILDING_NAME_HINT, PROJECT_CODE_LABEL, PROJECT_CODE_HINT, STREET, STREET_HINT,
   NUMBER, NUMBER_HINT, BOX_OPTIONAL, BOX_HINT, POSTAL_CODE, POSTAL_CODE_HINT,
   CITY, CITY_HINT, CREATE_BUILDING, TAGS_COLUMN,
+  NEW_USER_BUTTON, SEARCH_USER, EMAIL, ROLE, YOU, LOCKED, UNLOCK_ACCOUNT,
+  NO_USER, EDIT_USER, NEW_USER, USER_FIRSTNAME_HINT, USER_LASTNAME_HINT,
+  EMAIL_LABEL, EMAIL_HINT, ACCESS, ROLE_EMPLOYEE_OPTION, ROLE_ADMIN_OPTION,
+  NEW_PASSWORD_OPTIONAL, INITIAL_PASSWORD, PASSWORD_UNCHANGED_HINT, PASSWORD_TO_SHARE,
+  HIDE, SHOW, CONFIRM_THE_PASSWORD, RETYPE_PASSWORD, PASSWORD_MISMATCH, CREATE_USER,
 };
