@@ -266,6 +266,31 @@ export const DEPARTURE_DISTANCE_LABEL  = 'à %s m au départ';
 export const PAGE_LABEL                = 'Page %s sur %s — %s intervention(s)';
 export const INTERVENTIONS_COUNT       = '%s intervention(s)';
 
+// ---------- batiments ----------
+export const NEW_BUILDING_BUTTON          = '+ Nouveau bâtiment';
+export const SEARCH_BUILDING              = 'Rechercher un bâtiment…';
+export const PROJECT_CODE                 = 'Code projet';
+export const ADDRESS                      = 'Adresse';
+export const BOX_PREFIX                   = 'bte';
+export const DELETE_BLOCKED_BUILDING_HINT = 'Suppression impossible : ce bâtiment contient des ailes';
+export const NO_BUILDING                  = 'Aucun bâtiment.';
+export const EDIT_BUILDING                = 'Modifier le bâtiment';
+export const NEW_BUILDING                 = 'Nouveau bâtiment';
+export const BUILDING_NAME_HINT           = 'Ex : Bâtiment Cathédrale';
+export const PROJECT_CODE_LABEL           = 'Code projet (4 à 8 caractères)';
+export const PROJECT_CODE_HINT            = 'Ex : PRJ-001';
+export const STREET                       = 'Rue';
+export const STREET_HINT                  = 'Ex : Rue de la Cathédrale';
+export const NUMBER                       = 'Numéro';
+export const NUMBER_HINT                  = 'Ex : 10';
+export const BOX_OPTIONAL                 = 'Boîte (optionnel)';
+export const BOX_HINT                     = 'Ex : A';
+export const POSTAL_CODE                  = 'Code postal';
+export const POSTAL_CODE_HINT             = 'Ex : 4000';
+export const CITY                         = 'Ville';
+export const CITY_HINT                    = 'Ex : Liège';
+export const CREATE_BUILDING              = 'Créer le bâtiment';
+
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
   CANCEL, CLOSE, PASSWORD_SHOW, PASSWORD_HIDE,
@@ -300,4 +325,9 @@ export const MSG = {
   EXPORT, EXPORTING, SEARCH_INTERVENTION, ALL_YEARS, ALL, ONGOING,
   DONE_FILTER, ESTIMATED_FILTER, ANOMALIES, BUILDING_WING, ARRIVAL, DEPARTURE,
   DURATION, ESTIMATED, DONE, REMOTE_DEPARTURE, NO_INTERVENTION, PREVIOUS, NEXT,
+  NEW_BUILDING_BUTTON, SEARCH_BUILDING, PROJECT_CODE, ADDRESS, BOX_PREFIX,
+  DELETE_BLOCKED_BUILDING_HINT, NO_BUILDING, EDIT_BUILDING, NEW_BUILDING,
+  BUILDING_NAME_HINT, PROJECT_CODE_LABEL, PROJECT_CODE_HINT, STREET, STREET_HINT,
+  NUMBER, NUMBER_HINT, BOX_OPTIONAL, BOX_HINT, POSTAL_CODE, POSTAL_CODE_HINT,
+  CITY, CITY_HINT, CREATE_BUILDING,
 };

@@ -16,7 +16,8 @@ import {
   BUTTON_DELETE,
   CONFIRM_DELETE,
   GENERIC_ERROR,
-  TITLE_DELETE_BUILDING
+  TITLE_DELETE_BUILDING,
+  MSG
 } from '../../common/messages';
 import { format } from '../../common/utils/format';
 import { projectCodeError } from '../../common/utils/project-code-error';
@@ -57,6 +58,8 @@ export class BuildingsComponent implements OnInit {
   modalOpen = false;
   form: BuildingForm = { ...EMPTY_FORM };
   saving = false;
+
+  readonly msg = MSG;
 
   constructor(
     private buildingService: BuildingService,
