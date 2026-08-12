@@ -14,7 +14,8 @@ import {
   BUTTON_UNLOCK,
   TITLE_DELETE_EMPLOYEE,
   TITLE_UNLOCK_EMPLOYEE,
-  ALREADY_EXISTS
+  ALREADY_EXISTS,
+  MSG
 } from '../../common/messages';
 import { format } from '../../common/utils/format';
 import { nameError } from '../../common/utils/name-error';
@@ -50,6 +51,8 @@ export class EmployeesComponent implements OnInit {
   modalOpen = false;
   form: EmployeeForm = { ...EMPTY_FORM };
   saving = false;
+
+  readonly msg = MSG;
   showPassword = false;
   showConfirm = false;
 
