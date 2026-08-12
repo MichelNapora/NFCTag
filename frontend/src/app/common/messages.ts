@@ -290,6 +290,7 @@ export const POSTAL_CODE_HINT             = 'Ex : 4000';
 export const CITY                         = 'Ville';
 export const CITY_HINT                    = 'Ex : Liège';
 export const CREATE_BUILDING              = 'Créer le bâtiment';
+export const TAGS_COLUMN                  = 'Tags';
 
 /** Regroupement pour les gabarits : un template Angular ne peut pas importer, il ne voit que le composant. */
 export const MSG = {
