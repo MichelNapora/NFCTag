@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import {
-PASSWORDS_DO_NOT_MATCH
+  MSG, NEW_PASSWORD_TOO_SHORT, PASSWORD_CHANGE_FAILED, PASSWORD_MISMATCH
 } from '../../common/messages';
 
 @Component({
@@ -56,7 +56,7 @@ export class ProfileComponent {
       return NEW_PASSWORD_TOO_SHORT;
     }
     if (this.confirmPassword && this.newPassword !== this.confirmPassword) {
-      return PASSWORDS_DO_NOT_MATCH;
+      return PASSWORD_MISMATCH;
     }
     return null;
   }
