@@ -30,9 +30,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -97,7 +100,9 @@ public class GlobalExceptionHandler {
             InvalidScanException.class,
             InsufficientAccuracyException.class,
             InvalidPasswordException.class,
-            SamePasswordException.class
+            SamePasswordException.class,
+            HttpMessageNotReadableException.class,
+            MethodArgumentTypeMismatchException.class
     })
     public ProblemDetail handleBadRequest(RuntimeException ex) {
         return problem(HttpStatus.BAD_REQUEST, ex);
@@ -132,6 +137,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleUnexpected(Exception ex) {
+        if (ex instanceof ErrorResponse framework) {
+            ProblemDetail problem = framework.getBody();
+            problem.setProperty("code", ex.getClass().getSimpleName());
+            return problem;
+        }
         LOGGER.error("Unexpected error", ex);
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         problem.setProperty("code", "UnexpectedException");
