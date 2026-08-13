@@ -5,7 +5,7 @@ import { StatsService } from '../stats/stats.service';
 import { TechnicianStats, BusinessStats } from '../stats/stats.models';
 import { PresenceView } from '../presences/presence.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
-import { DASHBOARD_LOAD_FAILED, FAR_SCANS_ALERT, MSG } from '../../common/messages';
+import { DASHBOARD_LOAD_FAILED, FAR_SCANS_ALERT, MSG, NO_LOCATION } from '../../common/messages';
 import { format } from '../../common/utils/format';
 import {LOCATION_LABEL} from '../location/location.models';
 
@@ -84,7 +84,7 @@ export class DashboardComponent implements OnInit {
   }
 
   locationLabel(p: PresenceView): string {
-    return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : 'Non renseigné';
+    return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : NO_LOCATION;
   }
 
   get filteredStats(): TechnicianStats[] {

@@ -116,6 +116,13 @@ export const MAP_REFRESHED_AT      = 'Actualisé à %s — rafraîchissement aut
 export const MAP_LOAD_FAILED       = 'Impossible de charger la carte.';
 export const MAP_TECHNICIANS_COUNT = '%s technicien(s) sur place';
 export const MAP_NO_ONGOING        = 'Aucune intervention en cours';
+// ---------- localisation ----------
+export const LOCATION_VERIFIED           = 'Position vérifiée';
+export const LOCATION_TOO_FAR            = 'Trop loin du tag';
+export const LOCATION_NO_GPS             = 'Sans GPS';
+export const LOCATION_IMPRECISE          = 'GPS imprécis';
+export const LOCATION_TAG_NOT_CALIBRATED = 'Tag non calibré';
+export const NO_LOCATION                 = 'Non renseigné';
 
 // ---------- profil ----------
 export const ACCOUNT                = 'Compte';

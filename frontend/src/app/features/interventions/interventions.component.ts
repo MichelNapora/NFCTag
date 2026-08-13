@@ -12,7 +12,7 @@ import {ConfirmService} from '../../common/confirm/confirm.service';
 import { CountsService } from '../../common/shell/counts.service';
 import {
   CONFIRM_DELETE_PRESENCE, EXPORT_FAILED, BUTTON_DELETE, TITLE_DELETE_PRESENCE,
-  DEPARTURE_DISTANCE_LABEL, DISTANCE_LABEL, INTERVENTIONS_COUNT, MSG, PAGE_LABEL
+  DEPARTURE_DISTANCE_LABEL, DISTANCE_LABEL, INTERVENTIONS_COUNT, MSG, NO_LOCATION, PAGE_LABEL
 } from '../../common/messages';
 import { format } from '../../common/utils/format';
 import { mobileDisplay } from '../../common/utils/mobile-display';
@@ -159,7 +159,7 @@ export class InterventionsComponent implements OnInit {
   }
 
   locationLabel(p: PresenceView): string {
-    return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : 'Non renseigné';
+    return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : NO_LOCATION;
   }
 
   /** Position d'où le départ a été scanné. Vide si départ estimé ou intervention en cours. */
