@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { errorMessage } from '../utils/http-error';
-import { ACTION_FAILED, DELETE_BLOCKED } from '../messages';
+import {ACTION_FAILED, BUTTON_CONFIRM, DELETE_BLOCKED} from '../messages';
 
-/** Ce que l'appelant veut afficher dans la boîte, et ce qu'il veut faire. */
+
 export interface ConfirmRequest {
   title: string;
   message: string;
   confirmLabel?: string;
   danger?: boolean;
-  /** Exécutée si l'utilisateur confirme. Un échec s'affiche dans la boîte, qui reste ouverte. */
   action: () => Observable<unknown>;
 }
 
@@ -25,13 +24,9 @@ export class ConfirmService {
   open = false;
   title = '';
   message = '';
-  confirmLabel = 'Confirmer';
   danger = false;
-
-  /** Pourquoi l'action a échoué, affiché dans la boîte. */
+  confirmLabel = BUTTON_CONFIRM;
   error: string | null = null;
-
-  /** L'action est en cours : on empêche un second clic. */
   running = false;
 
   private request: ConfirmRequest | null = null;
@@ -41,7 +36,7 @@ export class ConfirmService {
     this.request = request;
     this.title = request.title;
     this.message = request.message;
-    this.confirmLabel = request.confirmLabel ?? 'Confirmer';
+    this.confirmLabel = request.confirmLabel ?? BUTTON_CONFIRM;
     this.danger = request.danger ?? false;
     this.error = null;
     this.running = false;
@@ -50,7 +45,6 @@ export class ConfirmService {
     return this.pending.asObservable();
   }
 
-  /** L'utilisateur a validé : on exécute l'action avant de fermer quoi que ce soit. */
   accept(): void {
     if (this.running || !this.request) { return; }
     this.running = true;
@@ -70,7 +64,6 @@ export class ConfirmService {
     });
   }
 
-  /** L'utilisateur a annulé : on complète sans jamais émettre. */
   reject(): void {
     if (this.running) { return; }
     const pending = this.pending;

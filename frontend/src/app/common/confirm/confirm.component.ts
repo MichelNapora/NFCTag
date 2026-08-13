@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MSG } from '../messages';
+import {BUTTON_CONFIRM, MSG} from '../messages';
 
 /**
  * Boîte de confirmation réutilisable, aux couleurs de l'application.
@@ -19,11 +19,11 @@ export class ConfirmComponent {
   /** Affiche ou masque la boîte. */
   @Input() open = false;
 
-  @Input() title = 'Confirmer';
+  @Input() title = BUTTON_CONFIRM;
   @Input() message = '';
 
   /** Libellé du bouton de validation. */
-  @Input() confirmLabel = 'Confirmer';
+  @Input() confirmLabel = BUTTON_CONFIRM;
 
   /** true = bouton rouge, pour les actions destructrices. */
   @Input() danger = false;

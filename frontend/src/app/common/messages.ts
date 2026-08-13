@@ -53,7 +53,7 @@ export const BUTTON_DELETE      = 'Supprimer';
 export const BUTTON_UNLOCK      = 'Déverrouiller';
 export const BUTTON_RECALIBRATE = 'Recalibrer';
 export const BUTTON_LOGOUT      = 'Se déconnecter';
-
+export const BUTTON_CONFIRM     = 'Confirmer';
 
 // ---------- textes des gabarits ----------
 export const CANCEL          = 'Annuler';
