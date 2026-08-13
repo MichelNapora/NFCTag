@@ -32,7 +32,6 @@ nfctag:
   estimated-duration-minutes: 60
   timezone: Europe/Brussels
   max-login-attempts: ${MAX_LOGIN_ATTEMPTS}
-  public-base-url: ${PUBLIC_BASE_URL:http://localhost:4200}
   proximity-meters: 200
   max-accuracy-meters: 250
   scan-per-minute: 20
