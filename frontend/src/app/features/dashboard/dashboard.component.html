@@ -62,7 +62,7 @@
               [class.gray]="p.locationStatus !== 'TOO_FAR' && p.locationStatus !== 'VERIFIED'">
             {{ locationLabel(p) }}
           </span>
-        <span class="sub" *ngIf="p.distanceMeters != null">à {{ p.distanceMeters | number:'1.0-0' }} m</span>
+        <span class="sub" *ngIf="p.distanceMeters != null">{{ distanceLabel(p) }}</span>
         <span class="st alert" *ngIf="p.departureLocationStatus === 'TOO_FAR'">{{ msg.REMOTE_DEPARTURE }}</span>
       </td>
     </tr>

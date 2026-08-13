@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, formatNumber} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { StatsService } from '../stats/stats.service';
 import { TechnicianStats, BusinessStats } from '../stats/stats.models';
 import { PresenceView } from '../presences/presence.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
-import { DASHBOARD_LOAD_FAILED, FAR_SCANS_ALERT, MSG, NO_LOCATION } from '../../common/messages';
+import {DASHBOARD_LOAD_FAILED, DISTANCE_LABEL, FAR_SCANS_ALERT, MSG, NO_LOCATION} from '../../common/messages';
 import { format } from '../../common/utils/format';
 import {LOCATION_LABEL} from '../location/location.models';
 
@@ -85,6 +85,12 @@ export class DashboardComponent implements OnInit {
 
   locationLabel(p: PresenceView): string {
     return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : NO_LOCATION;
+  }
+
+  distanceLabel(p: PresenceView): string {
+    return p.distanceMeters == null
+      ? ''
+      : format(DISTANCE_LABEL, formatNumber(p.distanceMeters, 'fr', '1.0-0'));
   }
 
   get filteredStats(): TechnicianStats[] {
