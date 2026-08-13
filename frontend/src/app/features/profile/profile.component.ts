@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import {
-  MSG, NEW_PASSWORD_TOO_SHORT, PASSWORD_CHANGE_FAILED, PASSWORDS_DO_NOT_MATCH
+PASSWORDS_DO_NOT_MATCH
 } from '../../common/messages';
 
 @Component({

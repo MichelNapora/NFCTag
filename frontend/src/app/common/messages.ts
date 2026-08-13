@@ -130,7 +130,6 @@ export const NEW_PASSWORD           = 'Nouveau mot de passe (8 caractères minim
 export const CONFIRM_PASSWORD       = 'Confirmer le nouveau mot de passe';
 export const SAVE                   = 'Enregistrer';
 export const NEW_PASSWORD_TOO_SHORT = 'Le nouveau mot de passe doit faire au moins 8 caractères.';
-export const PASSWORDS_DO_NOT_MATCH = 'Les deux mots de passe ne correspondent pas.';
 
 // ---------- communs aux pages de gestion ----------
 export const MANAGEMENT = 'Gestion';
