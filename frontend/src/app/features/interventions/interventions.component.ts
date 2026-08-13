@@ -12,7 +12,10 @@ import {ConfirmService} from '../../common/confirm/confirm.service';
 import { CountsService } from '../../common/shell/counts.service';
 import {
   CONFIRM_DELETE_PRESENCE, EXPORT_FAILED, BUTTON_DELETE, TITLE_DELETE_PRESENCE,
-  DEPARTURE_DISTANCE_LABEL, DISTANCE_LABEL, INTERVENTIONS_COUNT, MSG, NO_LOCATION, PAGE_LABEL
+  DEPARTURE_DISTANCE_LABEL, DISTANCE_LABEL, INTERVENTIONS_COUNT, MSG, NO_LOCATION, PAGE_LABEL,
+  INTERVENTIONS_LOAD_FAILED, TECHNICIAN, MOBILE, BUSINESS, BUILDING, WING, ARRIVAL, DEPARTURE,
+  ESTIMATED, ANSWER_YES, ANSWER_NO, CSV_DURATION_MINUTES, CSV_LOCATION_STATUS,
+  CSV_DISTANCE_METERS, CSV_DEPARTURE_LOCATION_STATUS, CSV_DEPARTURE_DISTANCE_METERS
 } from '../../common/messages';
 import { format } from '../../common/utils/format';
 import { mobileDisplay } from '../../common/utils/mobile-display';
@@ -100,7 +103,7 @@ export class InterventionsComponent implements OnInit {
         this.totalElements = p.page.totalElements;
         this.loading = false;
       },
-      error: () => { this.error = 'Impossible de charger les interventions.'; this.loading = false; }
+      error: () => { this.error = INTERVENTIONS_LOAD_FAILED; this.loading = false; }
     });
 
     this.presenceService.searchMeta(this.year, this.query).subscribe({
@@ -196,9 +199,9 @@ export class InterventionsComponent implements OnInit {
   }
 
   private buildCsv(all: PresenceView[]): void {
-    const header = ['Technicien', 'Mobile', 'Société', 'Bâtiment', 'Aile',
-      'Arrivée', 'Départ', 'Durée (min)', 'Estimé',
-      'Statut localisation', 'Distance (m)','Statut localisation départ', 'Distance départ (m)'];
+    const header = [TECHNICIAN, MOBILE, BUSINESS, BUILDING, WING,
+      ARRIVAL, DEPARTURE, CSV_DURATION_MINUTES, ESTIMATED,
+      CSV_LOCATION_STATUS, CSV_DISTANCE_METERS, CSV_DEPARTURE_LOCATION_STATUS, CSV_DEPARTURE_DISTANCE_METERS];
 
     const rows = all.map(p => [
       p.technicianName,
@@ -209,7 +212,7 @@ export class InterventionsComponent implements OnInit {
       csvDate(p.arrivedAt),
       csvDate(p.departedAt),
       p.durationMinutes != null ? String(p.durationMinutes) : '',
-      p.estimated ? 'Oui' : 'Non',
+      p.estimated ? ANSWER_YES : ANSWER_NO,
       this.locationLabel(p),
       p.distanceMeters != null ? String(Math.round(p.distanceMeters)) : '',
       this.departureLocationLabel(p),

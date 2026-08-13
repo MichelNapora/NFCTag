@@ -271,8 +271,17 @@ export const DISTANCE_LABEL            = 'à %s m';
 export const DEPARTURE_DISTANCE_LABEL  = 'à %s m au départ';
 export const PAGE_LABEL                = 'Page %s sur %s — %s intervention(s)';
 export const INTERVENTIONS_COUNT       = '%s intervention(s)';
+export const INTERVENTIONS_LOAD_FAILED = 'Impossible de charger les interventions.';
 
 // ---------- batiments ----------
+// ---------- export CSV des interventions ----------
+export const CSV_DURATION_MINUTES          = 'Durée (min)';
+export const CSV_LOCATION_STATUS           = 'Statut localisation';
+export const CSV_DISTANCE_METERS           = 'Distance (m)';
+export const CSV_DEPARTURE_LOCATION_STATUS = 'Statut localisation départ';
+export const CSV_DEPARTURE_DISTANCE_METERS = 'Distance départ (m)';
+export const ANSWER_YES                    = 'Oui';
+export const ANSWER_NO                     = 'Non';
 export const NEW_BUILDING_BUTTON          = '+ Nouveau bâtiment';
 export const SEARCH_BUILDING              = 'Rechercher un bâtiment…';
 export const PROJECT_CODE                 = 'Code projet';
