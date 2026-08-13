@@ -25,6 +25,8 @@ import com.nfctag.features.technician.TechnicianNotFoundException;
 import com.nfctag.features.wing.WingAlreadyExistsException;
 import com.nfctag.features.wing.WingNotEmptyException;
 import com.nfctag.features.wing.WingNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -38,10 +40,8 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    /**
-     * Reponse standard : le statut HTTP, le message anglais pour les journaux,
-     * et le nom de l'exception comme code, que le front traduit en francais.
-     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     private ProblemDetail problem(HttpStatus status, RuntimeException ex){
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(status, ex.getMessage());
         problem.setProperty("code", ex.getClass().getSimpleName());
@@ -127,6 +127,14 @@ public class GlobalExceptionHandler {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         problem.setProperty("code", "ValidationException");
         problem.setProperty("fields", fields);
+        return problem;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleUnexpected(Exception ex) {
+        LOGGER.error("Unexpected error", ex);
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        problem.setProperty("code", "UnexpectedException");
         return problem;
     }
 }
