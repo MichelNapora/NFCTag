@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { PresenceService } from '../presences/presence.service';
 import { PresenceView, SearchMeta } from '../presences/presence.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
-import { LOCATION_LABEL } from '../location/location.models';
+import { LOCATION_LABEL, locationLabelOf } from '../location/location.models';
 import { AuthService } from '../../common/auth/auth.service';
 import { errorMessage } from '../../common/utils/http-error';
 import { downloadCsv, csvDate, csvToday } from '../../common/utils/csv-export';
