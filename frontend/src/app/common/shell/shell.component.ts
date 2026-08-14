@@ -7,8 +7,12 @@ import { AuthService } from '../auth/auth.service';
 import {ConfirmComponent} from '../confirm/confirm.component';
 import {ConfirmService} from '../confirm/confirm.service';
 import {catchError} from 'rxjs/operators';
-import { of } from 'rxjs';
+import { interval, of } from 'rxjs';
 import { CONFIRM_LOGOUT, BUTTON_LOGOUT, TITLE_LOGOUT, MSG } from '../messages';
+
+
+/** Les interventions arrivent des scans, sans action de l'utilisateur : on relit les compteurs. */
+const COUNTS_REFRESH_MS = 60_000;
 
 
 @Component({
@@ -36,6 +40,10 @@ export class ShellComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(c => this.counts = c);
     this.countsService.refresh();
+
+    interval(COUNTS_REFRESH_MS)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.countsService.refresh());
   }
 
   /** Demande confirmation, puis déconnecte. */

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { interval } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PresenceService } from '../presences/presence.service';
@@ -25,6 +27,9 @@ type Filter = 'all' | 'ongoing' | 'done' | 'estimated' | 'suspect';
 
 const PAGE_SIZE = 20;
 
+/** Les interventions arrivent des scans : on relit la page affichee. */
+const LIST_REFRESH_MS = 60_000;
+
 @Component({
   selector: 'app-interventions',
   standalone: true,
@@ -33,6 +38,8 @@ const PAGE_SIZE = 20;
   styleUrl: './interventions.component.scss'
 })
 export class InterventionsComponent implements OnInit {
+
+  private destroyRef = inject(DestroyRef);
 
   loading = true;
   error: string | null = null;
@@ -76,11 +83,15 @@ export class InterventionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.reload();
+
+    interval(LIST_REFRESH_MS)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.reload(true));
   }
 
-  /** Recharge la page courante et les compteurs. */
-  reload(): void {
-    this.loading = true;
+  /** Recharge la page courante et les compteurs. En mode silencieux, sans voile de chargement. */
+  reload(silencieux = false): void {
+    if (!silencieux) { this.loading = true; }
     this.error = null;
 
     this.presenceService.search(this.year, this.filter, this.query, this.page, PAGE_SIZE).subscribe({
