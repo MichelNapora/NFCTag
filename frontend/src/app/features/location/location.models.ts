@@ -1,6 +1,6 @@
 import {
   LOCATION_IMPRECISE, LOCATION_NO_GPS, LOCATION_TAG_NOT_CALIBRATED,
-  LOCATION_TOO_FAR, LOCATION_VERIFIED
+  LOCATION_TOO_FAR, LOCATION_VERIFIED, NO_LOCATION
 } from '../../common/messages';
 
 /** Statut de localisation d'un scan (LocationStatus du back). */
@@ -19,3 +19,9 @@ export const LOCATION_LABEL: Record<LocationStatus, string> = {
   IMPRECISE: LOCATION_IMPRECISE,
   TAG_NOT_CALIBRATED: LOCATION_TAG_NOT_CALIBRATED
 };
+
+
+/** Libellé d'un statut, ou « Non renseigné » quand le scan n'en a pas. */
+export function locationLabelOf(status: LocationStatus | null): string {
+  return status ? LOCATION_LABEL[status] : NO_LOCATION;
+}

@@ -1,0 +1,13 @@
+<span class="st fill" *ngIf="isOngoing">{{ msg.ONGOING }}</span>
+<span class="st gray" *ngIf="presence.estimated">{{ msg.ESTIMATED }}</span>
+<span class="st" *ngIf="!isOngoing && !presence.estimated">{{ msg.DONE }}</span>
+<span class="st"
+      [class.alert]="presence.locationStatus === 'TOO_FAR'"
+      [class.gray]="presence.locationStatus !== 'TOO_FAR' && presence.locationStatus !== 'VERIFIED'">
+    {{ locationLabel }}
+  </span>
+<span class="sub" *ngIf="presence.distanceMeters != null">{{ distanceLabel }}</span>
+<span class="st alert" *ngIf="presence.departureLocationStatus === 'TOO_FAR'">{{ msg.REMOTE_DEPARTURE }}</span>
+<span class="sub" *ngIf="showDeparture && presence.departureLocationStatus === 'TOO_FAR' && presence.departureDistanceMeters != null">
+  {{ departureDistanceLabel }}
+</span>

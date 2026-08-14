@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {CommonModule, formatNumber} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { StatsService } from '../stats/stats.service';
 import { TechnicianStats, BusinessStats } from '../stats/stats.models';
 import { PresenceView } from '../presences/presence.models';
 import { formatDuration } from '../../common/utils/duration-formatter';
-import {DASHBOARD_LOAD_FAILED, DISTANCE_LABEL, FAR_SCANS_ALERT, MSG, NO_LOCATION} from '../../common/messages';
+import { DASHBOARD_LOAD_FAILED, FAR_SCANS_ALERT, MSG } from '../../common/messages';
 import { format } from '../../common/utils/format';
-import {LOCATION_LABEL} from '../location/location.models';
+import { PresenceStateComponent } from '../presences/presence-state.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PresenceStateComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -75,22 +75,8 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  isOngoing(p: PresenceView): boolean {
-    return p.departedAt === null;
-  }
-
   duration(minutes: number | null): string {
     return formatDuration(minutes);
-  }
-
-  locationLabel(p: PresenceView): string {
-    return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : NO_LOCATION;
-  }
-
-  distanceLabel(p: PresenceView): string {
-    return p.distanceMeters == null
-      ? ''
-      : format(DISTANCE_LABEL, formatNumber(p.distanceMeters, 'fr', '1.0-0'));
   }
 
   get filteredStats(): TechnicianStats[] {

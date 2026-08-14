@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, formatNumber } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PresenceService } from '../presences/presence.service';
 import { PresenceView, SearchMeta } from '../presences/presence.models';
@@ -19,6 +19,7 @@ import {
 } from '../../common/messages';
 import { format } from '../../common/utils/format';
 import { mobileDisplay } from '../../common/utils/mobile-display';
+import {PresenceStateComponent} from '../presences/presence-state.component';
 
 type Filter = 'all' | 'ongoing' | 'done' | 'estimated' | 'suspect';
 
@@ -27,7 +28,7 @@ const PAGE_SIZE = 20;
 @Component({
   selector: 'app-interventions',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PresenceStateComponent],
   templateUrl: './interventions.component.html',
   styleUrl: './interventions.component.scss'
 })
@@ -55,20 +56,6 @@ export class InterventionsComponent implements OnInit {
 
 
   readonly msg = MSG;
-
-  /** « à 120 m », sous le statut de localisation. */
-  distanceLabel(p: PresenceView): string {
-    return p.distanceMeters == null
-      ? ''
-      : format(DISTANCE_LABEL, formatNumber(p.distanceMeters, 'fr', '1.0-0'));
-  }
-
-  /** « à 5 271 m au départ », quand le départ a été scanné trop loin. */
-  departureDistanceLabel(p: PresenceView): string {
-    return p.departureDistanceMeters == null
-      ? ''
-      : format(DEPARTURE_DISTANCE_LABEL, formatNumber(p.departureDistanceMeters, 'fr', '1.0-0'));
-  }
 
   /** Ligne de pagination, affichée seulement s'il y a plusieurs pages. */
   get pageLabel(): string {
@@ -153,16 +140,8 @@ export class InterventionsComponent implements OnInit {
     return this.meta[filter];
   }
 
-  isOngoing(p: PresenceView): boolean {
-    return p.departedAt === null;
-  }
-
   duration(minutes: number | null): string {
     return formatDuration(minutes);
-  }
-
-  locationLabel(p: PresenceView): string {
-    return p.locationStatus ? LOCATION_LABEL[p.locationStatus] : NO_LOCATION;
   }
 
   /** Position d'où le départ a été scanné. Vide si départ estimé ou intervention en cours. */
@@ -213,7 +192,7 @@ export class InterventionsComponent implements OnInit {
       csvDate(p.departedAt),
       p.durationMinutes != null ? String(p.durationMinutes) : '',
       p.estimated ? ANSWER_YES : ANSWER_NO,
-      this.locationLabel(p),
+      locationLabelOf(p.locationStatus),
       p.distanceMeters != null ? String(Math.round(p.distanceMeters)) : '',
       this.departureLocationLabel(p),
       p.departureDistanceMeters != null ? String(Math.round(p.departureDistanceMeters)) : ''
